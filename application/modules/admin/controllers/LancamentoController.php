@@ -444,6 +444,7 @@ class Admin_LancamentoController extends Zend_Controller_Action {
         return $tipo;
     }
 
+
     private function _getLancamentoPara($fornecedor_id) {
         $tipo = array();
 
