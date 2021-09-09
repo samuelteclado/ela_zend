@@ -1,0 +1,85 @@
+<div id="esquerda">
+
+    <div style="margin: 10px">
+        <style>
+            #barra {
+                text-align: center;
+                background-color: #d52170;
+                color: #FFF;
+            }
+            #barra h1{
+                text-shadow: black 0.1em 0.1em 0.25em
+            }
+            #icone {
+                margin-top: 20px;
+                background-color: #f5d9e5;
+                height: 535px
+            }
+            #icone li{
+                padding: 15px;
+                list-style-type: none                
+            }
+            #icone li img{
+                width: 70px;
+            }
+            #icone a{
+                margin-left: 10px;
+                line-height: 50px;
+                text-shadow: 0.1em 0.1em #e2e2e2;
+                font-weight: bold;
+                font-size: 18px;
+                font-family: Arial; 
+            }
+            #icone a:link, #icone a:active{
+                text-decoration: none;
+            }
+        </style>   
+
+        <div style="margin: 10px;">
+            <?php echo $this->flashMessenger(); ?>
+        </div>
+
+        <div id="barra"><h1>Menus de Acesso Rápido</h1> </div>
+        <div  id="icone"class="rounded">
+            <ul>
+                <li class="span4">
+                    <img  src="<?php echo $this->baseUrl() ?>/content/img/plano.png" >
+                    <a  href="<?php echo $this->baseUrl() ?>/admin/plano">Planos</a>
+                </li>
+                <li class="span3">
+                    <img  src="<?php echo $this->baseUrl() ?>/content/img/bank.png" >
+                    <a  href="<?php echo $this->baseUrl() ?>/admin/banco">Banco</a>
+                </li>
+                <li class="span3">
+                    <img  src="<?php echo $this->baseUrl() ?>/content/img/conta.png" >
+                    <a  href="<?php echo $this->baseUrl() ?>/admin/conta-bancaria">Conta Bancária</a>
+                </li>
+                <li class="span4">
+                    <img  src="<?php echo $this->baseUrl() ?>/content/img/recorrencia.png" >
+                    <a  href="<?php echo $this->baseUrl() ?>/admin/recorrencia">Recorrência</a>
+                </li>
+                <li class="span3"> 
+                    <img src="<?php echo $this->baseUrl() ?>/content/img/escola.png" > 
+                    <a href="<?php echo $this->baseUrl() ?>/admin/empresa">Empresa</a>
+                </li>
+                <li class="span3">
+                    <img  src="<?php echo $this->baseUrl() ?>/content/img/money.png" >
+                    <a  href="<?php echo $this->baseUrl() ?>/admin/lancamento">Lançamento</a>
+                </li>
+
+                <li class="span4">
+                    <a href="<?php echo $this->baseUrl() ?>/admin/usuario">
+                        <img src="/content/img/usuario.png" >Usuários</a>
+                </li>
+                <li class="span3">
+                    <img src="<?php echo $this->baseUrl() ?>/content/img/group_user.png" >
+                    <a href="<?php echo $this->baseUrl() ?>/admin/usuario-grupo">Grupo Usuários</a>
+                </li>
+                  <li class="span3">
+                    <img src="<?php echo $this->baseUrl() ?>/content/img/config.png" >
+                    <a href="<?php echo $this->baseUrl() ?>/admin/usuario-funcionalidade">Funcionalidade</a>
+                </li>
+            </ul>   
+        </div>
+    </div>
+</div>

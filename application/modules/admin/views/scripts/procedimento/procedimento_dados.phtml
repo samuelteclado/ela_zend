@@ -1,0 +1,200 @@
+<script type="text/javascript">
+
+    function removeImagemButton(id) {
+        $('#remove').attr('value', id);
+        $('#form_procedimento').submit();
+    }
+
+    function selectedOption(id) {
+        var optionSelected = <?php echo (isset($this->procedimento)) ? $this->procedimento->cliente_id : '0' ?>;
+
+        if (optionSelected == id)
+            return 'selected';
+
+        return '';
+    }
+
+    $(function() {
+        $(".popup_cliente").colorbox({
+            iframe: true,
+            width: "80%",
+            height: "80%",
+            fixed: true,
+            opacity: 0.8,
+            onClosed: function() {
+                $('#cliente').html('<option value="0">Carregando aguarde ...</option>');
+                $('#cliente').attr("disabled", true);
+
+                $.getJSON("<?php echo $this->baseUrl() ?>/ajax/cliente/list", {ajax: 'true'}, function(list) {
+                    var list = jQuery.parseJSON(list)
+
+                    var clientes = '';
+                    $('#cliente').html('');
+
+
+                    $.each(list, function(key, item) {
+                        clientes += '<option ' + selectedOption(item.id) + ' value="' + item.id + '">' + item.nome + '</option>';
+                    });
+                    $('#cliente').append(clientes);
+                    $('#cliente').attr("disabled", false);
+
+                })
+            }
+        });
+    });
+</script>
+<div id="procedimento_dados" class="dados">
+    <div class="row well">
+        <div class="span2" >
+            <div class="control-group">
+                <label class="control-label" for="data">Data</label>
+                <div class="controls">
+                    <div class="input-append">
+                        <input class="input-small txData" id="data" name="data" type="text" placeholder="__/__/____"s value="<?php echo AppUtil::convertDateToString($this->procedimento->data) ?>">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="span8" >
+            <div class="control-group">
+                <label class="control-label" for="horario">Horario</label>
+                <div class="controls">
+                    <div class="input-append">
+                        <input class="input-medium" id="data" name="horario" type="time" min="06:00"  max="19:00" value="<?php echo $this->procedimento->horario ?>">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="span5">
+            <div class="control-group">
+                <label class="control-label" for="cliente">Cliente</label>
+                <div class="controls">
+                    <select data-placeholder="[  Selecione o Cliente ]" class="input-xxlarge chzn-select-deselect" name="cliente" id="cliente">
+                        <option value="0"></option>
+                        <?php foreach ($this->clientes as $cliente): ?>
+                            <option <?php echo ViewUtil::fillFieldSelect($this->procedimento->cliente_id, $cliente->id) ?> value="<?php echo $cliente->id ?>"><?php echo $cliente->nome ." ".$cliente->sobrenome?></option>
+                        <?php endforeach ?>
+                    </select>
+                    <div style="padding-left: 530px;margin-top: -31px">
+                    <a class="popup_cliente btn" title="Gerenciar Clientes" href="<?php echo $this->baseUrl() ?>/funcionario/cliente/?nolayout=1">
+                            <i class="icon-plus"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="span11">
+            <hr/>
+        </div>
+        <div class="span4">
+            <div class="control-group">
+                <label class="control-label" for="procedimento">Procedimento</label>
+                <div class="controls">
+                    <div class="input-large">
+                        <select name="procedimento" id="procedimento">
+                            <option value="0">[ Selecione o Procedimento ]</option>
+                            <?php foreach ($this->procedimento_tipos as $procedimento_tipo): ?>
+                                <option <?php echo ViewUtil::fillFieldSelect($this->procedimento->procedimento_tipo_id, $procedimento_tipo->id) ?> value="<?php echo $procedimento_tipo->id ?>"><?php echo $procedimento_tipo->descricao ." - ".$procedimento_tipo->getTipo()?></option>
+                            <?php endforeach ?>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="span4">
+            <div class="control-group">
+                <label class="control-label" for="valor">Valor R$</label>
+                <div class="controls">
+                    <input class="input-small txValor" id="valor" name="valor" type="text" value="<?php echo AppUtil::convertFloatToString($this->procedimento->valor) ?>">
+                </div>
+            </div>
+        </div>
+        <div class="span2" >
+            <div class="control-group">
+                <label class="control-label" for="data_confirmacao">Data de Confirmação</label>
+                <div class="controls">
+                    <div class="input-append">
+                        <input class="input-small txData" id="data_confirmacao" name="data_confirmacao" placeholder="__/__/____" type="text" value="<?php echo AppUtil::convertDateToString($this->procedimento->data_confirmacao) ?>">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="span4">
+            <div class="control-group">
+                <label class="control-label" for="pagamento">Forma de Pagamento</label>
+                <div class="controls">
+                    <div class="input-large">
+                        <select name="pagamento" id="pagamento">
+                            <option value="0">[ Selecione o Tipo de Pagamento ]</option>
+                            <?php foreach ($this->pagamento_tipos as $pagamento_tipo): ?>
+                                <option <?php echo ViewUtil::fillFieldSelect($this->procedimento->procedimento_tipo_id, $pagamento_tipo->id) ?> value="<?php echo $pagamento_tipo->id ?>"><?php echo $pagamento_tipo->descricao ?></option>
+                            <?php endforeach ?>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="span4">
+            <div class="control-group">
+                <label class="control-label" for="colaborador">Colaborador</label>
+                <div class="controls">
+                    <div class="input-large">
+                        <select name="colaborador" id="colaborador">
+                            <option value="0">[ Selecione o Colaborador ]</option>
+                            <?php foreach ($this->colaboradores as $colaborador): ?>
+                                <option <?php echo ViewUtil::fillFieldSelect($this->procedimento->usuario_id, $colaborador->id) ?> value="<?php echo $colaborador->id ?>"><?php echo $colaborador->nome ?></option>
+                            <?php endforeach ?>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="span3">
+            <div class="control-group">
+                <label class="control-label" for="status">Status</label>
+                <div class="controls">
+                    <select data-placeholder="[ Selecione o Status ]" class="input-large" name="status" id="status">
+                        <option value="0">[ Selecione o Status ]</option>
+                        <option <?php echo ViewUtil::fillFieldSelect($this->procedimento->status, Procedimento::REALIZADO) ?> value="<?php echo Procedimento::REALIZADO ?>">Realizado</option>
+                        <option <?php echo ViewUtil::fillFieldSelect($this->procedimento->status, Procedimento::ABERTO) ?> value="<?php echo Procedimento::ABERTO ?>">Aberto</option>
+                        <option <?php echo ViewUtil::fillFieldSelect($this->procedimento->status, Procedimento::CANCELADO) ?> value="<?php echo Procedimento::CANCELADO ?>">Cancelado</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="span8">
+            <div class="control-group">
+                <label class="control-label" for="observacao">Observação</label>
+                <div class="controls">
+                    <input class="input-xxlarge " id="observacao_text" name="observacao" type="text"  value="<?php echo $this->procedimento->observacao ?>">
+                </div>
+            </div>
+        </div>
+        <div class="span3">
+            <div class="control-group">
+                <label class="control-label" for="mapping">Mapping</label>
+                <div class="controls">
+                    <div class="row" >
+                        <div id="result" style="background-color: #fff; margin: 10px 30px 10px 1px; padding: 5px;  float: left;" class="rounded-light shadow">
+                            <img src="<?php echo AppUtil::getFileView($this->procedimento, 'p', '160') ?>">
+                        </div>
+                        <div class="input-append">
+                                <span class="btn success fileinput-button">
+                                    <span>Selecionar imagem ...</span>
+                                    <?php echo $this->form->file ?>
+                                </span>
+                            <?php if (AppUtil::isFileExists($this->procedimento, 'p')) { ?>
+                                <a title="Remover imagem de mapping" class="btn" onClick="removeImagemButton(<?php echo $this->procedimento->id ?>);">
+                                    <i class="icon-trash"></i>
+                                </a>
+                                <input type="hidden" name="remove" id="remove">
+                            <?php } ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

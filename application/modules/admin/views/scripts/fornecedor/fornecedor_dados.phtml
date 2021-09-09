@@ -1,0 +1,242 @@
+<script type="text/javascript">
+
+    function selectedOption(id) {
+        var optionSelected = <?php echo (isset($this->fornecedor)) ? $this->fornecedor->fornecedor_categoria_id : '0' ?>;
+
+        if (optionSelected == id)
+            return 'selected';
+
+        return '';
+    }
+
+    $(function() {
+        $(".popup_categoria_fornecedor").colorbox({
+            iframe: true,
+            width: "80%",
+            height: "80%",
+            fixed: true,
+            opacity: 0.8,
+            onClosed: function() {
+                $('#categoria').html('<option value="0">Carregando aguarde ...</option>');
+                $('#categoria').attr("disabled", true);
+
+                $.getJSON("<?php echo $this->baseUrl() ?>/ajax/fornecedor-categoria/list", {ajax: 'true'}, function(list) {
+                    var list = jQuery.parseJSON(list)
+
+                    var categorias = '';
+                    $('#categoria').html('');
+
+                    $('#categoria').append('<option value="0">[ Selecione a Categoria ]</option>');
+                    $.each(list, function(key, item) {
+                        categorias += '<option ' + selectedOption(item.id) + ' value="' + item.id + '">' + item.descricao + '</option>';
+                    });
+                    $('#categoria').append(categorias);
+                    $('#categoria').attr("disabled", false);
+
+                })
+            }
+        });
+    });
+</script>
+<div id="data_fornecedor" class="dados">
+    <div class="row well">
+        <div class="span4">
+            <div class="control-group">
+                <label class="control-label" for="descricao">Descrição</label>
+                <div class="controls">
+                    <input class="input-xlarge" id="descricao_nome" placeholder="Digite a razão social do fornecedor" name="descricao" type="text" value="<?php echo $this->fornecedor->descricao ?>">
+                </div>
+            </div>
+        </div>
+        <div class="span3">
+            <div class="control-group">
+                <label class="control-label" for="cnpj">CNPJ</label>
+                <div class="controls">
+                    <input class="input-medium txCnpj" id="cnpj" placeholder="__.___.___/____-__" name="cnpj" type="text" value="<?php echo ($this->fornecedor->cnpj) ?>">
+                </div>
+            </div>
+        </div>
+        <div class="span4">
+            <div class="control-group">
+                <label class="control-label" for="contato">Contato</label>
+                <div class="controls">
+                    <input class="input-large" id="contato" placeholder="Digite o nome de um contato" name="contato" type="text" value="<?php echo $this->fornecedor->contato ?>">
+                </div>
+            </div>
+        </div>
+        <div class="span4">
+            <div class="control-group">
+                <label class="control-label" for="email">Email</label>
+                <div class="controls">
+                    <input class="input-xlarge" id="email" placeholder="fornecedor@gmail.com" name="email" type="email" value="<?php echo $this->fornecedor->email ?>">
+                </div>
+            </div>
+        </div>
+        <div class="span3">
+            <div class="control-group">
+                <label class="control-label" for="telefone_1">Celular 1</label>
+                <div class="controls">
+                    <input class="input-medium txCelular" id="telefone_1" placeholder="(__) _____-____" name="telefone_1" type="text" value="<?php echo AppUtil::convertIntToCelular($this->fornecedor->Endereco[0]->telefone_1) ?>">
+                </div>
+            </div>
+        </div>
+        <div class="span3">
+            <div class="control-group">
+                <label class="control-label" for="telefone">Telefone 2</label>
+                <div class="controls">
+                    <input class="input-large txCelular" id="telefone_2" placeholder="(__) _____-____" name="telefone_2" type="text" value="<?php echo AppUtil::convertIntToCelular($this->fornecedor->Endereco[0]->telefone_2) ?>">
+                </div>
+            </div>
+        </div>
+        <div class="span4">
+            <div class="control-group">
+                <label class="control-label" for="categoria">Categoria</label>
+                <div class="controls">
+                    <div class="input-append">
+                        <select style="width: 245px" name="categoria" id="categoria">
+                            <option value="0">[ Selecione uma Categoria ]</option>
+                            <?php foreach ($this->fornecedorcategoria as $categoria): ?>
+                                <option <?php echo ViewUtil::fillFieldSelect($this->fornecedor->fornecedor_categoria_id, $categoria->id) ?> value="<?php echo $categoria->id ?>"><?php echo $categoria->descricao ?></option>
+                            <?php endforeach ?>
+                        </select>
+                        <div style="padding-left: 248px;margin-top: -29px">
+                            <a class="popup_categoria_fornecedor btn" title="Gerenciar categorias" href="<?php echo $this->baseUrl() ?>/admin/fornecedor-categoria/?nolayout=1">
+                                <i class="icon-plus"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="span4">
+            <div class="control-group">
+                <label class="control-label" for="status">Status</label>
+                <div class="controls">
+                    <select class="input-medium" name="status" id="status">
+                        <option <?php echo ViewUtil::fillFieldSelect($this->fornecedor->status, Fornecedor::ATIVO) ?> value="<?php echo Fornecedor::ATIVO ?>">Ativo</option>
+                        <option <?php echo ViewUtil::fillFieldSelect($this->fornecedor->status, Fornecedor::INATIVO) ?> value="<?php echo Fornecedor::INATIVO ?>">Inativo</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="row well">
+        <div class="span4 ">
+            <div class="control-group">
+                <label class="control-label" for="cep">CEP</label>
+                <div class="controls">
+                    <input class="input-small txCep endereco" placeholder="_____-___" id="cep" name="cep" type="text" value="<?php echo $this->fornecedor->Endereco[0]->cep ?>">
+                    <img id="loading_cep" style="display: none;" src="<?php echo $this->baseUrl() ?>/content/img/loading.gif" />
+                    <span id="erro_cep" style="display: none">Cep não encontrado</span>
+                </div>
+            </div>
+        </div>
+        <div class="span4">
+            <div class="control-group">
+                <label class="control-label" for="logradouro">Endereço</label>
+                <div class="controls">
+                    <input class="input-xlarge endereco" id="logradouro" name="logradouro" type="text" value="<?php echo $this->fornecedor->Endereco[0]->logradouro ?>">
+                </div>
+            </div>
+        </div>
+        <div class="span3">
+            <div class="control-group">
+                <label class="control-label" for="numero">Nº</label>
+                <div class="controls">
+                    <input class="input-small endereco" id="numero" name="numero" type="text" value="<?php echo $this->fornecedor->Endereco[0]->numero ?>">
+                </div>
+            </div>
+        </div>
+        <div class="span4">
+            <div class="control-group">
+                <label class="control-label" for="bairro">Bairro</label>
+                <div class="controls">
+                    <input class="input-large endereco" id="bairro" name="bairro" type="text" value="<?php echo $this->fornecedor->Endereco[0]->bairro ?>">
+                </div>
+            </div>
+        </div>
+
+        <div class="span4">
+            <div class="control-group">
+                <label class="control-label" for="cidade">Cidade</label>
+                <div class="controls">
+                    <input class="input-xlarge endereco" id="cidade" name="cidade" type="text" value="<?php echo $this->fornecedor->Endereco[0]->cidade ?>">
+                </div>
+            </div>
+        </div>
+        <div class="span3">
+            <div class="control-group">
+                <label class="control-label" for="estado">UF</label>
+                <div class="controls">
+                    <input class="input-small endereco" id="estado" maxlength="2"name="estado" type="text" value="<?php echo $this->fornecedor->Endereco[0]->estado ?>">
+                </div>
+            </div>
+        </div>
+        <div class="span6">
+            <div class="control-group">
+                <label class="control-label" for="complemento_endereco">Complemento Endereço</label>
+                <div class="controls">
+                    <input class="input-xxlarge " id="complemento_endereco" name="complemento_endereco" type="text" value="<?php echo $this->fornecedor->Endereco[0]->complemento_endereco ?>">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    function format_cep(cep) {
+        cep = cep.replace(".", "");
+        cep = cep.replace("-", "");
+        cep = cep.replace(" ", "");
+        cep = cep.replace(/_/g, "");
+        return cep;
+    }
+
+
+
+    function format_string(str) {
+        if (str == null)
+            return '';
+        str = str.replace(/-/g, " ");
+        return str;
+    }
+
+
+    $("#cep").keyup(function(e) {
+
+        var cep = format_cep($(this).val());
+        if (cep.length < 8)
+            return false;
+        $('#data_fornecedor .endereco').attr('readonly', true);
+        $('#erro_cep').hide();
+
+        $.getJSON('<?php echo $this->baseUrl(); ?>/ajax/busca-cep/busca-cep', {cep: cep},
+        function(endereco) {
+            var data = jQuery.parseJSON(endereco);
+            if (data.resultado == 1) {
+                $('#erro_cep').hide();
+                $("#logradouro").val(format_string(data.logradouro));
+                $("#numero").val('');
+                $("#bairro").val(format_string(data.bairro));
+                $("#cidade").val(format_string(data.cidade));
+                $("#estado").val(format_string(data.uf));
+                $("#numero").focus();
+                $('#loading_cep').hide();
+
+            } else if (data.resultado == 0) {
+                $("#logradouro").val('');
+                $("#numero").val('');
+                $("#bairro").val('');
+                $("#cidade").val('');
+                $("#estado").val('');
+                $("#logradouro").focus();
+                $('#erro_cep').show('slow');
+            }
+            $('#data_fornecedor .endereco').attr('readonly', false);
+
+        }, "json"
+                );
+    });
+</script>

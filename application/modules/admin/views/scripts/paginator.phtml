@@ -1,0 +1,49 @@
+<style type="text/css">
+    .pagination a {
+        line-height: 30px;
+        padding: 0 10px;
+        min-width: 15px;
+        text-align: center;
+        color: #0088CC;
+    }
+</style>
+
+<?php
+$page_size = $this->itemCountPerPage;
+$max_page = 3;
+$min_page = 3;
+$count = $this->totalItemCount;
+$page = $this->current;
+
+$pages_number = $count / $page_size;
+$pages_number = ($pages_number > 1) ? ceil($pages_number) : '1';
+
+$first_page = ($page - $min_page) < 1 ? 1 : $page - $min_page;
+$last_page = ($page + $max_page) >= $pages_number ? $pages_number : $page + $max_page;
+
+$url_part = (isset($this->filter)) ? $this->filter->getParamString() : '';
+?>
+
+<div style="margin: 0px 0 0 0 ;">
+    <h4>
+        <small>
+            <b><?php echo $this->totalItemCount ?></b> Registro(s) - Página <b><?php echo $this->current ?></b> de <b><?php echo count($this->pagesInRange) ?></b>
+        </small>
+    </h4>
+</div>
+
+<?php if (count($this->pagesInRange) > 1) { ?>
+    <div class="pagination" style="margin: 5px 0 0 0 ;">
+        <ul>
+
+            <li class="prev <?php echo (isset($this->previous)) ? '' : ' disabled ' ?>"><a <?php print (isset($this->previous)) ? 'href="?page=' . $this->previous . $url_part . '"' : ' class="disabled" '  ?>>← Anterior</a></li>
+
+            <?php for ($index = $first_page; $index <= $last_page; $index++) : ?>
+                <li class="<?php echo ($this->pagesInRange[$index] == $this->current) ? "active" : "number" ?>"><a href="?page=<?php echo $this->pagesInRange[$index] . $url_part ?>"><?php print $this->pagesInRange[$index]; ?></a></li>
+            <?php endfor; ?> 
+
+            <li class="next <?php echo (isset($this->next)) ? '' : ' disabled ' ?>"><a <?php print (isset($this->next)) ? 'href="?page=' . $this->next . $url_part . '"' : ' class="disabled" '  ?>>Pr&oacute;xima →</a></li>
+
+        </ul>
+    </div>
+<?php } ?>

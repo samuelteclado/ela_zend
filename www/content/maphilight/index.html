@@ -1,0 +1,30 @@
+<!DOCTYPE html> 
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>jQuery maphilight documentation</title>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+        <script type="text/javascript" src="http://davidlynch.org/projects/maphilight/jquery.maphilight.js"></script>
+        <script type="text/javascript">$(function() {
+            $('.map').maphilight();
+            $('#squidheadlink').mouseover(function(e) {
+                $('#squidhead').mouseover();
+            }).mouseout(function(e) {
+                $('#squidhead').mouseout();
+            }).click(function(e) { e.preventDefault(); });
+        });</script>
+
+    </head>
+    <body>
+        <p>
+            <img src="demo_simple.png" class="map" usemap="#simple">
+            <map name="simple">
+                <area href="#" shape="circle" coords="211,89,22" alt="Octoface" data-maphilight='{"stroke":false,"fillColor":"ff0000","fillOpacity":0.6}' title="Mesa 2">
+                <area href="#" shape="circle" coords="262,90,22" alt="Octoface" data-maphilight='{"stroke":false,"fillColor":"ff0000","fillOpacity":0.6}' title="Mesa 3" id="squidhead" >
+            </map>
+        </p>
+        
+        <p><a id="squidheadlink" href="#">Mesa 3</a></p>
+       
+    </body>
+</html>

@@ -1,0 +1,78 @@
+<link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl(); ?>/content/js/jquery-fileupload/jquery.fileupload-ui.css" />
+<script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/content/bootstrap/js/jquery.js"></script>
+
+<script type="text/javascript">
+    $(function() {
+        $(window).load('<?php echo $this->baseUrl(); ?>/content/js/jquery-fileupload/progressbar.gif', function() {
+            $(window).load('<?php echo $this->baseUrl() ?>/content/img/impressora.png', function() {
+                showBoletos();
+            });
+        });
+
+    });
+
+    function showBoletos() {
+        var boleto_numero = '<?php echo $this->boleto_numero ?>';
+        var list = jQuery.parseJSON(boleto_numero);
+        var index = 1;
+        $.each(list, function(key, item) {
+
+            $.post("<?php echo $this->baseUrl() ?>/ajax/boleto/gerar/" + item, {apiKey: '<?php echo EncryptionUtil::getInstance()->encode(Zend_Auth::getInstance()->getIdentity()->id) ?>'}, function(result) {
+
+                $('#boletos-list').append('<div class="boleto-item">' + result + '</div>');
+
+                $('#status_envio').html('Processando boleto ' + (index) + ' de ' + list.length);
+
+                if (index >= list.length) {
+                    $('#loading').fadeOut();
+                    $('#boletos-list').fadeIn("slow", function() {
+                        window.print();
+                    });
+                }
+
+                index++;
+            });
+        });
+    }
+</script>
+<style>
+    #boletos-list {
+        display: none;
+    }
+
+    .boleto-item {
+        page-break-after: always;
+    }
+
+    .boleto-item:last-child {
+        page-break-after: auto;
+    }
+
+    #loading {
+        width: 500px;
+        height: 300px;
+
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        margin-top: -120px;
+        margin-left: -250px;
+        text-align: center;
+    }
+</style>
+
+
+<body style="margin: 0">
+    <div id="loading">
+        <img src="<?php echo $this->baseUrl() ?>/content/img/impressora.png" />
+        <div class="progressbar loading-progressbar" style="width: 500px;">
+            <div style=" padding: 1px;">
+                <span id="status_envio" style="font-family: Arial; color: #fff; font-weight: bold; font-size: 12px; line-height: 20px;">
+                    Por favor, aguarde ...
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div id="boletos-list"></div>
+</body>

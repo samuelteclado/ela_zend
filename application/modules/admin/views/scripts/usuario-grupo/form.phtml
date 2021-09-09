@@ -1,0 +1,61 @@
+<form id="form" method="POST" action="" enctype="multipart/form-data">
+    <fieldset class=" well">
+        <?php echo $this->flashMessenger(); ?>
+        <div class="row">
+            <div class="span4">
+                <div class="control-group">
+                    <label class="control-label" for="descricao">Descrição</label>
+                    <div class="controls">
+                        <input class="input-xxlarge" id="descricao_text" name="descricao" type="text" value="<?php echo $this->usuario_grupo->descricao ?>">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <hr>
+
+        <div class="span8">
+            <div class="control-group">
+                <label class="control-label" for="funcionalidade[]">Funcionalidades</label>
+                <div class="controls">
+                    <table class="table table-bordered table-condensed">
+                        <thead>
+                            <tr>
+                                <th style="width: 10px;"></th>
+                                <th>Nome</th>
+                                <th>Module</th>
+                                <th>Controller</th>
+                                <th>Action</th>
+                                <th>Permitido</th>
+                            </tr>
+                        </thead>
+                        <?php foreach ($this->funcionalidades as $funcionalidade) : ?>
+                            <tr>
+                                <td>
+                                    <input type="checkbox" name="funcionalidade[]" <?php echo $this->usuario_grupo->id > 0 ? ViewUtil::fillFieldCheckMultiple($this->usuario_grupo->getFuncionalidades(), $funcionalidade->id) : '' ?> value="<?php echo $funcionalidade->id ?>">
+                                </td>
+                                <td><?php echo $funcionalidade->nome ?></td>
+                                <td><?php echo $funcionalidade->module ?></td>
+                                <td><?php echo $funcionalidade->controller ?></td>
+                                <td><?php echo $funcionalidade->action ?></td>
+                                <td><?php echo $funcionalidade->action ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+    </fieldset>
+
+
+    <hr/>
+    <div style="width: 100%;height: 20px">
+    <div class="btn-concluir">
+        <a class="btn btn-large" href="<?php echo $this->baseUrl(); ?>/admin/usuario-grupo/">Cancelar</a>
+        <button type="submit" class="btn btn-success btn-large">Salvar</button>
+    </div>
+    </div>
+</form>

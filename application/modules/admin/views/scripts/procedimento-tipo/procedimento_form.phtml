@@ -1,0 +1,64 @@
+<form id="form_pagamento" method="POST" action="" enctype="multipart/form-data">
+    <fieldset>
+        <?php echo $this->flashMessenger(); ?>
+        <div class="row well">
+            <div class="span3">
+                <div class="control-group">
+                    <label class="control-label" for="descricao">Descrição</label>
+                    <div class="controls">
+                        <input class="input-large" id="nome" name="descricao" type="text" value="<?php echo $this->procedimento->descricao ?>">
+                    </div>
+                </div>
+            </div>
+            <div class="span2">
+                <div class="control-group">
+                    <label class="control-label" for="valor">Valor</label>
+                    <div class="controls">
+                        <input class="input-small txValor" id="valor"maxlength="8" name="valor" type="text" value="<?php echo AppUtil::convertFloatToString($this->procedimento->valor) ?>">
+                    </div>
+                </div>
+            </div>
+            <div class="span2">
+                <div class="control-group">
+                    <label class="control-label" for="manutencao">Manutenção Dias</label>
+                    <div class="controls">
+                        <input class="input-small" id="manutencao"maxlength="2" name="manutencao" type="text" value="<?php echo $this->procedimento->intervalo_dias ?>">
+                    </div>
+                </div>
+            </div>
+            <div class="span2">
+                <div class="control-group">
+                    <label class="control-label" for="status">Tipo</label>
+                    <div class="controls">
+                        <select data-placeholder="[  Selecione o Status ]" class="input-small" name="tipo" id="tipo">
+                            <option <?php echo ViewUtil::fillFieldSelect($this->procedimento->tipo, ProcedimentoTipo::APLICACAO) ?> value="<?php echo ProcedimentoTipo::APLICACAO ?>">Aplicação</option>
+                            <option <?php echo ViewUtil::fillFieldSelect($this->procedimento->tipo, ProcedimentoTipo::MANUTENCAO) ?> value="<?php echo ProcedimentoTipo::MANUTENCAO ?>">Manutenção</option>
+                            <option <?php echo ViewUtil::fillFieldSelect($this->procedimento->tipo, ProcedimentoTipo::REMOCAO) ?> value="<?php echo ProcedimentoTipo::REMOCAO ?>">Remoção</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="span2">
+                <div class="control-group">
+                    <label class="control-label" for="status">Status</label>
+                    <div class="controls">
+                        <select data-placeholder="[  Selecione o Status ]" class="input-small" name="status" id="status">
+                            <option <?php echo ViewUtil::fillFieldSelect($this->procedimento->status, ProcedimentoTipo::ATIVO) ?> value="<?php echo ProcedimentoTipo::ATIVO ?>">Ativo</option>
+                            <option <?php echo ViewUtil::fillFieldSelect($this->procedimento->status, ProcedimentoTipo::INATIVO) ?> value="<?php echo ProcedimentoTipo::INATIVO ?>">Inativo</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="span">
+            <hr/>
+        </div>
+      </fieldset>
+    <hr/>
+    <div style="width: 100%;height: 20px">
+        <div class="btn-concluir">
+            <a class="btn btn-large" href="<?php echo $this->baseUrl(); ?>/admin/procedimento-tipo/">Cancelar</a>
+            <button type="submit" class="btn btn-success btn-large">Salvar</button>
+        </div>
+    </div>
+</form>

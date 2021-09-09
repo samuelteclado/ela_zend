@@ -1,0 +1,226 @@
+<div id="data_lancamento" class="dados" >
+    <div class="row well">
+        <div class="span5">
+            <div class="control-group">
+                <label class="control-label" for="lancamento_descricao">Descrição</label>
+                <div class="controls">
+                    <input class="input-xlarge" id="lancamento_descricao" maxlength="90" placeholder="Defina uma nome para este lançamento" name="lancamento_descricao" type="text" value="<?php echo $this->lancamento->descricao ?>">
+                </div>
+            </div>
+        </div>
+        <div class="span2">
+            <div class="control-group">
+                <label class="control-label" for="vencimento_data">Vencimento</label>
+                <div class="controls">
+                    <div class="input-append">
+                        <input class="input-small txData" id="vencimento_data" placeholder="__/__/____"name="vencimento_data" type="text"  value="<?php echo AppUtil::convertDateToString($this->lancamento->vencimento_data) ?>">
+                        <span class="add-on"><span class="icon-calendar"></span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="span2">
+            <div class="control-group">
+                <label class="control-label" for="vencimento_valor">Valor</label>
+                <div class="controls">
+                    <input class="input-small txValor" id="vencimento_valor" name="vencimento_valor" maxlength="8" type="text" value="<?php echo AppUtil::convertFloatToString($this->lancamento->vencimento_valor) ?>">
+                    <span class="help-block">R$</span>
+                </div>
+            </div>
+        </div>
+        <div class="span5">
+            <div class="control-group">
+                <label class="control-label" for="plano_de_contas_id">Plano de Contas</label>
+                <div class="controls">
+                    <div class="input-append">
+                        <select data-placeholder="[ Selecione o Plano de Contas ]" class="input-xlarge chzn-select-deselect" name="plano_de_contas_id" id="plano_de_contas_id">
+                            <option value="0"></option>
+                            <?php foreach ($this->planos_de_contas as $plano_de_contas): ?>
+                                <option <?php echo ViewUtil::fillFieldSelect($this->lancamento->plano_de_contas_id, $plano_de_contas['id']) ?> value="<?php echo $plano_de_contas['id'] ?>" class="<?php echo ($plano_de_contas['codigo'] == NULL ? "manutencao" : "") ?>"><?php echo ($plano_de_contas['codigo'] != NULL ? $plano_de_contas['codigo'] . " - " : "") ?><?php echo $plano_de_contas['descricao'] ?> </option>
+                            <?php endforeach ?>
+                        </select>
+                        <a style="margin-top: -23px" class="popup_planos btn" title="Gerenciar Planos" href="<?php echo $this->baseUrl() ?>/admin/plano-de-contas/?nolayout=1">
+                            <i class="icon-plus"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="span2 no_transf" style="display: none">
+            <div class="control-group">
+                <label class="control-label" for="tipo_lancamento">Tipo</label>
+                <div class="controls">
+                    <select  class="input-small" name="tipo_lancamento"  id="tipo_lancamento">          
+                        <option <?php echo ViewUtil::fillFieldSelect($this->lancamento->tipo, Lancamento::RECEITA) ?> value="<?php echo Lancamento::RECEITA ?>">Receita</option>
+                        <option <?php echo ViewUtil::fillFieldSelect($this->lancamento->tipo, Lancamento::DESPESA) ?> value="<?php echo Lancamento::DESPESA ?>">Despesa</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="span11">
+            <hr/>
+        </div>
+        <div class="span2">
+            <div class="control-group">
+                <label class="control-label" for="lancamento_para">Para</label>
+                <div class="controls">
+                    <select  class="input-medium" name="lancamento_para" id="lancamento_para">          
+                        <option <?php echo ViewUtil::fillFieldSelect($this->lancamento_para['tipo'], Lancamento::CLIENTE) ?> value="<?php echo Lancamento::CLIENTE ?>">Cliente</option>
+                        <option <?php echo ViewUtil::fillFieldSelect($this->lancamento_para['tipo'], Lancamento::FORNECEDOR) ?> value="<?php echo Lancamento::FORNECEDOR ?>">Fornecedor</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="span7 cliente">
+            <div class="control-group">
+                <label class="control-label" for="cliente">Cliente</label>
+                <div class="controls">
+                    <select data-placeholder="[  Selecione o Cliente ]" class="input-xxlarge chzn-select-deselect" name="cliente" id="cliente">
+                        <option value="0"></option>                           
+                        <?php foreach ($this->clientes as $cliente): ?>
+                            <option <?php echo ViewUtil::fillFieldSelect($this->lancamento->cliente_id, $cliente->id) ?> value="<?php echo $cliente->id ?>"><?php echo $cliente->nome . " ".$cliente->sobrenome?></option>
+                        <?php endforeach ?>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="span7 fornecedor" style="display: none">
+            <div class="control-group">
+                <label class="control-label" for="fornecedor">Fornecedor</label>
+                <div class="controls">
+                    <select data-placeholder="[  Selecione o Fornecedor ]" class="input-xxlarge chzn-select-deselect" name="fornecedor" id="fornecedor">
+                        <option value="0"></option>                           
+                        <?php foreach ($this->fornecedores as $fornecedor): ?>
+                            <option <?php echo ViewUtil::fillFieldSelect($this->lancamento->fornecedor_id, $fornecedor->id) ?> value="<?php echo $fornecedor->id ?>"><?php echo $fornecedor->descricao ?></option>
+                        <?php endforeach ?>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="acerto">
+            <div class="span11">
+                <hr/>
+            </div>
+            <?php if (!isset($this->lancamento->id)) { ?>
+                <div class="span2">
+                    <div class="control-group">
+                        <label class="control-label" for="recorrencia">Recorrência</label>
+                        <div class="controls">
+                            <select  class="input-small" name="recorrencia" id="recorrencia">          
+                                <option <?php echo ViewUtil::fillFieldSelect($this->recorrencia_data[recorrencia], Lancamento::NAO) ?> value="<?php echo Lancamento::NAO ?>">Não</option>
+                                <option <?php echo ViewUtil::fillFieldSelect($this->recorrencia_data[recorrencia], Lancamento::SIM) ?> value="<?php echo Lancamento::SIM ?>">Sim</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            <?php } ?>
+            <div class="span4 recorrencia" style="display: none">
+                <div class="control-group">
+                    <label class="control-label" for="frequencia">Com que frequência</label>
+                    <div class="controls">
+                        <select  class="input-large" name="frequencia" id="frequencia">
+                            <option value="0">[  Selecione a Recorrência ]</option>
+                            <?php foreach ($this->recorrencias as $recorrencia): ?>
+                                <option <?php echo ViewUtil::fillFieldSelect($this->recorrencia_data[frequencia], $recorrencia->id) ?> value="<?php echo $recorrencia->id ?>"><?php echo $recorrencia->descricao ?></option>
+                            <?php endforeach ?>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="span3 recorrencia" style="display: none">
+                <div class="control-group">
+                    <label class="control-label" for="qt_ocorrencias">Terminar após</label>
+                    <div class="controls">
+                        <input class="input-small" placeholder="ocorrências" id="qt_ocorrencias" name="qt_ocorrencias" maxlength="2" type="text" value="<?php echo $this->recorrencia_data[qt_ocorrencias] ?>">
+                    </div>
+                </div>
+            </div>
+            <div class="span2 pagamento">
+                <div class="control-group">
+                    <label class="control-label" for="pagamento_data">Data Pagamento</label>
+                    <div class="controls">
+                        <div class="input-append">
+                            <input class="input-small txData" id="pagamento_data" placeholder="__/__/____"name="pagamento_data" type="text"  value="<?php echo AppUtil::convertDateToString($this->lancamento->pagamento_data) ?>">
+                            <span class="add-on"><span class="icon-calendar"></span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="span2 pagamento">
+                <div class="control-group">
+                    <label class="control-label" for="pagamento_valor">Valor Pago</label>
+                    <div class="controls">
+                        <input class="input-small txValor" id="pagamento_valor" name="pagamento_valor" maxlength="8" type="text" value="<?php echo AppUtil::convertFloatToString($this->lancamento->pagamento_valor) ?>">
+                        <span class="help-block">R$</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="span11">
+                <div class="control-group">
+                    <div style="text-align: left;">
+                        <strong id="valor_a_pagar">&nbsp;</strong>  
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row well">
+        <div class="span2">
+            <div class="control-group">
+                <label class="control-label" for="pagamento_desconto">Valor Desconto</label>
+                <div class="controls">
+                    <input class="input-small txValor" id="pagamento_desconto" name="pagamento_desconto" maxlength="7" type="text" value="<?php echo AppUtil::convertFloatToString($this->lancamento->pagamento_desconto) ?>">
+                    <span class="help-block">R$</span>
+                </div>
+            </div>
+        </div>
+        <div class="span2">
+            <div class="control-group">
+                <label class="control-label" for="pagamento_percentual">Taxa de Pagamento</label>
+                <div class="controls">
+                    <input class="input-small txValor" id="pagamento_percentual" name="pagamento_percentual" maxlength="5" type="text" value="<?php echo AppUtil::convertFloatToString($this->lancamento->pagamento_percentual) ?>">
+                    <span class="help-block">%</span>
+                </div>
+            </div>
+        </div>
+        <div class="span2">
+            <div class="control-group">
+                <label class="control-label" for="pagamento_taxa">Taxa Descontada</label>
+                <div class="controls">
+                    <input class="input-small txValor" id="pagamento_taxa" name="pagamento_taxa" maxlength="5" type="text" value="<?php echo AppUtil::convertFloatToString($this->lancamento->pagamento_taxa) ?>">
+                    <span class="help-block">R$</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">Alteração de Lançamentos</h3>
+    </div>
+    <div class="modal-body">
+        <h4>Voçê está alterando um lançamento que possui recorrências.</h4>
+        <p>Quais lançamentos voçê deseja alterar ?</p>
+        <ul class="lista_recorrencia">
+            <li><input type="radio" checked="true" name="recorrenia_edicao" class="recorrenia_edicao" value="<?php echo Lancamento::EDITAR_RECORRENCIA_UM ?>"> Somente <b>este</b> lançamento.</li>
+            <li><input type="radio" name="recorrenia_edicao" class="recorrenia_edicao" value="<?php echo Lancamento::EDITAR_RECORRENCIA_PROXIMOS ?>"> Alterar <b>este</b> e os <b>próximos</b>.
+                <ul class="baixados lista_recorrencia" id='baixados_proximos' style="padding-left: 30px;display: none">
+                    <li><input type="checkbox" name='baixados' id='baixado_proximo' class="baixados_value" value="1"> Alterar lançamentos baixados.</li>
+                </ul>
+            </li>
+
+            <li><input type="radio" name="recorrenia_edicao" class="recorrenia_edicao" value="<?php echo Lancamento::EDITAR_RECORRENCIA_TODOS ?>"> Alterar <b>todos os lançamentos</b>.
+                <ul class="baixados lista_recorrencia" id='baixados_todos' style="padding-left: 30px; display: none" >
+                    <li><input type="checkbox" name='baixados' id="baixado_todos"  class="baixados_value" value="1"> Alterar lançamentos baixados.</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Cancelar</button>
+        <button class="btn btn-success">Salvar</button>
+    </div>
+</div>

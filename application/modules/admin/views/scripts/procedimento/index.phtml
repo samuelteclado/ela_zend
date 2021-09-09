@@ -1,0 +1,165 @@
+﻿<script type="text/javascript">
+    $(function() {
+        $(".popup_extrato").colorbox({
+            iframe: true,
+            width: "90%",
+            height: "90%",
+            fixed: true,
+            opacity: 0.8
+        });
+
+        $("#all_boleto_numero").click(function() {
+            $('.boleto_numero').attr("checked", $(this).is(":checked"));
+            $(".boleto_numero").change();
+        });
+
+        $("#imprimir-boletos").click(function() {
+            $("#form-imprimir-boletos").submit();
+            return false;
+        });
+
+        $(".boleto_numero").change(function() {
+            if ($(".boleto_numero").is(":checked")) {
+                $("#imprimir-boletos").attr("disabled", false);
+            } else {
+                $("#imprimir-boletos").attr("disabled", true);
+            }
+        }).trigger("change");
+
+        if ($(".boleto_numero").length <= 0) {
+            $("#all_boleto_numero").hide();
+            $("#imprimir-boletos").hide();
+        }
+
+
+    });
+
+</script>
+<div id="esquerda">
+    <div style="margin: 10px">
+
+        <a style="float: right;" class="btn btn-success btn-large" href="<?php echo $this->baseUrl(); ?>/admin/procedimento/novo/">
+            <i class="icon-plus icon-white"></i> Novo </a>
+
+        <button style="float: right; margin-right: 5px;"  type="button" id="btn_filtrar" class="btn btn-info btn-large"><i class="icon-filter icon-white"></i>&nbsp;Filtro</button>
+
+        <div class="page-header" >
+            <h2>Procedimentos</h2>
+        </div>
+        <form method="GET" action="" style="display: none;" id="form_filtrar">
+            <div class="row well">
+                <a id="btn_close" class="close" href="#">&times;</a>
+                <div class="span4">
+                    <div class="control-group">
+                        <label class="control-label" for="status">Status</label>
+                        <div class="controls">
+                            <select data-placeholder="[ Todos ]" class="input-medium chzn-select-deselect" name="status" id="status">
+                                <option value="0"></option>
+                                <option <?php echo ViewUtil::fillFieldSelect($this->repository_filter->getParamByField('status'), Procedimento::REALIZADO) ?> value="<?php echo Procedimento::REALIZADO ?>">Realizado</option>
+                                <option <?php echo ViewUtil::fillFieldSelect($this->repository_filter->getParamByField('status'), Procedimento::ABERTO) ?> value="<?php echo Procedimento::ABERTO ?>">Aberto</option>
+                                <option <?php echo ViewUtil::fillFieldSelect($this->repository_filter->getParamByField('status'), Procedimento::CANCELADO) ?> value="<?php echo Procedimento::CANCELADO ?>">Cancelado</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="span4">
+                    <div class="control-group">
+                        <label class="control-label" for="tipo">Tipo</label>
+                        <div class="controls">
+                            <select data-placeholder="[ tipo ]" class="input-medium chzn-select-deselect" name="status" id="tipo">
+                                <option value="0"></option>
+                                <option <?php echo ViewUtil::fillFieldSelect($this->repository_filter->getParamByField('tipo'), ProcedimentoTipo::APLICACAO) ?> value="<?php echo ProcedimentoTipo::APLICACAO ?>">Aplicação</option>
+                                <option <?php echo ViewUtil::fillFieldSelect($this->repository_filter->getParamByField('tipo'), ProcedimentoTipo::MANUTENCAO) ?> value="<?php echo ProcedimentoTipo::MANUTENCAO ?>">Manutenção</option>
+                                <option <?php echo ViewUtil::fillFieldSelect($this->repository_filter->getParamByField('tipo'), ProcedimentoTipo::REMOCAO) ?> value="<?php echo ProcedimentoTipo::REMOCAO ?>">Remoção</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="span7">
+                    <div class="control-group">
+                        <label class="control-label" for="aluno">Cliente</label>
+                        <div class="controls">
+                            <select data-placeholder="[ Selecione o Cliente ]" class="input-xxlarge chzn-select-deselect" name="cliente" id="cliente">
+                                <option value="0"></option>
+                                <?php foreach ($this->clientes as $cliente): ?>
+                                    <option <?php echo ViewUtil::fillFieldSelect($this->repository_filter->getParamByField('cliente'), $cliente->id) ?> value="<?php echo $cliente->id ?>"><?php echo $cliente->nome ." ".$cliente->sobrenome?></option>
+                                <?php endforeach ?>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="span11">
+                    <hr/>
+                    <button type="submit" data-loading-text="Filtrando..." class="btn btn-info btn-large"><i class="icon-filter icon-white"></i>&nbsp;Filtrar</button>
+                </div>
+
+            </div>
+        </form>
+
+        <?php echo $this->flashMessenger(); ?>
+
+
+        <ul class="pagination" style=" float: right;">
+
+            <?php $url_part = (isset($this->repository_filter)) ? $this->repository_filter->getParamString(array("ano", "mes")) : ''; ?>
+
+            <?php if ($this->params['mes'] <= 1) { ?>
+                <li><a href="<?php echo $this->baseUrl(); ?>/admin/procedimento?ano=<?php echo $this->params['ano'] - 1 ?>&mes=12<?php echo $url_part ?>">&larr;</a></li>
+            <?php } else { ?>
+                <li><a href="<?php echo $this->baseUrl(); ?>/admin/procedimento?ano=<?php echo $this->params['ano'] ?>&mes=<?php echo $this->params['mes'] - 1 ?><?php echo $url_part ?>">&larr;</a></li>
+            <?php } ?>
+
+            <?php foreach ($this->meses as $mes) : ?>
+                <li class="<?php echo ($mes['id'] == $this->params['mes']) ? "active" : "number" ?>"><a href="<?php echo $this->baseUrl(); ?>/admin/procedimento?ano=<?php echo $this->params['ano'] ?>&mes=<?php echo $mes['id'] ?><?php echo $url_part ?>"><?php echo AppUtil::getSmallMonth($mes['id']) ?></a></li>
+            <?php endforeach; ?>
+
+
+            <?php if ($this->params['mes'] >= 12) { ?>
+                <li><a href="<?php echo $this->baseUrl(); ?>/admin/procedimento?ano=<?php echo $this->params['ano'] + 1 ?>&mes=1<?php echo $url_part ?>">&rarr;</a></li>
+            <?php } else { ?>
+                <li><a href="<?php echo $this->baseUrl(); ?>/admin/procedimento?ano=<?php echo $this->params['ano'] ?>&mes=<?php echo $this->params['mes'] + 1 ?><?php echo $url_part ?>">&rarr;</a></li>
+            <?php } ?>
+
+        </ul>
+
+        <ul class="pagination" style="margin-right: 20px; float: right;">
+            <li><a href="<?php echo $this->baseUrl(); ?>/admin/procedimento?ano=<?php echo $this->params['ano'] - 1 ?>&mes=<?php echo $this->params['mes'] ?>">&larr;</a></li>
+            <li class="active"><a href="#"><?php echo $this->params['ano'] ?></a></li>
+            <li><a href="<?php echo $this->baseUrl(); ?>/admin/procedimento?ano=<?php echo $this->params['ano'] + 1 ?>&mes=<?php echo $this->params['mes'] ?>">&rarr;</a></li>
+        </ul>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th><?php echo ViewUtil::getOrderBy('Data', 'data', $this->repository_order) ?></th>
+                    <th><?php echo ViewUtil::getOrderBy('Horario', 'horario', $this->repository_order) ?></th>
+                    <th><?php echo ViewUtil::getOrderBy('Cliente', 'c.nome', $this->repository_order) ?></th>
+                    <th><?php echo ViewUtil::getOrderBy('Procedimento', 'procedimento_tipo_id', $this->repository_order) ?></th>
+                    <th><?php echo ViewUtil::getOrderBy('Colaborador', 'usuario_id', $this->repository_order) ?></th>
+                    <th><?php echo ViewUtil::getOrderBy('Status', 'status', $this->repository_order) ?></th>
+                    <th colspan="2"></th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <?php foreach ($this->list as $item): ?>
+                    <tr style="color: <?php echo ($item->status == Procedimento::ABERTO) ? "green" : "" ?>;color: <?php echo ($item->status == Procedimento::REALIZADO) ? "blue" : " " ?>;color: <?php echo ($item->status == Procedimento::CANCELADO) ? "red" : "" ?>; background-color:<?php echo ($item->status == Procedimento::ABERTO) ? "#d4f4d4" : "" ?>;background-color:<?php echo ($item->status == Procedimento::REALIZADO) ? "#d9edf7" : "" ?>;background-color:<?php echo ($item->status == Procedimento::CANCELADO) ? "#f4d6d7" : "" ?> ">
+                        <td><?php echo AppUtil::convertDateToString($item->data) ?></td>
+                            <td><?php echo $item->horario ?></td>
+                            <td><?php echo $item->Cliente->nome." ".$item->Cliente->sobrenome?></td>
+                            <td><?php echo $item->ProcedimentoTipo->descricao. " - ". $item->ProcedimentoTipo->getTipo()?></td>
+                            <td><?php echo $item->Usuario->nome?></td>
+                            <td><?php echo $item->getStatus()?></td>
+                            <td width="20px" style="text-align: center; vertical-align: middle;">
+                                <a href="<?php echo $this->baseUrl(); ?>/admin/procedimento/editar/id/<?php echo $item->id; ?>"><i title="Editar Procedimento" class="icon-pencil"></i></a>
+                            </td>
+                            <td width="20px" style="text-align: center; vertical-align: middle;">
+                                <a onclick="return confirm('Confirma a exclusão deste procedimento ?')" href="<?php echo $this->baseUrl(); ?>/admin/lancamento/deletar/id/<?php echo $item->id; ?>"><i title="Excluir Procedimento" class="icon-trash"></i></a>
+                            </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+        <?php //if (isset($this->list)) echo $this->paginationControl($this->list, "All", "paginator.phtml", $this->list_params);  ?>
+    </div>
+</div>

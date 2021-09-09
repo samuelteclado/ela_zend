@@ -1,0 +1,17 @@
+
+@font-face {
+    font-family: 'Eurostile-Black';
+    src: url('Eurostile-Black.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Eurostile-Italic';
+    src: url('Eurostile-Black Italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+

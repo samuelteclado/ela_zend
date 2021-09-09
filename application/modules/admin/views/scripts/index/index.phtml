@@ -1,0 +1,207 @@
+<style>
+    .text-input{
+        border:1px solid #ccc;
+        -webkit-box-shadow:inset 0 1px 0 #eee,#fff 0 1px 0;
+        -moz-box-shadow:inset 0 1px 0 #eee,#fff 0 1px 0;
+        box-shadow:inset 0 1px 0 #eee,#fff 0 1px 0;
+        padding: 4px; margin: 2px;
+        color: #057ED0;
+    }
+    .text-input:focus{
+        background-color:#f8fdf8;
+        background-image:url(content/img/FunTxtAti.jpg)
+    }
+
+    input, textarea {
+        -webkit-box-shadow: inset 0 1px 3px rgba(0,0,0,.05),0 1px 0 rgba(255,255,255,.075);
+        -moz-box-shadow: inset 0 1px 3px rgba(0,0,0,.05),0 1px 0 rgba(255,255,255,.075);
+        box-shadow: inset 0 1px 3px rgba(0,0,0,.05),0 1px 0 rgba(255,255,255,.075);
+        -webkit-transition: .2s linear background;
+        -moz-transition: .2s linear background;
+        transition: .2s linear background;
+    }
+    input, textarea, select {
+        display: inline-block;
+        padding: 4px;
+        margin: 0;
+        outline: none;
+        background-color: white;
+        border: 1px solid #CCC;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        border-radius: 3px;
+    }
+    label, input, textarea, select, button {
+        font: 13px/20px "HelveticaNeue","Helvetica Neue",Helvetica,Arial,sans-serif;
+    }
+
+    .front-signin .submit {
+        height: 30px;
+        -webkit-box-shadow: 0 1px 0 #fff;
+        -moz-box-shadow: 0 1px 0 #fff;
+        box-shadow: 0 1px 0 #fff;
+    }
+
+    .btn {
+        background-color: #DDD;
+        background-repeat: repeat-x;
+        background-image: -khtml-gradient(linear,left top,left bottom,from(white),to(#DDD));
+        background-image: -moz-linear-gradient(white,#DDD);
+        background-image: -ms-linear-gradient(white,#DDD);
+        background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0%,white),color-stop(100%,#DDD));
+        background-image: -webkit-linear-gradient(white,#DDD);
+        background-image: -o-linear-gradient(white,#DDD);
+        background-image: linear-gradient(white,#DDD);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff',endColorstr='#dddddd');
+    }
+
+    .btn {
+        position: relative;
+        display: inline-block;
+        overflow: visible;
+        padding: 5px 10px;
+        font-size: 13px;
+        font-weight: bold;
+        line-height: 18px;
+        color: #333;
+        text-shadow: 0 1px 0 rgba(255, 255, 255, .5);
+        background-color: #CCC;
+        background-repeat: no-repeat;
+        border: 1px solid #CCC;
+        cursor: pointer;
+        -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+        border-radius: 4px;
+        border-radius: 0 url(0);
+        -webkit-box-shadow: 0 1px 0 rgba(255,255,255,.5);
+        -moz-box-shadow: 0 1px 0 rgba(255,255,255,.5);
+        box-shadow: 0 1px 0 rgba(255,255,255,.5);
+    }
+
+
+    .primary-btn, .following.first-hover .follow-btn.hover, .following .follow-btn, .following .follow-button.cancel-hover-style.hover, .following .follow-button {
+        color: white;
+        text-shadow: 0 -1px 0 rgba(0, 0, 0, .25);
+        background-color: #019AD2;
+        background-repeat: repeat-x;
+        background-image: -khtml-gradient(linear,left top,left bottom,from(#33BCEF),to(#019AD2));
+        background-image: -moz-linear-gradient(#33BCEF,#019AD2);
+        background-image: -ms-linear-gradient(#33BCEF,#019AD2);
+        background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#33BCEF),color-stop(100%,#019AD2));
+        background-image: -webkit-linear-gradient(#33BCEF,#019AD2);
+        background-image: -o-linear-gradient(#33BCEF,#019AD2);
+        background-image: linear-gradient(#33BCEF,#019AD2);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#33bcef',endColorstr='#019ad2',GradientType=0);
+        border-color: #057ED0;
+        -webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,.1);
+        -moz-box-shadow: inset 0 1px 0 rgba(255,255,255,.1);
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.1);
+    }
+
+    .btn:hover, .photo-selector:not(.disabled):hover .btn, .follow-combo.open .btn-user-actions, .user-dropdown.open {
+        color: white;
+        text-decoration: none;
+        background-color: #33BCEF;
+        background-image: -khtml-gradient(linear,left top,left bottom,from(#33BCEF),to(#12A7DE));
+        background-image: -moz-linear-gradient(#33BCEF,#12A7DE);
+        background-image: -ms-linear-gradient(#33BCEF,#12A7DE);
+        background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#33BCEF),color-stop(100%,#12A7DE));
+        background-image: -webkit-linear-gradient(#33BCEF,#12A7DE);
+        background-image: -o-linear-gradient(#33BCEF,#12A7DE);
+        background-image: linear-gradient(#33BCEF,#12A7DE);
+        filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+        border-color: #057ED0;
+    }
+
+    .front-signin, .front-signup {
+        background: white;
+        background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,white),color-stop(100%,#DDD));
+        background: -webkit-linear-gradient(top,white 0,#DDD 100%);
+        background: -moz-linear-gradient(top,white 0,#DDD 100%);
+        background: -ms-linear-gradient(top,white 0,#DDD 100%);
+        background: -o-linear-gradient(top,white 0,#DDD 100%);
+        background: linear-gradient(top,white 0,#DDD 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff',endColorstr='#dddddd',GradientType=0);
+        border-left: solid 1px #EEE;
+        border-right: solid 1px #EEE;
+        border-bottom: solid 1px #CCC;
+        -webkit-box-shadow: 0 1px 0 rgba(0,0,0,.1);
+        -moz-box-shadow: 0 1px 0 rgba(0,0,0,.1);
+        box-shadow: 0 1px 0 rgba(0,0,0,.1);
+    }
+    .body-content{
+        border-radius: 10px;
+        padding: 10px;
+        margin: auto;
+        width: 600px;
+        border: 1px solid #ddd;
+    }
+
+    .content {
+        background: none repeat scroll 0 0 #f2f2f2;
+        border: 1px solid #ddd;
+        padding: 10px;
+    }
+
+    h4{
+        font-size: 18px;
+        margin: 20px 0px;
+    }
+
+
+</style>
+
+
+<div style="width: 100%; margin-top: 130px;margin-bottom: -80px">
+
+    <div class="body-content">
+
+        <div class="content">
+
+            <div class="rounded"  style=" width: 330px; margin: auto;">
+                <form action="<?php echo $this->baseUrl(); ?>/admin/auth/login" method="POST">
+                    <table border="0">
+                        <tr>
+                            <td colspan="3" style="text-align: center;">
+                                <h4>Espaço ELA</h4>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="font-size: 12px; text-align: center;">
+                                <?php echo $this->flashMessenger(); ?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">
+                                <label class="control-label" for="usuario">Email:</label>
+                            </td>
+                            <td colspan="2">
+                                <input name="usuario" placeholder="Digite seu email" style="width: 250px;" class="text-input" type="text">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">
+                                <label class="control-label" for="senha">Senha:</label>
+                            </td>
+                            <td>
+                                <input name="senha" placeholder="Senha" style="width: 180px;" class="text-input" type="password">
+                            </td>
+                            <td>
+                                <input class="submit btn primary-btn flex-table-btn js-submit" type="submit" value="Entrar">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="font-size: 12px; font-family: 'Lucida Grande',Verdana,sans-serif; text-align: center; padding: 20px 0px 0px 0px">
+                                <ul style="list-style: none;">
+                                    <li> <a style="color: #057ED0;" href="<?php echo $this->baseUrl() ?>/admin/conta/lembrarsenha/">Esqueceu sua senha?</a></li>
+                                </ul>
+                            </td>
+                        </tr>
+
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>

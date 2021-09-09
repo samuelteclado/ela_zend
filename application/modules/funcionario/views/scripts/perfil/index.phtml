@@ -1,0 +1,160 @@
+<script type="text/javascript">
+    function alterarSenha() {
+
+        if ($('.senha').is(':visible')) {
+            $('#senha_atual').val('');
+            $('#nova_senha').val('');
+            $('#redigite_senha').val('');
+            $('.senha').hide('slow');
+
+        }
+        else {
+            $('.senha').show('slow');
+        }
+
+    }
+    $(function() {
+        $('#usuario_grupo_id').change(function() {
+            var str = ""
+            $("#usuario_grupo_id option:selected").each(function() {
+                str = $(this).val();
+            });
+            if (str == "0" || str == "1") {
+                $('.escola').hide('slow');
+            } else {
+                $('.escola').show('slow')
+            }
+
+        })
+                .trigger('change');
+    });
+
+    function removeImagemButton(id) {
+        $('#remove').attr('value', id);
+        $('#form_usuario').submit();
+    }
+</script>
+
+﻿<div id="esquerda">
+
+    <div style="margin: 10px">
+
+        <div class="page-header" >
+            <h2>Alterar Perfil</h2>
+        </div>
+
+        <form id="form_usuario" method="POST" action="" enctype="multipart/form-data">
+            <fieldset>
+                <?php echo $this->flashMessenger(); ?>
+                <div class="row well">
+                    <div class="span4">
+                        <div class="control-group">
+                            <label class="control-label" for="nome">Nome</label>
+                            <div class="controls">
+                                <input class="input-xlarge" id="nome" name="nome" type="text" value="<?php echo $this->usuario->nome ?>">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="span4">
+                        <div class="control-group">
+                            <label class="control-label" for="email">Email</label>
+                            <div class="controls">
+                                <input class="input-prepend" id="email" name="email" type="text" value="<?php echo $this->usuario->email ?>">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="span3" style="float: right">
+                        <div class="control-group">
+                            <label class="control-label" for="imagem_perfil">Imagem do perfil</label>
+                            <div class="controls">
+                                <div class="row" >
+                                    <div id="result" style="background-color: #fff; margin: 10px 30px 10px 1px; padding: 5px;  float: left;" class="rounded-light shadow">
+                                        <img src="<?php echo AppUtil::getFileView($this->usuario, 'u', '160') ?>">
+                                    </div>
+                                    <div class="input-append">
+                                        <span class="btn success fileinput-button">
+                                            <span>Selecionar imagem ...</span>
+                                            <?php echo $this->form->file ?>
+                                        </span>
+                                        <?php if (AppUtil::isFileExists($this->usuario, 'u')) { ?>
+                                            <a title="Remover imagem do perfil" class="btn" onClick="removeImagemButton(<?php echo $this->usuario->id ?>);">
+                                                <i class="icon-trash"></i>
+                                            </a>
+                                            <input type="hidden" name="remove" id="remove">
+                                        <?php } ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <?php if ($this->usuario->id <= 0) { ?>
+                        <div class="span4">
+                            <div class="control-group senha">
+                                <label class="control-label" for="senha">Senha</label>
+                                <div class="controls">
+                                    <input class="input-small" id="senha" name="senha" type="password" autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+                    <?php } else { ?>
+                        <div class="span4">
+                            <label class="control-label" for="senha">Senha</label>
+                            <div class="control-group">
+                                <a title="Clique aqui para alterar sua senha" class="btn" onClick="alterarSenha();">
+                                    Alterar Senha
+                                </a>
+                            </div>
+                        </div>
+                        <div class="span4">
+                            <div style="display: none; " class="control-group senha">
+                                <label class="control-label" for="senha_atual">Senha Atual</label>
+                                <div class="controls">
+                                    <input class="input-small" id="senha_atual" name="senha_atual" type="password" autocomplete="off">
+                                </div>
+                            </div>
+                            <div  style="display: none; "class="control-group senha">
+                                <label class="control-label" for="nova_senha">Nova Senha</label>
+                                <div class="controls">
+                                    <input class="input-small" id="nova_senha" name="nova_senha" type="password" autocomplete="off">
+                                </div>
+                            </div>
+
+
+                            <div style="display: none; " class="control-group senha">
+                                <label class="control-label" for="redigite_senha">Redigite a nova Senha</label>
+                                <div class="controls">
+                                    <input class="input-small" id="redigite_senha" name="redigite_senha" type="password" autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+                    <?php } ?>
+                </div>
+                <hr/>
+                <div class="btn-concluir">
+                    <button type="submit" class="btn btn-success btn-large">Salvar</button>
+                </div>
+            </fieldset>
+
+        </form>
+    </div>
+</div>
+
+<script src="<?php echo $this->baseUrl(); ?>/content/upload/jquery/js/load-image.min.js"></script>
+<script type="text/javascript">
+                                    var result = $('#result');
+
+                                    document.getElementById('file').onchange = function(e) {
+                                        window.loadImage(
+                                                (e.dataTransfer || e.target).files[0],
+                                                function(img) {
+                                                    result.children().replaceWith(img);
+                                                },
+                                                {
+                                                    maxWidth: 160,
+                                                    maxHeight: 160,
+                                                    canvas: true
+                                                }
+                                        );
+                                    };
+</script>

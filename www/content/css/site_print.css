@@ -1,0 +1,24 @@
+body	{background: #FFF; color: #000;}
+a:link, a:visited	{color: #333; text-decoration: none;}
+p,th, small {font-size: 11px}
+td{font-size: 10px}
+
+
+table{ border: 1px solid #ddd; }
+.table th, .table td{line-height: 10px;padding: 5px}
+.table-bordered { border: 2px solid #ddd; border-collapse: collapse; border-left: 2px solid #ddd;
+}
+
+/*a:link, a:visited	{color: #333; text-decoration: underline;}*/
+/*a[href]:after		{content: " (" attr(href) ")";}*/
+#form_filtrar, #filtro, .btn {display: none;}
+
+.noprint { display: none !important }
+.noscreen { display: inline; }
+
+#input, textarea, select {-webkit-box-shadow: none;-moz-box-shadow: none;box-shadow: none;border: none;font-size: 10px;font-weight: bold;color: #000; }
+
+.page-header {display: none;}
+.cabecalho-impressao {display: block !important; margin-bottom: 20px;}
+.cabecalho-impressao table td font {text-transform: uppercase;}
+.cabecalho-impressao p {font-size: 11px}

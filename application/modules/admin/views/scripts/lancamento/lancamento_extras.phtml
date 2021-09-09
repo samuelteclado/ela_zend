@@ -1,0 +1,44 @@
+<div id="data_extras" class="dados" >
+    <div class="dados_extras">
+        <div class="row well">
+            <div class="span2">
+                <div class="control-group">
+                    <label class="control-label" for="pagamento_desconto">Valor Desconto</label>
+                    <div class="controls">
+                        <input class="input-small txValor" id="pagamento_desconto" name="pagamento_desconto" maxlength="8" type="text" value="<?php echo AppUtil::convertFloatToString($this->lancamento->pagamento_desconto) ?>">
+                        <span class="help-block">R$</span>
+                    </div>
+                </div>
+            </div>
+            <div class="span2">
+                <div class="control-group">
+                    <label class="control-label" for="pagamento_multa">Valor Multa</label>
+                    <div class="controls">
+                        <input class="input-small txValor" id="pagamento_multa" name="pagamento_multa" maxlength="8" type="text" value="<?php //echo AppUtil::convertFloatToString($this->lancamento->pagamento_multa) ?>">
+                        <span class="help-block">R$</span>
+                    </div>
+                </div>
+            </div>
+            <div class="span2">
+                <div class="control-group">
+                    <label class="control-label" for="pagamento_juros">Valor Juros</label>
+                    <div class="controls">
+                        <input class="input-small txValor" id="pagamento_juros" name="pagamento_juros" maxlength="8" type="text" value="<?php //echo AppUtil::convertFloatToString($this->lancamento->pagamento_juros) ?>">
+                        <span class="help-block">R$</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="span2">
+                <div class="control-group">
+                    <label class="control-label" for="pagamento_taxa">Taxa de Boleto</label>
+                    <div class="controls">
+                        <input class="input-small txValor" id="pagamento_taxa" name="pagamento_taxa" maxlength="8" type="text" value="<?php echo AppUtil::convertFloatToString($this->lancamento->pagamento_taxa) ?>">
+                        <span class="help-block">R$</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

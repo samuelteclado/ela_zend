@@ -1,0 +1,99 @@
+<div id="esquerda">
+
+    <div style="margin: 10px">
+        <style>
+            #icone {
+                margin-top: 20px;
+                background-color: #dcf7de;
+                height: 520px
+            }
+            #icone li{
+                padding: 15px;
+                list-style-type: none                
+            }
+            #icone li img{
+                width: 70px;
+                height: 70px;
+            }
+            #icone a{
+                margin-left: 10px;
+                line-height: 50px;
+                text-shadow: 0.1em 0.1em #e2e2e2;
+                font-weight: bold;
+                font-size: 18px;
+                font-family: Arial; 
+            }
+        </style>   
+
+        <div style="margin: 20px;">
+            <?php echo $this->flashMessenger(); ?>
+        </div>
+
+        <div style="text-shadow: black 0.1em 0.1em 0.25em;text-align: center;background-color: #428802;color: #FFF"><h1>Menus de Acesso Rápido</h1> </div>
+        <div  id="icone"class="rounded">
+            <ul>
+                <li class="span3"> 
+                    <img src="<?php echo $this->baseUrl() ?>/content/img/escola.png" > 
+                    <a href="<?php echo $this->baseUrl() ?>/admin/escola">Escola</a>
+                </li>
+                <li class="span3">
+                    <img src="<?php echo $this->baseUrl() ?>/content/img/unidades.png" >
+                    <a href="<?php echo $this->baseUrl() ?>/admin/unidade">Unidades</a>
+                </li>
+                <li class="span4">
+                    <img  src="<?php echo $this->baseUrl() ?>/content/img/bank.png" >
+                    <a  href="<?php echo $this->baseUrl() ?>/admin/conta">Conta Bancária</a>
+                </li>
+                <li class="span3">
+                    <img  src="<?php echo $this->baseUrl() ?>/content/img/money.png" >
+                    <a  href="<?php echo $this->baseUrl() ?>/admin/lancamento">Lançamento</a>
+                </li>
+                <li class="span3">
+                    <img  src="<?php echo $this->baseUrl() ?>/content/img/disciplina.png" >
+                    <a  href="<?php echo $this->baseUrl() ?>/admin/disciplina">Disciplinas</a>
+                </li>
+                <li class="span3"> 
+                    <img src="<?php echo $this->baseUrl() ?>/content/img/curso.png" >
+                    <a href="<?php echo $this->baseUrl() ?>/admin/curso">Curso</a>
+                </li>
+                <li class="span3">
+                    <img src="<?php echo $this->baseUrl() ?>/content/img/professor.png" >
+                    <a href="<?php echo $this->baseUrl() ?>/admin/professor">Professor</a>
+                </li>
+                <li class="span3">
+                    <img src="<?php echo $this->baseUrl() ?>/content/img/turma.png" >
+                    <a href="<?php echo $this->baseUrl() ?>/admin/turma">Turma</a>
+                </li>
+                <li class="span3">
+                    <img src="<?php echo $this->baseUrl() ?>/content/img/formando.png" >
+                    <a href="<?php echo $this->baseUrl() ?>/admin/aluno">Aluno</a>
+                </li>
+                <li class="span3">
+                    <img src="<?php echo $this->baseUrl() ?>/content/img/presenca.png" >
+                    <a href="<?php echo $this->baseUrl() ?>/admin/presenca">Presença</a>
+                </li>
+                <li class="span3">
+                    <img src="<?php echo $this->baseUrl() ?>/content/img/notas.png" >
+                    <a href="<?php echo $this->baseUrl() ?>/admin/nota">Notas</a>
+                </li>
+                <li class="span3">
+                    <img src="<?php echo $this->baseUrl() ?>/content/img/livro.png" >
+                    <a href="<?php echo $this->baseUrl() ?>/admin/livro">Livro</a>
+                </li>
+                <li class="span3">
+                    <img src="<?php echo $this->baseUrl() ?>/content/img/update.png" >
+                    <a href="<?php echo $this->baseUrl() ?>/admin/emprestimo">Empréstimo</a>
+                </li>
+                <li class="span3">
+                    <img src="<?php echo $this->baseUrl() ?>/content/img/usuario.png" >
+                    <a href="<?php echo $this->baseUrl() ?>/admin/usuario">Usuários</a>
+                </li>
+                <li class="span3">
+                    <img src="<?php echo $this->baseUrl() ?>/content/img/boleto.png" >
+                    <a href="<?php echo $this->baseUrl() ?>/admin/siges">Siges</a>
+                </li>
+
+            </ul>   
+        </div>
+    </div>
+</div>

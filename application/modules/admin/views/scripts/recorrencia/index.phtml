@@ -1,0 +1,101 @@
+﻿<div id="esquerda">
+
+    <div style="margin: 10px">
+
+
+
+        <a style="float: right;" class="btn btn-success btn-large" href="<?php echo $this->baseUrl(); ?>/admin/recorrencia/novo/">
+            <i class="icon-plus icon-white"></i> Novo </a>
+
+        <button style="float: right; margin-right: 5px;"  type="button" id="btn_filtrar" class="btn btn-info btn-large"><i class="icon-filter icon-white"></i>&nbsp;Filtro</button>
+
+
+        <div class="page-header" >
+            <h2>Recorrências</h2>
+        </div>
+
+        <form method="GET" action="" style="display: none;" id="form_filtrar">
+            <div class="row well">
+                <a id="btn_close" class="close" href="#">&times;</a>
+
+
+                <div class="span4">
+                    <div class="control-group">
+                        <label class="control-label" for="descricao">Descrição</label>
+                        <div class="controls">
+                            <input class="input-xlarge" id="descricao_recorrencia" name="descricao" type="text" value="<?php echo $this->repository_filter->getParamByField('descricao') ?>">
+                        </div>
+                    </div>
+                </div>
+                <div class="span2">
+                    <div class="control-group">
+                        <label class="control-label" for="dias">Dias</label>
+                        <div class="controls">
+                            <input class="input-small" id="dias" name="dias" type="text" value="<?php echo $this->repository_filter->getParamByField('dias') ?>">
+                        </div>
+                    </div>
+                </div>
+
+               
+                <div class="span2">
+                    <div class="control-group">
+                        <label class="control-label" for="status">Status</label>
+                        <div class="controls">
+                            <select data-placeholder="[ Todos ]" class="input-small chzn-select-deselect" name="status" id="status">
+                                <option value="0"></option>
+                                <option <?php echo ViewUtil::fillFieldSelect($this->repository_filter->getParamByField('status'), LancamentoRecorrenciaTipo::ATIVO) ?> value="<?php echo LancamentoRecorrenciaTipo::ATIVO ?>">Ativo</option>
+                                <option <?php echo ViewUtil::fillFieldSelect($this->repository_filter->getParamByField('status'), LancamentoRecorrenciaTipo::INATIVO) ?> value="<?php echo LancamentoRecorrenciaTipo::INATIVO ?>">Inativo</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+                <div class="span8">
+                    <hr/>
+                    <button type="submit" data-loading-text="Filtrando..." class="btn btn-info btn-large"><i class="icon-filter icon-white"></i>&nbsp;Filtrar</button>
+                </div>
+
+            </div>
+        </form>
+
+        <?php echo $this->flashMessenger(); ?>
+
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th><?php echo ViewUtil::getOrderBy('Descrição', 'descricao', $this->repository_order) ?></th>
+                    <th><?php echo ViewUtil::getOrderBy('Dias', 'dias', $this->repository_order) ?></th>                    
+                    <th><?php echo ViewUtil::getOrderBy('Status', 'status', $this->repository_order) ?></th>                    
+
+                    <th colspan="2"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($this->list as $item): ?>
+
+                    <tr>
+                        <td><?php echo $item->descricao ?></td>
+                        <td><?php echo $item->dias ?></td>
+                        <td><?php echo $item->getStatus() ?></td>
+
+                        <td width="20px" style="text-align: center; vertical-align: middle;">
+                            <a href="<?php echo $this->baseUrl(); ?>/admin/recorrencia/editar/id/<?php echo $item->id; ?>"><i title="editar" class="icon-pencil"></i></a>
+                        </td>
+                        <td width="20px" style="text-align: center; vertical-align: middle;">
+                            <a onclick="return confirm('Confirma a exclusão desta recorrêcia?')" href="<?php echo $this->baseUrl(); ?>/admin/recorrencia/deletar/id/<?php echo $item->id; ?>"><i title="excluir" class="icon-trash"></i></a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+
+        <?php if (isset($this->list)) echo $this->paginationControl($this->list, "All", "paginator.phtml", $this->list_params); ?>
+
+    </div>
+
+</div>

@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="keywords" content="" />
+    <meta name="author" content="Holy Solutions" />
+    <meta name="robots" content="" />
+    <meta name="description" content="BeautyZone : Beauty Spa Salon HTML Template" />
+    <meta property="og:title" content="Espaço Ela" />
+    <meta property="og:description" content="Espaço Ela - Cilios" />
+    <meta property="og:image" content="BeautyZone : Beauty Spa Salon HTML Template" />
+    <meta name="format-detection" content="telephone=no">
+
+    <!-- FAVICONS ICON -->
+    <link rel="icon" href="<?php echo $this->baseUrl(); ?>/content/website/images/favicon/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" type="image/x-icon" href="<?php echo $this->baseUrl(); ?>/content/website/images/favicon/favicon.png" />
+
+    <!-- PAGE TITLE HERE -->
+    <title>Espaço ELA</title>
+
+    <!-- MOBILE SPECIFIC -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--[if lt IE 9]>
+    <script src="<?php echo $this->baseUrl(); ?>/content/website/js/html5shiv.min.js"></script>
+    <script src="<?php echo $this->baseUrl(); ?>/content/website/js/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- STYLESHEETS -->
+    <link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl(); ?>/content/website/css/plugins.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl(); ?>/content/website/css/style.min.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl(); ?>/content/website/css/templete.min.css">
+    <link class="skin" rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl(); ?>/content/website/css/skin/skin-1.css">
+    <!-- Revolution Slider Css -->
+    <link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl(); ?>/content/website/plugins/revolution/revolution/css/layers.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl(); ?>/content/website/plugins/revolution/revolution/css/settings.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl(); ?>/content/website/plugins/revolution/revolution/css/navigation.css">
+    <!-- Revolution Navigation Style -->
+</head>
+<body id="bg">
+<div class="page-wraper">
+    <div id="loading-area"></div>
+    <!-- header -->
+    <header class="site-header header center mo-left">
+        <div class="top-bar bg-primary text-white">
+            <div class="container">
+                <div class="row d-flex justify-content-between">
+                    <div class="dlab-topbar-left">
+                        <ul>
+                            <li><i class="fa fa-phone m-r5"></i> 31 9 9511-4442</li>
+                            <li><i class="fa fa-map-marker m-r5"></i> Rua Dom Viçoso - 172 - Centro - Mariana</li>
+                        </ul>
+                    </div>
+                    <div class="dlab-topbar-right topbar-social">
+                        <ul>
+                            <li><a href="https://api.whatsapp.com/send?phone=%205531995114442&text=Ol%C3%A1%2C%20Gostaria%20de%20agendar%20com%20voc%C3%AA!&ltclid=" target="_blank" class="site-button-link whatsapp hover"><i class="fa fa-whatsapp"></i></a></li>
+                            <li><a href="https://www.facebook.com/lilian.designer.s" target="_blank" class="site-button-link facebook hover"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="https://www.instagram.com/ela_espaco/"target="_blank"  class="site-button-link instagram hover"><i class="fa fa-instagram"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- main header -->
+        <div class="sticky-header main-bar-wraper navbar-expand-lg">
+            <div class="main-bar clearfix ">
+                <div class="container clearfix">
+                    <!-- website logo -->
+                    <div class="logo-header mostion">
+                        <a href="/" class="dez-page"><img src="<?php echo $this->baseUrl(); ?>/content/website/images/logo-ela.png" alt=""></a>
+                    </div>
+                    <!-- nav toggle button -->
+                    <button class="navbar-toggler collapsed navicon justify-content-end" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                    <!-- main nav -->
+                    <div class="header-nav navbar-collapse collapse justify-content-between" id="navbarNavDropdown">
+                        <ul class="nav navbar-nav">
+                            <li class="{{ Route::current()->getName() === 'site.home' ? 'active' : '' }}  active"><a href="/">Home</a></li>
+                            <li><a href="#servicos">Nossos Serviços<i class="fa"></i></a></li>
+                        </ul>
+                        <ul class="nav navbar-nav">
+                            <li><a href="#portifolio">Nosso Portfólio<i class="fa "></i></a></li>
+                            <li><a href="#depoimentos">Depoimentos <i class="fa"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- main header END -->
+    </header>
+    <!-- header END -->
+    <!-- Content -->
+    <div class="page-content bg-white">
+        <!-- Main Slider -->
+        <div class="rev-slider">
+            <div id="rev_slider_265_1_wrapper" class="rev_slider_wrapper fullwidthbanner-container errow-style-1" data-alias="" data-source="gallery" style="margin:0px auto;background:transparent;padding:0px;margin-top:0px;margin-bottom:0px;">
+                <!-- START REVOLUTION SLIDER 5.4.6.3 fullwidth mode -->
+                <div id="rev_slider_265_1" class="rev_slider fullwidthabanner" style="display:none;" data-version="5.4.6.3">
+                    <ul>  <!-- SLIDE  -->
+                        <li data-index="rs-100" data-transition="fade" data-slotamount="default" data-hideafterloop="0" data-hideslideonmobile="off" data-easein="default" data-easeout="default" data-masterspeed="300" data-thumb="<?php echo $this->baseUrl(); ?>/content/website/images/main-slider/slide1.jpg" data-rotate="0" data-saveperformance="off" data-title="Slide" data-param1="" data-param2="" data-param3="" data-param4="" data-param5="" data-param6="" data-param7="" data-param8="" data-param9="" data-param10="" data-description="">
+                            <!-- MAIN IMAGE -->
+                            <img src="<?php echo $this->baseUrl(); ?>/content/website/images/main-slider/slide4.jpg" alt="" data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat" class="rev-slidebg" data-no-retina>
+                            <div class="tp-caption tp-shape tp-shapewrapper bg-primary tp-resizeme"
+                                 id="slide-100-layer-1"
+                                 data-x="['left','left','center','center']" data-hoffset="['30','30','0','0']"
+                                 data-y="['middle','middle','middle','middle']" data-voffset="['-1','-1','0','0']"
+                                 data-width="100"
+                                 data-height="5"
+                                 data-visibility="['on','on','off','off']"
+                                 data-whitespace="nowrap"
+                                 data-type="shape"
+                                 data-responsive_offset="off"
+                                 data-frames='[{"from":"x:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;","mask":"x:0px;y:0px;","speed":1500,"to":"o:1;","delay":1000,"ease":"Power4.easeInOut"},{"delay":"wait","speed":1000,"to":"y:[100%];","mask":"x:inherit;y:inherit;","ease":"Power2.easeInOut"}]'
+                                 data-textAlign="['left','left','left','left']"
+                                 data-paddingtop="[0,0,0,0]"
+                                 data-paddingright="[0,0,0,0]"
+                                 data-paddingbottom="[0,0,0,0]"
+                                 data-paddingleft="[0,0,0,0]" style="z-index: 15;border-color:rgba(0, 0, 0, 0.50);border-width:0px; border-radius:2px;"> </div>
+                            <!-- LAYER NR. 3 -->
+                            <div class="tp-caption tp-resizeme text-primary"
+                                 id="slide-100-layer-2"
+                                 data-x="['left','left','center','center']" data-hoffset="['30','30','0','0']"
+                                 data-y="['middle','middle','middle','middle']" data-voffset="['-80','-80','-70','-60']"
+                                 data-fontsize="['65','48','42','36']"
+                                 data-lineheight="['80','60','60','40']"
+                                 data-width="none"
+                                 data-height="none"
+                                 data-type="text"
+                                 data-responsive_offset="off"
+                                 data-frames='[{"delay":"+500","split":"chars","splitdelay":0.05000000000000000277555756156289135105907917022705078125,"speed":2000,"split_direction":"forward","frame":"0","from":"opacity:0;","color":"#000000","to":"o:1;","ease":"Power4.easeInOut"},{"delay":"wait","speed":2000,"frame":"999","color":"transparent","to":"opacity:0;","ease":"Power3.easeInOut"}]'
+                                 data-textAlign="['left','left','left','left']"
+                                 data-paddingtop="[0,0,0,0]"
+                                 data-paddingright="[0,0,0,0]"
+                                 data-paddingbottom="[0,0,0,0]"
+                                 data-paddingleft="[0,0,0,0]"
+                                 style="z-index: 7; white-space: nowrap; font-size: 65px; line-height: 80px; font-weight: 800; letter-spacing: 0px; font-family:Nunito;">Pense numa imagem</div>
+                            <div class="tp-caption tp-resizeme text-primary"
+                                 id="slide-100-layer-3"
+                                 data-x="['left','left','center','center']" data-hoffset="['50','50','-50','-50']"
+                                 data-y="['middle','middle','middle','middle']" data-voffset="['-1','-1','-30','-30']"
+                                 data-fontsize="['65','48','42','36']"
+                                 data-lineheight="['80','60','60','40']"
+                                 data-width="['auto']"
+                                 data-height="['auto']"
+                                 data-type="text"
+                                 data-responsive_offset="on"
+                                 data-frames='[{"delay":"+500","split":"chars","splitdelay":0.05000000000000000277555756156289135105907917022705078125,"speed":2000,"split_direction":"forward","frame":"0","from":"opacity:0;","color":"#000000","to":"o:1;","ease":"Power4.easeInOut"},{"delay":"wait","speed":2000,"frame":"999","color":"transparent","to":"opacity:0;","ease":"Power3.easeInOut"}]'
+                                 data-textAlign="['left','left','left','left']"
+                                 data-paddingtop="[0,0,0,0]"
+                                 data-paddingright="[0,0,0,0]"
+                                 data-paddingbottom="[0,0,0,0]"
+                                 data-paddingleft="[110,110,110,110]"
+                                 style="z-index: 7; white-space: nowrap; font-size: 65px; line-height: 80px; font-weight: 800; letter-spacing: 0px; font-family:Nunito;"> que traz paz, leveza!</div>
+                            <!-- LAYER NR. 2 -->
+                            <div class="tp-caption tp-resizeme"
+                                 id="slide-100-layer-4"
+                                 data-x="['left','left','left','left']" data-hoffset="['30','30','0','0']"
+                                 data-y="['middle','middle','middle','middle']" data-voffset="['100','100','-295','-295']"
+                                 data-width="[700,700,700,700]"
+                                 data-height="['auto']"
+                                 data-visibility="['on','on','off','off']"
+                                 data-type="text"
+                                 data-responsive_offset="on"
+                                 data-frames='[{"delay":"+1990","speed":2000,"frame":"0","from":"opacity:0;","color":"#e5452b","to":"o:1;","ease":"Power4.easeInOut"},{"delay":"wait","speed":1000,"frame":"999","color":"transparent","to":"opacity:0;","ease":"Power3.easeInOut"}]'
+                                 data-textAlign="['inherit','inherit','inherit','inherit']"
+                                 data-paddingtop="[0,0,0,0]"
+                                 data-paddingright="[0,0,0,0]"
+                                 data-paddingbottom="[0,0,0,0]"
+                                 data-paddingleft="[0,0,0,0]"
+                                 style="z-index: 6; font-size: 18px; line-height: 28px; font-weight: 500; color: #320016; white-space: inherit; font-family:Nunito;">São os CÍLIOS: ✔️ técnica correta
+                                ✔️ super soft
+                                ✔️ preenchidos
+                                ✔️ perfeitamente isolados
+                                ✔️ ZERO excesso de cola
+                                ✔️alinhamento & direcionamento.
+                            </div>
+                            <!-- LAYER NR. 6 -->
+                            <div class="tp-caption tp-resizeme"
+                                 id="slide-100-layer-5"
+                                 data-x="['left','left','center','center']" data-hoffset="['30','30','-85','-70']"
+                                 data-y="['middle','middle','middle','middle']" data-voffset="['200','200','50','50']"
+                                 data-width="['auto']"
+                                 data-height="['auto']"
+                                 data-type="button"
+                                 data-actions=''
+                                 data-responsive_offset="on"
+                                 data-frames='[{"delay":2000,"speed":1500,"frame":"0","from":"y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;","to":"o:1;","ease":"Power4.easeInOut"},{"delay":"wait","speed":300,"frame":"999","to":"opacity:0;","ease":"Power3.easeInOut"},{"frame":"hover","speed":"300","ease":"Power0.easeInOut","to":"o:1;rX:0;rY:0;rZ:0;z:0;","style":"c:rgba(0,0,0,1);bg:rgba(255,255,255,1);bs:solid;bw:0 0 0 0;"}]'
+                                 data-textAlign="['inherit','inherit','inherit','inherit']"
+                                 data-paddingtop="[0]"
+                                 data-paddingright="[0]"
+                                 data-paddingbottom="[0]"
+                                 data-paddingleft="[0]"
+                                 style="z-index: 10; white-space: nowrap; font-size: 16px; line-height: 30px; font-weight: 600; font-family:Montserrat;border-radius:3px 3px 3px 3px;outline:none;box-shadow:none;box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;cursor:pointer;text-decoration: none;">
+                            </div>
+                            <div class="tp-caption tp-resizeme"
+                                 id="slide-100-layer-6"
+                                 data-x="['left','left','center','center']" data-hoffset="['210','210','90','95']"
+                                 data-y="['middle','middle','middle','middle']" data-voffset="['200','200','50','50']"
+                                 data-width="['auto']"
+                                 data-height="['auto']"
+                                 data-type="button"
+                                 data-actions=''
+                                 data-responsive_offset="on"
+                                 data-frames='[{"delay":2500,"speed":1500,"frame":"0","from":"y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;","to":"o:1;","ease":"Power4.easeInOut"},{"delay":"wait","speed":300,"frame":"999","to":"opacity:0;","ease":"Power3.easeInOut"},{"frame":"hover","speed":"300","ease":"Power0.easeInOut","to":"o:1;rX:0;rY:0;rZ:0;z:0;","style":"c:rgba(0,0,0,1);bg:rgba(255,255,255,1);bs:solid;bw:0 0 0 0;"}]'
+                                 data-textAlign="['inherit','inherit','inherit','inherit']"
+                                 data-paddingtop="[0]"
+                                 data-paddingright="[0]"
+                                 data-paddingbottom="[0]"
+                                 data-paddingleft="[0]"
+                                 style="z-index: 11; white-space: nowrap; font-size: 16px; line-height: 30px; font-weight: 600; font-family:Montserrat;border-radius:3px 3px 3px 3px;outline:none;box-shadow:none;box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;cursor:pointer;text-decoration: none;">
+                            </div>
+                        </li>
+                        <li data-index="rs-200" data-transition="fade" data-slotamount="default" data-hideafterloop="0" data-hideslideonmobile="off" data-easein="default" data-easeout="default" data-masterspeed="300" data-thumb="<?php echo $this->baseUrl(); ?>/content/website/images/main-slider/slide2.jpg" data-rotate="0" data-saveperformance="off" data-title="Slide" data-param1="" data-param2="" data-param3="" data-param4="" data-param5="" data-param6="" data-param7="" data-param8="" data-param9="" data-param10="" data-description="">
+                            <!-- MAIN IMAGE -->
+                            <img src="<?php echo $this->baseUrl(); ?>/content/website/images/main-slider/slide2.jpg" alt="" data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat" class="rev-slidebg" data-no-retina>
+                            <div class="tp-caption tp-shape  tp-shapewrapper bg-primary tp-resizeme"
+                                 id="slide-200-layer-1"
+                                 data-x="['left','left','center','center']" data-hoffset="['30','30','0','0']"
+                                 data-y="['middle','middle','middle','middle']" data-voffset="['-1','-1','0','0']"
+                                 data-width="100"
+                                 data-height="5"
+                                 data-visibility="['on','on','off','off']"
+                                 data-whitespace="nowrap"
+                                 data-type="shape"
+                                 data-responsive_offset="off"
+                                 data-frames='[{"from":"x:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;","mask":"x:0px;y:0px;","speed":1500,"to":"o:1;","delay":1000,"ease":"Power4.easeInOut"},{"delay":"wait","speed":1000,"to":"y:[100%];","mask":"x:inherit;y:inherit;","ease":"Power2.easeInOut"}]'
+                                 data-textAlign="['left','left','left','left']"
+                                 data-paddingtop="[0,0,0,0]"
+                                 data-paddingright="[0,0,0,0]"
+                                 data-paddingbottom="[0,0,0,0]"
+                                 data-paddingleft="[0,0,0,0]" style="z-index: 15;border-color:rgba(0, 0, 0, 0.50);border-width:0px; border-radius:2px;"> </div>
+                            <!-- LAYER NR. 3 -->
+                            <div class="tp-caption tp-resizeme text-primary"
+                                 id="slide-200-layer-2"
+                                 data-x="['left','left','center','center']" data-hoffset="['30','30','0','0']"
+                                 data-y="['middle','middle','middle','middle']" data-voffset="['-80','-80','-70','-60']"
+                                 data-fontsize="['65','48','42','36']"
+                                 data-lineheight="['80','60','60','40']"
+                                 data-width="none"
+                                 data-height="none"
+                                 data-type="text"
+                                 data-responsive_offset="off"
+                                 data-frames='[{"delay":"+500","split":"chars","splitdelay":0.05000000000000000277555756156289135105907917022705078125,"speed":2000,"split_direction":"forward","frame":"0","from":"opacity:0;","color":"#000000","to":"o:1;","ease":"Power4.easeInOut"},{"delay":"wait","speed":2000,"frame":"999","color":"transparent","to":"opacity:0;","ease":"Power3.easeInOut"}]'
+                                 data-textAlign="['left','left','left','left']"
+                                 data-paddingtop="[0,0,0,0]"
+                                 data-paddingright="[0,0,0,0]"
+                                 data-paddingbottom="[0,0,0,0]"
+                                 data-paddingleft="[0,0,0,0]"
+                                 style="z-index: 7; white-space: nowrap; font-size: 65px; line-height: 80px; font-weight: 800; letter-spacing: 0px; font-family:Nunito;">Experimente o melhor</div>
+                            <div class="tp-caption tp-resizeme text-primary"
+                                 id="slide-200-layer-3"
+                                 data-x="['left','left','center','center']" data-hoffset="['50','50','-50','-50']"
+                                 data-y="['middle','middle','middle','middle']" data-voffset="['-1','-1','-30','-30']"
+                                 data-fontsize="['65','48','42','36']"
+                                 data-lineheight="['80','60','60','40']"
+                                 data-width="['auto']"
+                                 data-height="['auto']"
+                                 data-type="text"
+                                 data-responsive_offset="on"
+                                 data-frames='[{"delay":"+500","split":"chars","splitdelay":0.05000000000000000277555756156289135105907917022705078125,"speed":2000,"split_direction":"forward","frame":"0","from":"opacity:0;","color":"#000000","to":"o:1;","ease":"Power4.easeInOut"},{"delay":"wait","speed":2000,"frame":"999","color":"transparent","to":"opacity:0;","ease":"Power3.easeInOut"}]'
+                                 data-textAlign="['left','left','left','left']"
+                                 data-paddingtop="[0,0,0,0]"
+                                 data-paddingright="[0,0,0,0]"
+                                 data-paddingbottom="[0,0,0,0]"
+                                 data-paddingleft="[110,110,110,110]"
+                                 style="z-index: 7; white-space: nowrap; font-size: 65px; line-height: 80px; font-weight: 800; letter-spacing: 0px; font-family:Nunito;"> Serviço de Beleza</div>
+                            <!-- LAYER NR. 2 -->
+                            <div class="tp-caption   tp-resizeme"
+                                 id="slide-200-layer-4"
+                                 data-x="['left','left','left','left']" data-hoffset="['30','30','0','0']"
+                                 data-y="['middle','middle','middle','middle']" data-voffset="['100','100','-295','-295']"
+                                 data-width="[700,700,700,700]"
+                                 data-height="['auto']"
+                                 data-visibility="['on','on','off','off']"
+                                 data-type="text"
+                                 data-responsive_offset="on"
+                                 data-frames='[{"delay":"+1990","speed":2000,"frame":"0","from":"opacity:0;","color":"#e5452b","to":"o:1;","ease":"Power4.easeInOut"},{"delay":"wait","speed":1000,"frame":"999","color":"transparent","to":"opacity:0;","ease":"Power3.easeInOut"}]'
+                                 data-textAlign="['inherit','inherit','inherit','inherit']"
+                                 data-paddingtop="[0,0,0,0]"
+                                 data-paddingright="[0,0,0,0]"
+                                 data-paddingbottom="[0,0,0,0]"
+                                 data-paddingleft="[0,0,0,0]"
+                                 style="z-index: 6; font-size: 18px; line-height: 28px; font-weight: 500; color: #320016; white-space: inherit; font-family:Nunito;">O olhar muda! Seu rosto ganha um realce maravilhoso! 😍 Colocar as nossas extensões de cílios e acordar pronta e linda todos os dias significa: investir tempo com o que realmente importa! 💕😍
+                            </div>
+                            <!-- LAYER NR. 6 -->
+                            <div class="tp-caption tp-resizeme"
+                                 id="slide-200-layer-5"
+                                 data-x="['left','left','center','center']" data-hoffset="['30','30','-85','-70']"
+                                 data-y="['middle','middle','middle','middle']" data-voffset="['200','200','50','50']"
+                                 data-width="['auto']"
+                                 data-height="['auto']"
+                                 data-type="button"
+                                 data-actions=''
+                                 data-responsive_offset="on"
+                                 data-frames='[{"delay":2000,"speed":1500,"frame":"0","from":"y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;","to":"o:1;","ease":"Power4.easeInOut"},{"delay":"wait","speed":300,"frame":"999","to":"opacity:0;","ease":"Power3.easeInOut"},{"frame":"hover","speed":"300","ease":"Power0.easeInOut","to":"o:1;rX:0;rY:0;rZ:0;z:0;","style":"c:rgba(0,0,0,1);bg:rgba(255,255,255,1);bs:solid;bw:0 0 0 0;"}]'
+                                 data-textAlign="['inherit','inherit','inherit','inherit']"
+                                 data-paddingtop="[0]"
+                                 data-paddingright="[0]"
+                                 data-paddingbottom="[0]"
+                                 data-paddingleft="[0]"
+                                 style="z-index: 10; white-space: nowrap; font-size: 16px; line-height: 30px; font-weight: 600; font-family:Montserrat;border-radius:3px 3px 3px 3px;outline:none;box-shadow:none;box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;cursor:pointer;text-decoration: none;">
+                            </div>
+                            <div class="tp-caption tp-resizeme"
+                                 id="slide-200-layer-6"
+                                 data-x="['left','left','center','center']" data-hoffset="['210','210','90','95']"
+                                 data-y="['middle','middle','middle','middle']" data-voffset="['200','200','50','50']"
+                                 data-width="['auto']"
+                                 data-height="['auto']"
+                                 data-type="button"
+                                 data-actions=''
+                                 data-responsive_offset="on"
+                                 data-frames='[{"delay":2500,"speed":1500,"frame":"0","from":"y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;","to":"o:1;","ease":"Power4.easeInOut"},{"delay":"wait","speed":300,"frame":"999","to":"opacity:0;","ease":"Power3.easeInOut"},{"frame":"hover","speed":"300","ease":"Power0.easeInOut","to":"o:1;rX:0;rY:0;rZ:0;z:0;","style":"c:rgba(0,0,0,1);bg:rgba(255,255,255,1);bs:solid;bw:0 0 0 0;"}]'
+                                 data-textAlign="['inherit','inherit','inherit','inherit']"
+                                 data-paddingtop="[0]"
+                                 data-paddingright="[0]"
+                                 data-paddingbottom="[0]"
+                                 data-paddingleft="[0]"
+                                 style="z-index: 11; white-space: nowrap; font-size: 16px; line-height: 30px; font-weight: 600; font-family:Montserrat;border-radius:3px 3px 3px 3px;outline:none;box-shadow:none;box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;cursor:pointer;text-decoration: none;">
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="tp-bannertimer tp-bottom" style="visibility: hidden !important;"></div> </div>
+            </div>
+        </div>
+        <!-- Main Slider -->
+        <!-- About Us -->
+        <div class="section-full bg-white content-inner-2 overlay-white-middle" id="servicos" style="background-image:url({{ asset('content/website/images/background/bg1.png')}}), url({{ asset('content/website/images/background/bg2.png')}}); background-position: bottom, top; background-size: 100%; background-repeat: no-repeat;">
+            <div class="container" >
+                <div class="section-head text-black text-center">
+                    <h2 class="text-primary m-b10" >Nossos Serviços</h2>
+                    <h6 class="m-b10">Se os seus olhos forem bons, todo o seu corpo será cheio de luz! <b>Mt 6:22</b></h6>
+                    <div class="dlab-separator-outer m-b0">
+                        <div class="dlab-separator text-primary style-icon"><i class="flaticon-spa text-primary"></i></div>
+                    </div>
+                    <p>Baseado nessa certeza no poder que um olhar belo pode ter, que nos dispomos a cuidar de voce, renovando sonhos e alta estima.</p>
+                </div>
+                <div class="img-carousel owl-carousel owl-theme owl-none owl-dots-primary-big owl-btn-center-lr owl-loade m-b30">
+                    <div class="item">
+                        <div class="service-box text-center">
+                            <div class="service-images m-b15">
+                                <img width="300" height="300" src="<?php echo $this->baseUrl(); ?>/content/website/images/nossos-servicos/romantic.jpg" alt=""/>
+                                <i class="flaticon-woman-1"></i>
+                            </div>
+                            <div class="service-content">
+                                <h6 class="text-uppercase"><a href="#" class="text-primary">Romantic</a></h6>
+                                <p>O nosso Fio a Fio Romantic 💕, foi pensado com carinho para entregar pra você: alongamento + uma sensação de volumização</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="service-box text-center">
+                            <div class="service-images m-b15">
+                                <img width="300" height="300" src="<?php echo $this->baseUrl(); ?>/content/website/images/nossos-servicos/glow.jpg" alt=""/>
+                                <i class="flaticon-makeup-1"></i>
+                            </div>
+                            <div class="service-content">
+                                <h6 class="text-uppercase"><a href="#" class="text-primary">Glow</a></h6>
+                                <p>Efeito de cílios naturalmente volumosos, com essa técnica entregamos um resultado lindo, leve e muito semelhante aos fios naturais.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="service-box text-center">
+                            <div class="service-images m-b15">
+                                <img width="300" height="300" src="<?php echo $this->baseUrl(); ?>/content/website/images/nossos-servicos/elegancy.jpg" alt=""/>
+                                <i class="flaticon-flower"></i>
+                            </div>
+                            <div class="service-content">
+                                <h6 class="text-uppercase"><a href="#" class="text-primary">Elegancy</a></h6>
+                                <p>Cílios elegantérrimos, com a leveza de um volume leve. 🥰</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="service-box text-center">
+                            <div class="service-images m-b15">
+                                <img width="300" height="300"src="<?php echo $this->baseUrl(); ?>/content/website/images/nossos-servicos/glam.jpg" alt=""/>
+                                <i class="flaticon-lotus"></i>
+                            </div>
+                            <div class="service-content">
+                                <h6 class="text-uppercase"><a href="#" class="text-primary">GLAM</a></h6>
+                                <p>Traz um olhar "glamuroso", 💎 podendo alongar e principalmente volumizar, parecendo estar maquiada. 👑</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="service-box text-center">
+                            <div class="service-images m-b15">
+                                <img width="300" height="300" src="<?php echo $this->baseUrl(); ?>/content/website/images/nossos-servicos/glam-power.jpg" alt=""/>
+                                <i class="flaticon-spa"></i>
+                            </div>
+                            <div class="service-content">
+                                <h6 class="text-uppercase"><a href="#" class="text-primary">Glam Power</a></h6>
+                                <p>Muito volume! Muito glamour, e um olhar mega marcante e mais pretinho, na versão POWER 💥</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="service-box text-center">
+                            <div class="service-images m-b15">
+                                <img width="300" height="300" src="<?php echo $this->baseUrl(); ?>/content/website/images/nossos-servicos/remocao.jpg" alt=""/>
+                                <i class="flaticon-mortar"></i>
+                            </div>
+                            <div class="service-content">
+                                <h6 class="text-uppercase"><a href="#" class="text-primary">Remoção</a></h6>
+                                <p>Retirada de extensões para descanso quando necessário.</p>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        <!-- About Us End -->
+        <!-- Our Services -->
+        <div class="section-full content-inner-3 services-box bg-pink-light" style="background-image:url({{ asset('content/website/images/background/bg5.jpg')}}); background-position: bottom; background-size: 100%; background-repeat: no-repeat;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 col-md-6 col-sm-6 m-b30">
+                        <div class="icon-bx-wraper p-lr15 p-b30 p-t20 bg-white center fly-box-ho">
+                            <div class="icon-lg m-b10"> <span class="icon-cell text-primary"><i class="flaticon-makeup"></i></span> </div>
+                            <div class="icon-content">
+                                <h6 class="dlab-tilte">Nós somos profissionais</h6>
+                                <p>Especialistas no embelezamento do olhar, de forma harmonica leve e suave.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-6 m-b30">
+                        <div class="icon-bx-wraper p-lr15 p-b30 p-t20 bg-white center fly-box-ho">
+                            <div class="icon-lg m-b10"><span class="icon-cell text-primary"><i class="flaticon-woman"></i></span> </div>
+                            <div class="icon-content">
+                                <h6 class="dlab-tilte">Atendimento Personalizado</h6>
+                                <p>Nós disponibilizamos a técnica ideal para realcar ainda mais sua beleza e valorizar o seu olhar.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-6 m-b30">
+                        <div class="icon-bx-wraper p-lr15 p-b30 p-t20 bg-white center fly-box-ho">
+                            <div class="icon-lg m-b10"> <span class="icon-cell text-primary"><i class="flaticon-cosmetics"></i></span> </div>
+                            <div class="icon-content">
+                                <h6 class="dlab-tilte">Materias de Qualidade</h6>
+                                <p>Somos extremamentes criteriosas ao selecionar os produtos que utilizamos em nosso espaço.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-6 m-b10">
+                        <div class="icon-bx-wraper p-lr15 p-b30 p-t20 bg-white center fly-box-ho">
+                            <div class="icon-lg m-b10"> <span class="icon-cell text-primary"><i class="flaticon-makeup-1"></i></span> </div>
+                            <div class="icon-content">
+                                <h6 class="dlab-tilte">Técnicas Modernas</h6>
+                                <p>Somos incassaveis em buscar modernização para as nossas técnicas.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Our Services -->
+        <!-- Why Chose Us -->
+        <div class="section-full content-inner-2 our-portfolio"  id="portifolio" style="background-image:url({{ asset('content/website/images/background/bg6.jpg')}}); background-size: cover;">
+            <div class="container">
+                <div class="section-head text-black text-center m-b20">
+                    <h2 class="text-primary m-b10">Nosso Portifólio</h2>
+                    <div class="dlab-separator-outer m-b0">
+                        <div class="dlab-separator text-primary style-icon"><i class="flaticon-flower text-primary"></i></div>
+                    </div>
+                    <p class="m-b0">Essas são as nossas técnincas desenvolvidas especialmente para os diferentes formatos e gostos de cada olhar: descubra o seu!</p>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="site-filters style1 clearfix center">
+                            <ul class="filters" data-toggle="buttons">
+                                <li data-filter="" class="btn active"><input type="radio"><a href="#"><span>Todos</span></a></li>
+                                <li data-filter="image-1" class="btn"><input type="radio"><a href="#"><span>Romantic</span></a></li>
+                                <li data-filter="image-2" class="btn"><input type="radio"><a href="#"><span>Glow</span></a></li>
+                                <li data-filter="image-3" class="btn"><input type="radio"><a href="#"><span>Elegancy</span></a></li>
+                                <li data-filter="image-4" class="btn"><input type="radio"><a href="#"><span>Glam</span></a></li>
+                                <li data-filter="image-5" class="btn"><input type="radio"><a href="#"><span>Glam Power</span></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix">
+                    <ul id="masonry" class="portfolio-box dlab-gallery-listing gallery-grid-4 gallery row lightgallery">
+                        <li class="image-1 card-container col-lg-3 col-md-3 col-sm-3">
+                            <div class="dlab-box">
+                                <div class="dlab-media dlab-img-overlay9 dlab-img-effect zoom">
+                                    <img width="385" height="385" src="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/1.jpg" alt="">
+                                    <div class="overlay-bx">
+                                        <div class="overlay-icon">
+											<span data-exthumbimage="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/1.jpg" data-src="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/1.jpg" class="icon-bx-xs check-km" title="Romantic">
+												<i class="ti-fullscreen"></i>
+											</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="dlab-box p-tb30 image-2">
+                                <div class="dlab-media dlab-img-overlay9 dlab-img-effect zoom">
+                                    <img width="385" height="385" src="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/2.jpg" alt="">
+                                    <div class="overlay-bx">
+                                        <div class="overlay-icon">
+											<span data-exthumbimage="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/2.jpg" data-src="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/2.jpg" class="icon-bx-xs check-km" title="Romantic">
+												<i class="ti-fullscreen"></i>
+											</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="image-1 card-container col-lg-6 col-md-6 col-sm-6">
+                            <div class="dlab-box m-b30">
+                                <div class="dlab-media dlab-img-overlay9 dlab-img-effect zoom">
+                                    <img src="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/3.jpg" alt="">
+                                    <div class="overlay-bx">
+                                        <div class="overlay-icon">
+											<span data-exthumbimage="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/3.jpg" data-src="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/3.jpg" class="icon-bx-xs check-km" title="Romantic">
+												<i class="ti-fullscreen"></i>
+											</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="image-2 card-container col-lg-3 col-md-3 col-sm-3">
+                            <div class="dlab-box m-b30">
+                                <div class="dlab-media dlab-img-overlay9 dlab-img-effect zoom">
+                                    <img width="385" height="385" src="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/12.jpg" alt="">
+                                    <div class="overlay-bx">
+                                        <div class="overlay-icon">
+											<span data-exthumbimage="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/12.jpg" data-src="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/12.jpg" class="icon-bx-xs check-km" title="Glow">
+												<i class="ti-fullscreen"></i>
+											</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="image-2 card-container col-lg-3 col-md-3 col-sm-3">
+                            <div class="dlab-box">
+                                <div class="dlab-media dlab-img-overlay9 dlab-img-effect zoom">
+                                    <img width="385" height="385" src="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/22.jpg" alt="">
+                                    <div class="overlay-bx">
+                                        <div class="overlay-icon">
+											<span data-exthumbimage="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/22.jpg" data-src="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/22.jpg" class="icon-bx-xs check-km" title="Glow">
+												<i class="ti-fullscreen"></i>
+											</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li class="image-4 card-container col-lg-3 col-md-3 col-sm-3">
+                            <div class="dlab-box">
+                                <div class="dlab-media dlab-img-overlay9 dlab-img-effect zoom">
+                                    <img width="385" height="385" src="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/7.jpg" alt="">
+                                    <div class="overlay-bx">
+                                        <div class="overlay-icon">
+											<span data-exthumbimage="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/7.jpg" data-src="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/7.jpg" class="icon-bx-xs check-km" title="Glam">
+												<i class="ti-fullscreen"></i>
+											</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="dlab-box p-tb30 image-2">
+                                <div class="dlab-media dlab-img-overlay9 dlab-img-effect zoom">
+                                    <img width="385" height="385" src="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/9.jpg" alt="">
+                                    <div class="overlay-bx">
+                                        <div class="overlay-icon">
+											<span data-exthumbimage="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/9.jpg" data-src="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/9.jpg" class="icon-bx-xs check-km" title="Glam">
+												<i class="ti-fullscreen"></i>
+											</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="image-3 card-container col-lg-6 col-md-6 col-sm-6">
+                            <div class="dlab-box m-b30">
+                                <div class="dlab-media dlab-img-overlay9 dlab-img-effect zoom">
+                                    <img width="385" height="385" src="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/36.jpg" alt="">
+                                    <div class="overlay-bx">
+                                        <div class="overlay-icon">
+											<span data-exthumbimage="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/36.jpg" data-src="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/36.jpg" class="icon-bx-xs check-km" title="Elegancy">
+												<i class="ti-fullscreen"></i>
+											</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="image-4 card-container col-lg-3 col-md-3 col-sm-3">
+                            <div class="dlab-box m-b30">
+                                <div class="dlab-media dlab-img-overlay9 dlab-img-effect zoom">
+                                    <img width="385" height="385" src="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/10.jpg" alt="">
+                                    <div class="overlay-bx">
+                                        <div class="overlay-icon">
+											<span data-exthumbimage="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/10.jpg" data-src="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/10.jpg" class="icon-bx-xs check-km" title="Glam">
+												<i class="ti-fullscreen"></i>
+											</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="image-5 card-container col-lg-3 col-md-3 col-sm-3">
+                            <div class="dlab-box">
+                                <div class="dlab-media dlab-img-overlay9 dlab-img-effect zoom">
+                                    <img width="385" height="385" src="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/17.jpg" alt="">
+                                    <div class="overlay-bx">
+                                        <div class="overlay-icon">
+											<span data-exthumbimage="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/17.jpg" data-src="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/17.jpg" class="icon-bx-xs check-km" title="Glam Power">
+												<i class="ti-fullscreen"></i>
+											</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+
+                        <li class="image-5 card-container col-lg-3 col-md-3 col-sm-3">
+                            <div class="dlab-box">
+                                <div class="dlab-media dlab-img-overlay9 dlab-img-effect zoom">
+                                    <img width="385" height="385" src="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/18.jpg" alt="">
+                                    <div class="overlay-bx">
+                                        <div class="overlay-icon">
+											<span data-exthumbimage="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/18.jpg" data-src="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/18.jpg" class="icon-bx-xs check-km" title="Glam Power">
+												<i class="ti-fullscreen"></i>
+											</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="dlab-box p-tb30 image-2">
+                                <div class="dlab-media dlab-img-overlay9 dlab-img-effect zoom">
+                                    <img width="385" height="385" src="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/29.jpg" alt="">
+                                    <div class="overlay-bx">
+                                        <div class="overlay-icon">
+											<span data-exthumbimage="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/29.jpg" data-src="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/29.jpg" class="icon-bx-xs check-km" title="Glam Power">
+												<i class="ti-fullscreen"></i>
+											</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="image-5 card-container col-lg-6 col-md-6 col-sm-6">
+                            <div class="dlab-box m-b30">
+                                <div class="dlab-media dlab-img-overlay9 dlab-img-effect zoom">
+                                    <img src="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/24.jpg" alt="">
+                                    <div class="overlay-bx">
+                                        <div class="overlay-icon">
+											<span data-exthumbimage="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/24.jpg" data-src="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/24.jpg" class="icon-bx-xs check-km" title="Glam Power">
+												<i class="ti-fullscreen"></i>
+											</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="image-5 card-container col-lg-3 col-md-3 col-sm-3">
+                            <div class="dlab-box m-b30">
+                                <div class="dlab-media dlab-img-overlay9 dlab-img-effect zoom">
+                                    <img width="385" height="385" src="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/21.jpg" alt="">
+                                    <div class="overlay-bx">
+                                        <div class="overlay-icon">
+											<span data-exthumbimage="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/21.jpg" data-src="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/21.jpg" class="icon-bx-xs check-km" title="Glam Power">
+												<i class="ti-fullscreen"></i>
+											</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="image-2 card-container col-lg-3 col-md-3 col-sm-3">
+                            <div class="dlab-box">
+                                <div class="dlab-media dlab-img-overlay9 dlab-img-effect zoom">
+                                    <img width="385" height="385" src="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/14.jpg" alt="">
+                                    <div class="overlay-bx">
+                                        <div class="overlay-icon">
+											<span data-exthumbimage="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/14.jpg" data-src="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/14.jpg" class="icon-bx-xs check-km" title="Glow">
+												<i class="ti-fullscreen"></i>
+											</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- Why Chose Us End -->
+        <!-- Our Portfolio -->
+        <div class="section-full video-presentation overlay-black-dark bg-img-fix"  style="background-image:url(<?php echo $this->baseUrl(); ?>/content/website/images/background/background-2.jpg">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 text-white text-center">
+                        <h2>Consagre ao Senhor tudo o que você faz, e os seus planos serão bem-sucedidos. <b>Pv 16:3</b></h2>
+                        <p class="max-w700 m-auto">Porque quando consagramos à Deus TODAS as coisas, até os “insights” que temos, vem Dele! 🥰 A Ele toda honra e toda Glória! 🥰✨</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Our Portfolio END -->
+        <!-- Our Professional Team -->
+        <div class="section-full content-inner-2 overlay-white-middle" style="background-image:url({{ asset('content/website/images/background/bg1.png')}}), url({{ asset('content/website/images/background/bg2.png')}}); background-position: bottom, top; background-size: 100%; background-repeat: no-repeat;">
+            <div class="container">
+                <div class="section-head text-black text-center">
+                    <h2 class="text-primary m-b10">Nosso Time</h2>
+                    <div class="dlab-separator-outer m-b0">
+                        <div class="dlab-separator text-primary style-icon"><i class="flaticon-spa text-primary"></i></div>
+                    </div>
+                    <p>Há um tempo determinado para cada coisa, e chegou o tempo de crescermos!</p>
+                </div>
+                <div class="team-carousel owl-carousel owl-carousel owl-btn-center-lr owl-btn-3 owl-theme owl-dots-primary-full owl-loaded owl-drag">
+                    <div class="item">
+                        <div class="dlab-box text-center team-box">
+                            <div class="dlab-media"> <img width="300" height="300" src="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/lilian.jpg" alt=""></div>
+                            <div class="dlab-title-bx p-a10">
+                                <h5 class="text-black m-a0"><a href="#">Lílian Rocha</a></h5>
+                                <span class="clearfix">Extecionista de Cilios</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="dlab-box text-center team-box">
+                            <div class="dlab-media"> <img width="300" height="300" src="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/vitoria.jpg" alt=""></div>
+                            <div class="dlab-title-bx p-a10">
+                                <h5 class="text-black m-a0"><a href="#">Vitória Mapa</a></h5>
+                                <span class="clearfix">Extecionista de Cilios</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Our Professional Team End -->
+        <!-- Our Portfolio -->
+        <div class="section-full content-inner-2" id="depoimentos" style="background-image:url({{ asset('content/website/images/background/bg4.jpg')}}); background-position: bottom; background-size:cover;">
+            <div class="container">
+                <div class="section-head text-black text-center">
+                    <h2 class="text-primary m-b10">O que nossas clientes dizem</h2>
+                    <div class="dlab-separator-outer m-b0">
+                        <div class="dlab-separator text-primary style-icon"><i class="flaticon-spa text-primary"></i></div>
+                    </div>
+                    <p>😉 A beleza de uma mulher está nos mistérios de seu olhar. Use e abuse dessa mania de sorrir com os olhos. 😉</p>
+                </div>
+                <div class="testimonial-two-dots owl-carousel owl-theme owl-dots-primary-full owl-btn-center-lr owl-btn-3">
+                    <div class="item p-a5">
+                        <div class="testimonial-9">
+                            <div class="testimonial-pic radius style1"><img src="<?php echo $this->baseUrl(); ?>/content/website/images/testimonials/pic1.jpg" width="100" height="100" alt=""></div>
+                            <div class="testimonial-text">
+                                <p>BeautyZone was extremely creative and forward thinking. They are also very quick and efficient when executing changes for us.</p>
+                            </div>
+                            <div class="testimonial-detail"> <strong class="testimonial-name">David Matin</strong> <span class="testimonial-position">Student</span> </div>
+                        </div>
+                    </div>
+                    <div class="item p-a5">
+                        <div class="testimonial-9">
+                            <div class="testimonial-pic radius style1"><img src="<?php echo $this->baseUrl(); ?>/content/website/images/testimonials/pic2.jpg" width="100" height="100" alt=""></div>
+                            <div class="testimonial-text">
+                                <p>BeautyZone was extremely creative and forward thinking. They are also very quick and efficient when executing changes for us.</p>
+                            </div>
+                            <div class="testimonial-detail"> <strong class="testimonial-name">David Matin</strong> <span class="testimonial-position">Student</span> </div>
+                        </div>
+                    </div>
+                    <div class="item p-a5">
+                        <div class="testimonial-9">
+                            <div class="testimonial-pic radius style1"><img src="<?php echo $this->baseUrl(); ?>/content/website/images/testimonials/pic3.jpg" width="100" height="100" alt=""></div>
+                            <div class="testimonial-text">
+                                <p>I think it is awesome and I can't thank you enough for working so closely with me. The entire team has been great to work.</p>
+                            </div>
+                            <div class="testimonial-detail"> <strong class="testimonial-name">David Matin</strong> <span class="testimonial-position">Student</span> </div>
+                        </div>
+                    </div>
+                    <div class="item p-a5">
+                        <div class="testimonial-9">
+                            <div class="testimonial-pic radius style1"><img src="<?php echo $this->baseUrl(); ?>/content/website/images/testimonials/pic1.jpg" width="100" height="100" alt=""></div>
+                            <div class="testimonial-text">
+                                <p>BeautyZone was extremely creative and forward thinking. They are also very quick and efficient when executing changes for us.</p>
+                            </div>
+                            <div class="testimonial-detail"> <strong class="testimonial-name">David Matin</strong> <span class="testimonial-position">Student</span> </div>
+                        </div>
+                    </div>
+                    <div class="item p-a5">
+                        <div class="testimonial-9">
+                            <div class="testimonial-pic radius style1"><img src="<?php echo $this->baseUrl(); ?>/content/website/images/testimonials/pic2.jpg" width="100" height="100" alt=""></div>
+                            <div class="testimonial-text">
+                                <p>BeautyZone was extremely creative and forward thinking. They are also very quick and efficient when executing changes for us.</p>
+                            </div>
+                            <div class="testimonial-detail"> <strong class="testimonial-name">David Matin</strong> <span class="testimonial-position">Student</span> </div>
+                        </div>
+                    </div>
+                    <div class="item p-a5">
+                        <div class="testimonial-9">
+                            <div class="testimonial-pic radius style1"><img src="<?php echo $this->baseUrl(); ?>/content/website/images/testimonials/pic3.jpg" width="100" height="100" alt=""></div>
+                            <div class="testimonial-text">
+                                <p>I think it is awesome and I can't thank you enough for working so closely with me. The entire team has been great to work.</p>
+                            </div>
+                            <div class="testimonial-detail"> <strong class="testimonial-name">David Matin</strong> <span class="testimonial-position">Student</span> </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Our Portfolio END -->
+
+    </div>
+    <!-- Content END-->
+    <!-- Footer -->
+    <footer class="site-footer text-uppercase footer-white">
+        <!-- Our Portfolio END -->
+        <div class="portfolio-gallery ">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="carousel-gallery dots-none owl-none owl-carousel owl-btn-center-lr owl-btn-3 owl-theme owl-btn-center-lr owl-btn-1 mfp-gallery">
+                        <div class="item dlab-box">
+                            <a href="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/14.jpg" data-source="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/14.jpg" class="mfp-link dlab-media dlab-img-overlay3" title="Image title come here">
+                                <img width="205" height="184" src="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/14.jpg" alt="">
+                            </a>
+                        </div>
+                        <div class="item dlab-box">
+                            <a href="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/15.jpg" data-source="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/15.jpg" class="mfp-link dlab-media dlab-img-overlay3" title="Image title come here">
+                                <img width="205" height="184" src="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/15.jpg" alt="">
+                            </a>
+                        </div>
+                        <div class="item dlab-box">
+                            <a href="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/16.jpg" data-source="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/16.jpg" class="mfp-link dlab-media dlab-img-overlay3" title="Image title come here">
+                                <img width="205" height="184" src="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/16.jpg" alt="">
+                            </a>
+                        </div>
+                        <div class="item dlab-box">
+                            <a href="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/17.jpg" data-source="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/17.jpg" class="mfp-link dlab-media dlab-img-overlay3" title="Image title come here">
+                                <img width="205" height="184" src="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/17.jpg" alt="">
+                            </a>
+                        </div>
+                        <div class="item  dlab-box">
+                            <a href="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/18.jpg" data-source="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/18.jpg" class="mfp-link dlab-media dlab-img-overlay3" title="Image title come here">
+                                <img width="205" height="184" src="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/18.jpg" alt="">
+                            </a>
+                        </div>
+                        <div class="item dlab-box">
+                            <a href="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/19.jpg" data-source="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/19.jpg" class="mfp-link dlab-media dlab-img-overlay3" title="Image title come here">
+                                <img width="205" height="184" src="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/19.jpg" alt="">
+                            </a>
+                        </div>
+                        <div class="item dlab-box">
+                            <a href="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/20.jpg" data-source="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/20.jpg" class="mfp-link dlab-media dlab-img-overlay3" title="Image title come here">
+                                <img width="205" height="184" src="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/20.jpg" alt="">
+                            </a>
+                        </div>
+                        <div class="item dlab-box">
+                            <a href="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/22.jpg" data-source="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/22.jpg" class="mfp-link dlab-media dlab-img-overlay3" title="Image title come here">
+                                <img width="205" height="184" src="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/22.jpg" alt="">
+                            </a>
+                        </div>
+                        <div class="item dlab-box">
+                            <a href="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/23.jpg" data-source="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/23.jpg" class="mfp-link dlab-media dlab-img-overlay3" title="Image title come here">
+                                <img width="205" height="184" src="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/23.jpg" alt="">
+                            </a>
+                        </div>
+                        <div class="item dlab-box">
+                            <a href="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/24.jpg" data-source="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/24.jpg" class="mfp-link dlab-media dlab-img-overlay3" title="Image title come here">
+                                <img width="205" height="184" src="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/24.jpg" alt="">
+                            </a>
+                        </div>
+                        <div class="item dlab-box">
+                            <a href="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/25.jpg" data-source="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/25.jpg" class="mfp-link dlab-media dlab-img-overlay3" title="Image title come here">
+                                <img width="205" height="184" src="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/25.jpg" alt="">
+                            </a>
+                        </div>
+                        <div class="item dlab-box">
+                            <a href="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/26.jpg" data-source="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/26.jpg" class="mfp-link dlab-media dlab-img-overlay3" title="Image title come here">
+                                <img width="205" height="184" src="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/26.jpg" alt="">
+                            </a>
+                        </div>
+                        <div class="item dlab-box">
+                            <a href="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/27.jpg" data-source="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/27.jpg" class="mfp-link dlab-media dlab-img-overlay3" title="Image title come here">
+                                <img width="205" height="184" src="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/27.jpg" alt="">
+                            </a>
+                        </div>
+                        <div class="item dlab-box">
+                            <a href="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/28.jpg" data-source="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/28.jpg" class="mfp-link dlab-media dlab-img-overlay3" title="Image title come here">
+                                <img width="205" height="184" src="<?php echo $this->baseUrl(); ?>/content/website/images/instagram/28.jpg" alt="">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Footer -->
+        <footer class="site-footer footer-full">
+            <div class="p-tb60 bg-primary-dark">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6 text-md-left text-center footer-logo">
+                            <img src="<?php echo $this->baseUrl(); ?>/content/website/images/about/logo-branco.png" alt="" width="150">
+                            <p class="m-b0 m-t10">Copyright &copy; <?php echo date("Y") ?>Holy Solutions </p>
+                        </div>
+                        <div class="col-md-5 text-md-right text-center">
+                            <ul class="list-inline m-b0 m-t10">
+                                <li><a href="https://api.whatsapp.com/send?phone=%205531995114442&text=Ol%C3%A1%2C%20Gostaria%20de%20agendar%20com%20voc%C3%AA!&ltclid=" target="_blank" class="site-button-link whatsapp hover"><i class="fa fa-whatsapp"></i></a></li>
+                                <li><a href="https://www.facebook.com/lilian.designer.s" target="_blank" class="site-button-link facebook hover"><i class="fa fa-facebook"></i></a></li>
+                                <li><a href="https://www.instagram.com/ela_espaco/"target="_blank"  class="site-button-link instagram hover"><i class="fa fa-instagram"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- Footer END-->
+        <button class="scroltop fa fa-chevron-up" ></button>
+</div>
+<!-- JAVASCRIPT FILES ========================================= -->
+<script src="<?php echo $this->baseUrl() ?>/content/website/js/jquery.min.js"></script><!-- JQUERY.MIN JS -->
+<script src="<?php echo $this->baseUrl() ?>/content/website/plugins/wow/wow.js"></script><!-- WOW JS -->
+<script src="<?php echo $this->baseUrl() ?>/content/website/plugins/bootstrap/js/popper.min.js"></script><!-- BOOTSTRAP.MIN JS -->
+<script src="<?php echo $this->baseUrl() ?>/content/website/plugins/bootstrap/js/bootstrap.min.js"></script><!-- BOOTSTRAP.MIN JS -->
+<script src="<?php echo $this->baseUrl() ?>/content/website/plugins/bootstrap-select/bootstrap-select.min.js"></script><!-- FORM JS -->
+<script src="<?php echo $this->baseUrl() ?>/content/website/plugins/bootstrap-touchspin/jquery.bootstrap-touchspin.js"></script><!-- FORM JS -->
+<script src="<?php echo $this->baseUrl() ?>/content/website/plugins/magnific-popup/magnific-popup.js"></script><!-- MAGNIFIC POPUP JS -->
+<script src="<?php echo $this->baseUrl() ?>/content/website/plugins/counter/waypoints-min.js"></script><!-- WAYPOINTS JS -->
+<script src="<?php echo $this->baseUrl() ?>/content/website/plugins/counter/counterup.min.js"></script><!-- COUNTERUP JS -->
+<script src="<?php echo $this->baseUrl() ?>/content/website/plugins/imagesloaded/imagesloaded.js"></script><!-- IMAGESLOADED -->
+<script src="<?php echo $this->baseUrl() ?>/content/website/plugins/masonry/masonry-3.1.4.js"></script><!-- MASONRY -->
+<script src="<?php echo $this->baseUrl() ?>/content/website/plugins/masonry/masonry.filter.js"></script><!-- MASONRY -->
+<script src="<?php echo $this->baseUrl() ?>/content/website/plugins/owl-carousel/owl.carousel.js"></script><!-- OWL SLIDER -->
+<script src="<?php echo $this->baseUrl() ?>/content/website/plugins/rangeslider/rangeslider.js"></script><!-- Rangeslider -->
+<script src="<?php echo $this->baseUrl() ?>/content/website/plugins/lightgallery/js/lightgallery-all.js"></script><!-- LIGHT GALLERY -->
+<script src="<?php echo $this->baseUrl() ?>/content/website/js/custom.min.js"></script><!-- CUSTOM FUCTIONS  -->
+<script src="<?php echo $this->baseUrl() ?>/content/website/js/dz.carousel.min.js"></script><!-- SORTCODE FUCTIONS  -->
+<script src="<?php echo $this->baseUrl() ?>/content/website/js/dz.ajax.js"></script><!-- CONTACT JS  -->
+<!-- revolution JS FILES -->
+<script src="<?php echo $this->baseUrl() ?>/content/website/plugins/revolution/revolution/js/jquery.themepunch.tools.min.js"></script>
+<script src="<?php echo $this->baseUrl() ?>/content/website/plugins/revolution/revolution/js/jquery.themepunch.revolution.min.js"></script>
+<!-- Slider revolution 5.0 Extensions  (Load Extensions only on Local File Systems !  The following part can be removed on Server for On Demand Loading) -->
+<script src="<?php echo $this->baseUrl() ?>/content/website/plugins/revolution/revolution/js/extensions/revolution.extension.actions.min.js"></script>
+<script src="<?php echo $this->baseUrl() ?>/content/website/plugins/revolution/revolution/js/extensions/revolution.extension.carousel.min.js"></script>
+<script src="<?php echo $this->baseUrl() ?>/content/website/plugins/revolution/revolution/js/extensions/revolution.extension.kenburn.min.js"></script>
+<script src="<?php echo $this->baseUrl() ?>/content/website/plugins/revolution/revolution/js/extensions/revolution.extension.layeranimation.min.js"></script>
+<script src="<?php echo $this->baseUrl() ?>/content/website/plugins/revolution/revolution/js/extensions/revolution.extension.navigation.min.js"></script>
+<script src="<?php echo $this->baseUrl() ?>/content/website/plugins/revolution/revolution/js/extensions/revolution.extension.parallax.min.js"></script>
+<script src="<?php echo $this->baseUrl() ?>/content/website/plugins/revolution/revolution/js/extensions/revolution.extension.slideanims.min.js"></script>
+<script src="<?php echo $this->baseUrl() ?>/content/website/plugins/revolution/revolution/js/extensions/revolution.extension.video.min.js"></script>
+<script src="<?php echo $this->baseUrl() ?>/content/website/js/rev.slider.js"></script>
+<script>
+    jQuery(document).ready(function() {
+        'use strict';
+        dz_rev_slider_6();
+    });	/*ready*/
+</script>
+</body>
+</html>

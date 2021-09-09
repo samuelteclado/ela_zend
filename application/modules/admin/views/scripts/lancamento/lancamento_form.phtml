@@ -1,0 +1,198 @@
+<style>
+    .lista_recorrencia{
+        list-style-type: none;
+        margin-top: 20px;
+    }
+    .lista_recorrencia li{
+        font-size: 13px;
+        margin-bottom: 20px;
+    }
+</style>
+<script type="text/javascript">
+
+    $(document).ready(function() {
+        //Quando carregar a pagina
+        $(".dados").hide(); //esta primeira linha servirá para esconder as divs do conteúdo
+        //$("#cultos li a:first").addClass("active").show(); //Ativar primeira aba
+        //$(".horario:first").show('slow'); //abre a pagina suavemente
+        var activeaba = '#data_lancamento';
+        $('#data_lancamento').fadeIn('slow');
+        //On Click Event
+        $("#dados ul li a").click(function() {// quando clicar no link do menu irá executar a seguinte função:
+            $("#dados ul li").removeClass("active"); //remove a class no link clicado para que não fica marcado
+            $(this).parent().addClass("active"); //adiciona a classe no link clicado para que o usuario saiba em qual link ele esta
+            $(".dados").hide(); //esconder as divs do conteúdo
+            activeaba = $(this).attr("href"); //Encontrar o valor do atributo rel para identificar a aba que esta ativa + conteúdo
+            $(activeaba).fadeIn('slow'); //efeito de fade in com o conteúdo ativo
+            return false; // o returno falso evita que ao clicar no link a página role para o topo.
+        });
+    });
+
+    function selectedOptionPlanodeContas(id) {
+        var optionSelected = <?php echo (isset($this->lancamento)) ? $this->lancamento->plano_de_contas_id : '0' ?>;
+
+        if (optionSelected == id)
+            return 'selected';
+
+        return '';
+    }
+
+    $(function() {
+        $('#plano_de_contas_id').change(function() {
+            var plano_de_contas = "";
+            var manutencao = "";
+            $("#plano_de_contas_id option:selected").each(function() {
+                plano_de_contas = $(this).text();
+                manutencao = $(this).attr('.manutencao');
+            });
+            if ($.trim(plano_de_contas) == '<?php echo PlanoDeContas::ACERTO_SALDO ?>') {
+                $('.acerto').hide();
+                $('.transf').hide();
+                $('.visivel').hide();
+                $('.no_transf').show();
+            } else if ($.trim(plano_de_contas) == '<?php echo PlanoDeContas::TRANSFERENCIA ?>') {
+                $('.acerto').hide();
+                $('.no_transf').hide();
+                $('.visivel').hide();
+                $('.transf').show();
+            } else {
+                $('.acerto').show();
+                $('.no_transf').show();
+                $('.transf').hide();
+            }
+
+        })
+                .trigger('change');
+
+        $('#lancamento_para').change(function() {
+            var lancamento = "";
+            $("#lancamento_para option:selected").each(function() {
+                lancamento = $(this).val();
+            });
+
+            if (lancamento == <?php echo Lancamento::CLIENTE ?>) {
+                $('.fornecedor').hide('slow');
+                $('.cliente').show('slow');
+            } else {
+                $('.cliente').hide('slow');
+                $('.fornecedor').show('slow');
+            }
+        })
+                .trigger('change');
+
+
+        $('.recorrenia_edicao').change(function() {
+            var edicao = "";
+            $('input:radio[name=recorrenia_edicao]').each(function() {
+                if ($(this).is(':checked'))
+                    edicao = parseInt($(this).val());
+            });
+            if (edicao == <?php echo Lancamento::EDITAR_RECORRENCIA_UM ?>) {
+                $('.baixados').hide('slow');
+                $('.visivel').show('slow');
+                $('.baixados_value').attr("checked", false);
+            } else if (edicao == <?php echo Lancamento::EDITAR_RECORRENCIA_PROXIMOS ?>) {
+                $('#baixados_proximos').show('slow');
+                $('#baixados_todos').hide('slow');
+                $('#baixado_todos').attr("checked", false);
+            } else if (edicao == <?php echo Lancamento::EDITAR_RECORRENCIA_TODOS ?>) {
+                $('#baixados_proximos').hide('slow');
+                $('#baixados_todos').show('slow');
+                $('#baixado_proximo').attr("checked", false);
+            }
+        })
+                .trigger('change');
+
+        $('#recorrencia').change(function() {
+            var recorrencia = "";
+            $("#recorrencia option:selected").each(function() {
+                recorrencia = $(this).val();
+            });
+
+            if (recorrencia == <?php echo LancamentoRecorrenciaTipo::ATIVO ?>) {
+                $('.pagamento').hide('slow');
+                $('.recorrencia').show('slow');
+                $('.dados_extras').hide();
+            } else {
+                $('.recorrencia').hide('slow');
+                $('.pagamento').show('slow');
+                $('.dados_extras').show();
+            }
+        })
+                .trigger('change');
+
+        $('#pagamento_data').change(function() {
+            var pagamento_data = "";
+            var lancamento = "<?php echo $this->lancamento->id ?>";
+            pagamento_data = $(this).val();
+            $.getJSON("<?php echo $this->baseUrl() ?>/ajax/lancamento/calculo/", {id_lancamento: lancamento, pagamento_data: pagamento_data}, function(valor) {
+                var valor = jQuery.parseJSON(valor)
+
+                if (typeof valor.multa == 'undefined') {
+                    $('#valor_a_pagar').html('');
+                } else {
+                    $('#valor_a_pagar').html('O valor total a pagar será R$' + valor.valor_total + '. Sendo R$' + valor.multa + ' de multa e R$' + valor.juros + ' de juros.');
+                }
+            })
+        })
+                .trigger('change');
+
+
+        $(".popup_planos").colorbox({
+            iframe: true,
+            width: "80%",
+            height: "80%",
+            fixed: true,
+            opacity: 0.8,
+            onClosed: function() {
+                $('#plano_de_contas_id').html('<option value="0">Carregando aguarde ...</option>');
+                $('#plano_de_contas_id').attr("disabled", true);
+
+                $.getJSON("<?php echo $this->baseUrl() ?>/ajax/plano-de-contas/list", {ajax: 'true'}, function(list) {
+                    var list = jQuery.parseJSON(list)
+                    var planos_de_contas = '';
+                    $('#plano_de_contas_id').html('');
+
+                    $('#plano_de_contas_id').append('<option value="0">[ Selecione o Plano de Contas ]</option>');
+                    $.each(list, function(key, item) {
+                        planos_de_contas += '<option ' + selectedOptionPlanodeContas(item.id) + ' value="' + item.id + '">' + item.codigo + ' - ' + item.descricao + '</option>';
+                    });
+                    $('#plano_de_contas_id').append(planos_de_contas);
+                    $('#plano_de_contas_id').attr("disabled", false);
+
+                })
+
+            }
+        });
+    });
+
+
+
+</script>
+<?php echo $this->flashMessenger(); ?>
+
+<form id="form_lancamento" method="POST" action="" enctype="multipart/form-data">
+    <fieldset>
+        <div colspan="4">
+            <div id="dados">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#data_lancamento">Lançamento</a></li>
+                    <li><a href="#data_extras">Infor. Extras</a></li>
+                </ul>
+            </div>
+        </div>
+        <?php include 'lancamento_data.phtml'; ?>
+        <?php include 'lancamento_extras.phtml'; ?>
+    </fieldset>
+    <hr/>
+    <div style="width: 100%;height: 20px;padding-bottom: 20px">
+        <div class="btn-concluir">
+            <a class="btn btn-large" href="<?php echo $this->baseUrl(); ?>/admin/lancamento/">Cancelar</a>
+            <?php if ($this->lancamento->lancamento_recorrencia_id == NULL) { ?>
+                <button type="submitllk" class="btn btn-success btn-large">Salvar</button>
+            <?php } else { ?>
+                <a href="#myModal" role="button" class="btn btn-success btn-large" data-toggle="modal">Salvar</a>
+            <?php } ?>
+        </div>
+    </div>
+</form>

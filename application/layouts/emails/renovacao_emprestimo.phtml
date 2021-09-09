@@ -1,0 +1,62 @@
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<table width="90%" align="center" cellpadding="0" cellspacing="0">
+    <tbody>
+        <tr>
+            <td height="120" align="center" style="background: url(<?php echo $this->baseUrl(); ?>/content/img/bg-pattern.png); background-color: #125777;">
+                <table width="95%">
+                    <tbody>
+                        <tr>
+                            <td align="right">
+                                <a target="_blank" href="http://www.sbrasilsolucoes.com/">
+                                    <img style=" width: 167px; height: 83px; float: left;" src="<?php echo AppUtil::getFileView($this->emprestimo->Livro->Escola, 'e', '150') ?>">
+                                </a>
+                            </td>
+                            <td>
+                                <div style=" text-align: right;">
+                                    <a target="_blank" href="http://www.sbrasilsolucoes.com/" style="font-family: Arial; font-size: 54px; color: #fff; text-decoration:none; text-shadow: 0.03em 0.02em #000;"><?php echo $this->emprestimo->Livro->Escola->nome_fantasia?></a>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+
+        <tr>
+            <td bgcolor="#dddcd9" align="center">
+                <table width="95%" cellpadding="30">
+                    <tbody><tr>
+                            <td align="left">
+                                <font face="Arial" style="font-size:14px" >
+                                Olá <?php echo $this->emprestimo->Aluno->nome ?>, você acaba de renovar o empréstimo do livro <?php echo $this->emprestimo->Livro->descricao?>.
+                                <br><br>
+                                Sua nova data para devolução é dia <?php echo AppUtil::convertDatetoString($this->emprestimo->data_devolucao_prevista)?>
+                                <br><br>
+                                Qualquer dúvida entre em contato conosco, em nossa biblioteca que teremos o prazer em lhe atender.
+                                <br>
+                                Email : <a href="mailto:<?php echo $this->emprestimo->Livro->Escola->EscolaConfiguracao[0]->email?>"><?php echo $this->emprestimo->Livro->Escola->EscolaConfiguracao[0]->email?></a>
+                                <br><br><br>
+                                Biblioteca
+                                <br>
+                                </font>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+
+        <tr>
+            <td align="center">  
+                <br>
+                <p style="font-family:'Arial';font-size:11px;" align="center">
+                    <a href="http://<?php echo $this->emprestimo->Livro->Escola->EscolaConfiguracao[0]->site?>" style="color:#666666" target="_blank"><?php echo $this->emprestimo->Livro->Escola->nome_fantasia?></a> respeita a sua privacidade e é contra o spam na rede.<br></p>
+                <?php $ano = date('Y') ?>
+                <p style="font-family:'Arial';font-size:11px;color:#888">©&nbsp;<?php echo $ano ?>&nbsp;<a style="color:#666666" target="_blank" href="http://<?php echo $this->emprestimo->Livro->Escola->site?>"><?php echo $this->emprestimo->Livro->Escola->nome_fantasia?></a></p>
+            </td>
+        </tr>
+
+    </tbody>
+</table>

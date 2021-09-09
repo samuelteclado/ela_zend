@@ -1,0 +1,109 @@
+﻿<div id="esquerda">
+
+    <div style="margin: 10px">
+
+
+
+        <a style="float: right;" class="btn btn-success btn-large" href="<?php echo $this->baseUrl(); ?>/funcionario/cliente/novo/?nolayout=<?php echo $this->layout?>">
+            <i class="icon-plus icon-white"></i> Novo </a>
+
+        <button style="float: right; margin-right: 5px;"  type="button" id="btn_filtrar" class="btn btn-info btn-large"><i class="icon-filter icon-white"></i>&nbsp;Filtro</button>
+
+
+        <div class="page-header" >
+            <h2>Clientes</h2>
+            <?php echo $this->cmp?>
+        </div>
+
+        <form method="GET" action="" style="display: none;" id="form_filtrar">
+            <div class="row well">
+                <a id="btn_close" class="close" href="#">&times;</a>
+
+
+
+                <div class="span4">
+                    <div class="control-group">
+                        <label class="control-label" for="nome">Nome</label>
+                        <div class="controls">
+                            <input class="input-large" id="nome" name="nome" type="text" value="<?php echo $this->repository_filter->getParamByField('nome') ?>">
+                        </div>
+                    </div>
+                </div>
+                <div class="span4">
+                    <div class="control-group">
+                        <label class="control-label" for="sobrenome">Sobrenome</label>
+                        <div class="controls">
+                            <input class="input-large" id="sobrenome" name="sobrenome" type="text" value="<?php echo $this->repository_filter->getParamByField('sobrenome') ?>">
+                        </div>
+                    </div>
+                </div>
+                <div class="span4">
+                    <div class="control-group">
+                        <label class="control-label" for="email">Email</label>
+                        <div class="controls">
+                            <input class="input-large" id="email" name="email" type="text" value="<?php echo $this->repository_filter->getParamByField('email') ?>">
+                        </div>
+                    </div>
+                </div>
+                <div class="span2">
+                    <div class="control-group">
+                        <label class="control-label" for="status">Status</label>
+                        <div class="controls">
+                            <select data-placeholder="[ Todos ]" class="input-small chzn-select-deselect" name="status" id="status">
+                                <option value="0"></option>
+                                <option <?php echo ViewUtil::fillFieldSelect($this->repository_filter->getParamByField('status'), Cliente::ATIVO) ?> value="<?php echo Cliente::ATIVO ?>">Ativo</option>
+                                <option <?php echo ViewUtil::fillFieldSelect($this->repository_filter->getParamByField('status'), Cliente::INATIVO) ?> value="<?php echo Cliente::INATIVO ?>">Inativo</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+                <div class="span8">
+                    <hr/>
+                    <button type="submit" data-loading-text="Filtrando..." class="btn btn-info btn-large"><i class="icon-filter icon-white"></i>&nbsp;Filtrar</button>
+                </div>
+
+            </div>
+        </form>
+
+        <?php echo $this->flashMessenger(); ?>
+     
+        <span class="help-block"><i class="icon-info-sign"></i> <i>Clique no email do usuário para reenviar o email de boas vindas com a autenticação do sistema.</i></span>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th><?php echo ViewUtil::getOrderBy('Nome', 'nome', $this->repository_order) ?></th>
+                    <th><?php echo ViewUtil::getOrderBy('Sobrenome', 'sobrenome', $this->repository_order) ?></th>
+                    <th><?php echo ViewUtil::getOrderBy('Email', 'email', $this->repository_order) ?></th>
+                    <th><?php echo ViewUtil::getOrderBy('Último Atendimento', 'pr.data', $this->repository_order) ?></th>
+                    <th><?php echo ViewUtil::getOrderBy('Status', 'status', $this->repository_order) ?></th>                    
+                    <th colspan="2"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($this->list as $item): ?>
+                    <tr>
+                        <td><?php echo $item->nome ?> </td>
+                        <td><?php echo $item->sobrenome ?></td>
+                        <td><a onclick="return confirm('Confirma o reenvio do email de boas vindas para <?php echo $item->nome ?> ?')" title="Reenviar email de boas vindas" href="<?php echo $this->baseUrl()?>/funcionario/cliente/reenviar/id/<?php echo $item->id; ?>"><?php echo $item->email ?></a></td>
+                        <td><?php echo AppUtil::convertDateToString($item->getUltimoAtendimento()) ?></td>
+                        <td><?php echo $item->getStatus() ?></td>
+                        <td width="20px" style="text-align: center; vertical-align: middle;">
+                            <a href="<?php echo $this->baseUrl(); ?>/funcionario/cliente/editar/id/<?php echo $item->id; ?>?nolayout=<?php echo $this->layout?>""><i title="editar" class="icon-pencil"></i></a>
+                        </td>
+                        <td width="20px" style="text-align: center; vertical-align: middle;">
+                            <a onclick="return confirm('Confirma a exclusão do cliente ?')" href="<?php echo $this->baseUrl(); ?>/funcionario/cliente/deletar/id/<?php echo $item->id; ?>?nolayout=<?php echo $this->layout?>""><i title="excluir" class="icon-trash"></i></a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+
+        <?php if (isset($this->list)) echo $this->paginationControl($this->list, "All", "paginator.phtml", $this->list_params); ?>
+
+    </div>
+
+</div>

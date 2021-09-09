@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="pt-br">
+    <head>
+        <title><?php echo PageUtil::getTitle() ?></title>
+
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <meta name="keywords" content="cilios elausa lilianassuncao extensãodecicliosfioafio extensãovolumerusso volumebrasileiro vocêsemprelinda cilios ciliosmarianamg fioafio glow volumerusso volumebrasileiro  marianamg cursociliosmg cursoextensãodecilios newchapter  espacolilianassuncao mariana mulher bonita" />
+        <meta name="description" content="" />
+        <meta name="author" content="Holy Solutions" />
+        <meta name="robots" content="all" />
+        <meta name="language" content="pt-br" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <?php echo $this->headLink()->appendStylesheet($this->baseUrl() . '/content/css/administrador.css') ?>
+        <link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl(); ?>/content/css/jquery-ui-1.8.16.custom.css" />
+        <link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl(); ?>/content/bootstrap/css/bootstrap.css" />
+        <link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl(); ?>/content/css/jquery.multiselect.css" />
+        <link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl(); ?>/content/css/jquery.multiselect.filter.css" />
+        <link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl(); ?>/content/js/jquery-fileupload/jquery.fileupload-ui.css" />
+        <link rel="stylesheet" href="<?php echo $this->baseUrl(); ?>/content/colorbox/example1/colorbox.css" />
+        <link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl(); ?>/content/chosen/chosen.css" />
+        <link rel="icon" href="<?php echo $this->baseUrl(); ?>/content/website/images/favicon/favicon.ico" type="image/x-icon" />
+        <link rel="shortcut icon" type="image/x-icon" href="<?php echo $this->baseUrl(); ?>/content/website/images/favicon/favicon.png" />
+
+
+        <script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/content/bootstrap/js/jquery.js"></script>
+        <script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/content/bootstrap/js/bootstrap.js"></script>
+        <script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/content/bootstrap/js/application.js"></script>
+
+        <script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/content/js/jquery-1.6.2.min.js"></script>
+        <script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/content/js/jquery-ui-1.8.16.custom.min.js"></script>
+        <script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/content/js/jquery.maskedinput-1.3.js"></script>
+        <script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/content/js/jquery.maskMoney.js"></script>
+        <script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/content/js/jquery.multiselect.js"></script>
+        <script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/content/js/jquery.multiselect.filter.js"></script>
+        <script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/content/js/ckeditor/ckeditor.js"></script>
+        <script src="<?php echo $this->baseUrl(); ?>/content/colorbox/colorbox/jquery.colorbox.js"></script>
+        <script src="<?php echo $this->baseUrl(); ?>/content/chosen/chosen.jquery.js"></script>
+
+        <script type="text/javascript">
+            var datapickerconfig = {
+                closeText: 'Fechar',
+                prevText: '&#x3c;Anterior',
+                nextText: 'Pr&oacute;ximo&#x3e;',
+                currentText: 'Hoje',
+                monthNames: ['Janeiro','Fevereiro','Mar&ccedil;o','Abril','Maio','Junho',
+                    'Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
+                monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun',
+                    'Jul','Ago','Set','Out','Nov','Dez'],
+                dayNames: ['Domingo','Segunda-feira','Ter&ccedil;a-feira','Quarta-feira','Quinta-feira','Sexta-feira','Sabado'],
+                dayNamesShort: ['Dom','Seg','Ter','Qua','Qui','Sex','Sab'],
+                dayNamesMin: ['Dom','Seg','Ter','Qua','Qui','Sex','Sab'],
+                weekHeader: 'Sm',
+                dateFormat: 'dd/mm/yy',
+                firstDay: 0,
+                isRTL: false,
+                showMonthAfterYear: false,
+                yearSuffix: '',
+                changeMonth: true,
+                changeYear: true
+            };
+                
+            $(function() {
+                
+
+                $('.txData').datepicker(datapickerconfig);
+                $(".txData").mask("99/99/9999");
+               
+                $(".txTelefone").mask("(99) 9999-9999");
+                $(".txCelular").mask("(99) 99999-9999");
+                $(".txCnpj").mask("99.999.999/9999-99");
+                $(".txCep").mask("99999-999");
+                $(".txCpf").mask("999.999.999-99");
+                $(".txValor").maskMoney({symbol:"", decimal:",", thousands:"",precision:2,allowNegative:false,allowZero:true});
+                $(".txInt").mask("99");
+                $(".txLongInt").mask("999999");
+                $('form').submit(function(){
+                    $('button[type=submit]',this).attr('disabled','disabled');
+                });
+                
+                 
+
+                //CKEDITOR Create a new editor inside the <textarea id="descricao">, setting its value to html
+                var config = {
+                    resize_enabled: false,
+                    uiColor : '#f2f2f2',
+                    toolbar : [
+                        { name: 'basicstyles', items : [ 'Bold','Italic' ] },
+                        { name: 'paragraph', items : [ 'NumberedList','BulletedList' ] }
+                    ]
+                };
+                
+                if ($('#descricao').length != 0) {  
+                    CKEDITOR.replace( 'descricao', config );
+                } else if ($('#observacao').length != 0) {
+                    CKEDITOR.replace( 'observacao', config );
+                }
+                //CKEDITOR
+            
+                //COLORBOX
+                $(".popup_d").colorbox({rel:'popup_d', maxWidth:"80%", maxHeight:"80%", arrowKey:false, fixed: true});
+                $(".popup_b").colorbox({iframe:true, width:"80%", height:"90%", fixed: true, opacity: 0.99});
+                //COLORBOX
+    
+    
+                //FORM PESQUISAR
+                $('#btn_filtrar').click(function() {
+                    $("#form_filtrar").toggle('slow');
+                    $('#btn_filtrar').hide();
+                });
+    
+                $('#btn_close').click(function() {
+                    $("#form_filtrar").toggle('slow');
+                    $('#btn_filtrar').fadeIn('slow');
+                });
+                
+                $(".chzn-select").chosen({
+                    no_results_text: "Não foram encontrados resultados para"
+                });
+                
+                $(".chzn-select-deselect").chosen({
+                    allow_single_deselect:true,
+                    no_results_text: "Não foram encontrados resultados para"
+                    
+                });
+                //FORM PESQUISAR
+    
+            });
+        </script>
+    </head>
+    <body style="background-color: #fff !important; background: url(/content/img/bg-pattern.png);">
+        <?php echo $this->layout()->content; ?>
+    </body>
+</html>

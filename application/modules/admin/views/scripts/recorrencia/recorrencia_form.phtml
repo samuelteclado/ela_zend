@@ -1,0 +1,45 @@
+<form id="form_recorrencia" method="POST" action="" enctype="multipart/form-data">
+    <fieldset>
+        <?php echo $this->flashMessenger(); ?>
+        <div class="row well">
+            <div class="span5">
+                <div class="control-group">
+                    <label class="control-label" for="descricao">Descrição</label>
+                    <div class="controls">
+                        <input class="input-xlarge" id="descricao_recorrencia" name="descricao" type="text" value="<?php echo $this->recorrencia->descricao ?>">
+                    </div>
+                </div>
+            </div>
+            <div class="span3">
+                <div class="control-group">
+                    <label class="control-label" for="dias">Dias</label>
+                    <div class="controls">
+                        <input class="input-small" id="dias" name="dias" type="text" value="<?php echo $this->recorrencia->dias ?>">
+                    </div>
+                </div>
+            </div>
+            <div class="span2">
+                <div class="control-group">
+                    <label class="control-label" for="status">Status</label>
+                    <div class="controls">
+                        <select data-placeholder="[  Selecione o Status ]" class="input-small chzn-select-deselect" name="status" id="status">
+                            <option <?php echo ViewUtil::fillFieldSelect($this->recorrencia->status, LancamentoRecorrenciaTipo::ATIVO) ?> value="<?php echo LancamentoRecorrenciaTipo::ATIVO ?>">Ativo</option>
+                            <option <?php echo ViewUtil::fillFieldSelect($this->recorrencia->status, LancamentoRecorrenciaTipo::INATIVO) ?> value="<?php echo LancamentoRecorrenciaTipo::INATIVO ?>">Inativo</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </fieldset>
+
+
+    <hr/>
+    <div style="width: 100%;height: 20px">
+    <div class="btn-concluir">
+        <a class="btn btn-large" href="<?php echo $this->baseUrl(); ?>/admin/recorrencia/">Cancelar</a>
+        <button type="submit" class="btn btn-success btn-large">Salvar</button>
+    </div>
+    </div>
+</form>
+

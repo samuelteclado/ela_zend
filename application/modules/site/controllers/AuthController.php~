@@ -1,0 +1,62 @@
+<?php
+
+class Site_AuthController extends Zend_Controller_Action {
+
+    public function loginAction() {
+
+        if ( $this->getRequest()->isPost() ) {
+            $data = $this->getRequest()->getPost();
+
+            $email = $data['email'];
+            $senha = $data['senha'];
+
+			if ( !isset($email) || $email == '' || !isset($senha) ) {
+				$this->_helper->FlashMessenger('Os campos devem ser preenchidos.');
+                $this->_redirect($this->view->baseUrl().'/institucional/');
+			}
+
+            $db_config = Zend_Registry::getInstance()->get('database');
+            $dbAdapter = Zend_Db::factory($db_config->db->adapter, array(
+                    'host'     => $db_config->db->params->host,
+                    'username' => $db_config->db->params->username,
+                    'password' => $db_config->db->params->password,
+                    'dbname'   => $db_config->db->params->dbname
+            ));
+
+            $authAdapter = new Zend_Auth_Adapter_DbTable($dbAdapter);
+            $authAdapter->setTableName('usuario')
+                    ->setIdentityColumn('email')
+                    ->setCredentialColumn('senha');
+
+            $authAdapter->setIdentity($email)
+                    ->setCredential($senha);
+
+            $auth = Zend_Auth::getInstance();
+            $result = $auth->authenticate($authAdapter);
+
+            if ( $result->isValid() ) {
+                $info = $authAdapter->getResultRowObject(null, 'senha');
+                $storage = $auth->getStorage();
+                $storage->write($info);
+
+                return $this->_helper->redirector->goToRoute( array('controller' => 'evento'), null, true);
+            } else {
+                $this->_helper->FlashMessenger('Usuário e/ou senha inválidos!');
+                $this->_redirect($this->view->baseUrl().'/institucional/');
+            }
+        }
+
+        return $this->_redirect($this->view->baseUrl().'/institucional/');
+
+    }
+
+    public function logoutAction() {
+
+        $auth = Zend_Auth::getInstance();
+        $auth->clearIdentity();
+        return $this->_redirect($this->view->baseUrl().'/institucional/');
+
+    }
+
+}
+

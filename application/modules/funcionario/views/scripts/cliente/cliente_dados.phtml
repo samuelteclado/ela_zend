@@ -1,0 +1,227 @@
+<div id="data_cliente" class="dados">
+<div class="row well">
+    <div class="span3">
+        <div class="control-group">
+            <label class="control-label" for="nome">Nome</label>
+            <div class="controls">
+                <input class="input-medium" id="nome" name="nome" type="text" value="<?php echo $this->cliente->nome ?>">
+            </div>
+        </div>
+    </div>
+    <div class="span3">
+        <div class="control-group">
+            <label class="control-label" for="sobrenome">Sobrenome</label>
+            <div class="controls">
+                <input class="input-prepend" id="sobrenome" name="sobrenome" type="text" value="<?php echo $this->cliente->sobrenome ?>">
+            </div>
+        </div>
+    </div>
+    <div class="span3" style="float: right">
+        <div class="control-group">
+            <label class="control-label" for="imagem_perfil">Imagem do perfil</label>
+            <div class="controls">
+                <div class="row" >
+                    <div id="result" style="background-color: #fff; margin: 10px 30px 10px 1px; padding: 5px;  float: left;" class="rounded-light shadow">
+                        <img src="<?php echo AppUtil::getFileView($this->cliente, 'c', '160') ?>">
+                    </div>
+                    <div class="input-append">
+                                <span class="btn success fileinput-button">
+                                    <span>Selecionar imagem ...</span>
+                                    <?php echo $this->form->file ?>
+                                </span>
+                        <?php if (AppUtil::isFileExists($this->cliente, 'c')) { ?>
+                            <a title="Remover imagem do perfil" class="btn" onClick="removeImagemButton(<?php echo $this->cliente->id ?>);">
+                                <i class="icon-trash"></i>
+                            </a>
+                            <input type="hidden" name="remove" id="remove">
+                        <?php } ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="span3">
+        <div class="control-group">
+            <label class="control-label" for="cpf">CPF</label>
+            <div class="controls">
+                <input class="input-medium txCpf" id="cpf" name="cpf" type="text" value="<?php echo $this->cliente->cpf ?>">
+            </div>
+        </div>
+    </div>
+    <div class="span4">
+        <div class="control-group">
+            <label class="control-label" for="email">Email</label>
+            <div class="controls">
+                <input class="input-prepend" id="email" name="email" type="text" value="<?php echo $this->cliente->email ?>">
+            </div>
+        </div>
+    </div>
+    <div class="span3">
+        <div class="control-group">
+            <label class="control-label" for="data_aniversario">Data de Aniversário</label>
+            <div class="controls">
+                <div class="input-append">
+                    <input class="input-small txData" id="data_aniversario" placeholder="__/__/____"name="data_aniversario" type="text"  value="<?php echo AppUtil::convertDateToString($this->cliente->data_aniversario) ?>">
+                    <span class="add-on"><span class="icon-calendar"></span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="span4">
+        <div class="control-group">
+            <label class="control-label" for="status">Status</label>
+            <div class="controls">
+                <select data-placeholder="[  Selecione o Status ]" class="input-prepend chzn-select-deselect" name="status" id="status">
+                    <option <?php echo ViewUtil::fillFieldSelect($this->cliente->status, Cliente::ATIVO) ?> value="<?php echo Cliente::ATIVO ?>">Ativo</option>
+                    <option <?php echo ViewUtil::fillFieldSelect($this->cliente->status, Cliente::INATIVO) ?> value="<?php echo Cliente::INATIVO ?>">Inativo</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="span3">
+        <div class="control-group">
+            <label class="control-label" for="telefone_1">Celular 1</label>
+            <div class="controls">
+                <input class="input-medium txCelular" id="telefone_1" name="telefone_1" type="text" value="<?php echo AppUtil::convertIntToCelular($this->cliente->Endereco[0]->telefone_1) ?>">
+            </div>
+        </div>
+    </div>
+    <div class="span3">
+        <div class="control-group">
+            <label class="control-label" for="telefone_2">Celular 2</label>
+            <div class="controls">
+                <input class="input-prepend txCelular" id="telefone_2" name="telefone_2" type="text" value="<?php echo AppUtil::convertIntToCelular($this->cliente->Endereco[0]->telefone_2) ?>">
+            </div>
+        </div>
+    </div>
+    <div class="span6">
+        <div class="control-group">
+            <label class="control-label" for="observacao">Observação</label>
+            <div class="controls">
+                <input class="input-large" id="observacao" name="observacao" type="text" value="<?php echo $this->cliente->observacao ?>">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<hr>
+<div class="row well">
+    <div class="span4 ">
+        <div class="control-group">
+            <label class="control-label" for="cep">CEP</label>
+            <div class="controls">
+                <input class="input-small txCep endereco" placeholder="_____-___" id="cep" name="cep" type="text" value="<?php echo $this->cliente->Endereco[0]->cep ?>">
+                <img id="loading_cep" style="display: none;" src="<?php echo $this->baseUrl() ?>/content/img/loading.gif" />
+                <span id="erro_cep" style="display: none">Cep não encontrado</span>
+            </div>
+        </div>
+    </div>
+    <div class="span4">
+        <div class="control-group">
+            <label class="control-label" for="logradouro">Endereço</label>
+            <div class="controls">
+                <input class="input-xlarge endereco" id="logradouro" name="logradouro" type="text" value="<?php echo $this->cliente->Endereco[0]->logradouro ?>">
+            </div>
+        </div>
+    </div>
+    <div class="span3">
+        <div class="control-group">
+            <label class="control-label" for="numero">Nº</label>
+            <div class="controls">
+                <input class="input-small endereco" id="numero" name="numero" type="text" value="<?php echo $this->cliente->Endereco[0]->numero ?>">
+            </div>
+        </div>
+    </div>
+    <div class="span4">
+        <div class="control-group">
+            <label class="control-label" for="bairro">Bairro</label>
+            <div class="controls">
+                <input class="input-xlarge endereco" id="bairro" name="bairro" type="text" value="<?php echo $this->cliente->Endereco[0]->bairro ?>">
+            </div>
+        </div>
+    </div>
+
+    <div class="span4">
+        <div class="control-group">
+            <label class="control-label" for="cidade">Cidade</label>
+            <div class="controls">
+                <input class="input-xlarge endereco" id="cidade" name="cidade" type="text" value="<?php echo $this->cliente->Endereco[0]->cidade ?>">
+            </div>
+        </div>
+    </div>
+    <div class="span3">
+        <div class="control-group">
+            <label class="control-label" for="estado">UF</label>
+            <div class="controls">
+                <input class="input-small endereco" id="estado" maxlength="2"name="estado" type="text" value="<?php echo $this->cliente->Endereco[0]->estado ?>">
+            </div>
+        </div>
+    </div>
+    <div class="span6">
+        <div class="control-group">
+            <label class="control-label" for="complemento_endereco">Complemento Endereço</label>
+            <div class="controls">
+                <input class="input-xxlarge " id="complemento_endereco" name="complemento_endereco" type="text" value="<?php echo $this->cliente->Endereco[0]->complemento_endereco ?>">
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+
+<script type="text/javascript">
+    function format_cep(cep) {
+        cep = cep.replace(".", "");
+        cep = cep.replace("-", "");
+        cep = cep.replace(" ", "");
+        cep = cep.replace(/_/g, "");
+        return cep;
+    }
+
+
+
+    function format_string(str) {
+        if (str == null)
+            return '';
+        str = str.replace(/-/g, " ");
+        return str;
+    }
+
+
+    $("#cep").keyup(function(e) {
+
+        var cep = format_cep($(this).val());
+        if (cep.length < 8)
+            return false;
+        $('#data_cliente .endereco').attr('readonly', true);
+        $('#erro_cep').hide();
+
+        $.getJSON('<?php echo $this->baseUrl(); ?>/ajax/busca-cep/busca-cep', {cep: cep},
+            function(endereco) {
+                var data = jQuery.parseJSON(endereco);
+                if (data.resultado == 1) {
+                    $('#erro_cep').hide();
+                    $("#logradouro").val(format_string(data.tipo_logradouro) + ' ' + format_string(data.logradouro));
+                    $("#numero").val('');
+                    $("#bairro").val(format_string(data.bairro));
+                    $("#cidade").val(format_string(data.cidade));
+                    $("#estado").val(format_string(data.uf));
+                    $("#numero").focus();
+                    $('#loading_cep').hide();
+
+                } else if (data.resultado == 0) {
+                    $("#logradouro").val('');
+                    $("#numero").val('');
+                    $("#bairro").val('');
+                    $("#cidade").val('');
+                    $("#estado").val('');
+                    $("#logradouro").focus();
+                    $('#erro_cep').show('slow');
+                }
+                $('#data_cliente .endereco').attr('readonly', false);
+
+            }, "json"
+        );
+    });
+</script>
