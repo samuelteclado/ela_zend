@@ -13,29 +13,24 @@
         }
 
     }
-    $(function() {
-        $('#usuario_grupo_id').change(function() {
-            var str = ""
-            $("#usuario_grupo_id option:selected").each(function() {
-                str = $(this).val();
-            });
-            if (str == "0" || str == "1") {
-                $('.escola').hide('slow');
-            } else {
-                $('.escola').show('slow')
-            }
-
-        })
-                .trigger('change');
-    });
 
     function removeImagemButton(id) {
         $('#remove').attr('value', id);
         $('#form_usuario').submit();
     }
+
+    $(function() {
+        $(".popup_ponto").colorbox({
+            iframe: true,
+            width: "40%",
+            height: "40%",
+            fixed: true,
+            opacity: 1,
+        });
+    });
 </script>
 
-﻿<div id="esquerda">
+<div id="esquerda">
 
     <div style="margin: 10px">
 
@@ -129,6 +124,14 @@
                             </div>
                         </div>
                     <?php } ?>
+                    <div class="span8">
+                        <hr/>
+                    </div>
+                    <div class="span8">
+                        <a href="#myModal" role="button" class="btn btn-medium btn-info" data-toggle="modal">Registrar Ponto
+                            <i class="icon-time"></i>
+                        </a>
+                    </div>
                 </div>
                 <hr/>
                 <div class="btn-concluir">
@@ -137,6 +140,40 @@
             </fieldset>
 
         </form>
+    </div>
+</div>
+
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">Registrar Ponto</h3>
+    </div>
+    <div class="modal-body">
+        <tr>
+            <td colspan="3" style="font-size: 12px; text-align: center;">
+                <?php echo $this->flashMessenger(); ?>
+            </td>
+        </tr>
+        <tr>
+            <td align="right">
+                <label class="control-label" for="usuario">Email:</label>
+            </td>
+            <td colspan="2">
+                <input name="usuario_email" autocomplete="new-password"  placeholder="Digite seu email"  class="text-input span4" type="text">
+            </td>
+        </tr>
+        <tr>
+            <td align="right">
+                <label class="control-label" for="senha">Senha:</label>
+            </td>
+            <td>
+                <input name="senha_ponto" autocomplete="new-password" placeholder="Senha" class="span4" class="text-input" type="password">
+            </td>
+        </tr>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Cancelar</button>
+        <button class="btn btn-warning">Registrar</button>
     </div>
 </div>
 

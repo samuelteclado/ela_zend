@@ -31,8 +31,8 @@ class Site_ErrorController extends Zend_Controller_Action {
     private function _sendMail($view) {
         
         $usuario = Zend_Auth::getInstance()->getIdentity();
-        $escolaRepository = new EscolaRepository();
-        $escola = $escolaRepository->getById($usuario->escola_id);
+        $empresaRepository = new EmpresaRepository();
+        $empresa = $empresaRepository->getById($usuario->empresa_id);
         
         $app_email = Zend_Registry::getInstance()->get('email');
 
@@ -42,17 +42,17 @@ class Site_ErrorController extends Zend_Controller_Action {
         $html->assign('exception', $view->exception);
         $html->assign('request', $view->request);
         $html->assign('data', AppUtil::convertDateTimeToString(AppUtil::getCurrentDate()));
-        $html->assign('escola', $escola->razao_social);
-        $html->assign('usuario', $usuario->nome_completo . " (" . $usuario->email . ")");
+        $html->assign('empresa', $empresa->razao_social);
+        $html->assign('usuario', $usuario->nome . " (" . $usuario->email . ")");
         $html->assign('url', $this->view->baseUrl() . $view->request->getRequestUri());
         $body = $html->render('error.phtml');
         
         $from['name'] = $app_email->mail->from->name;
         $from['email'] = $app_email->mail->from->email;
 
-        $to[] = 'contato@sbrasilsolucoes.com.br';
+        $to[] = 'samuelteclado@hotmail.com';
 
-        $subject = "[SIGES] Falha no Sistema";
+        $subject = "[ESPAÇO ELA] Falha no Sistema";
 
         EmailUtil::send($from, $to, $subject, $body);
     }

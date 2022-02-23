@@ -1,0 +1,164 @@
+<div id="esquerda">
+    <div style="margin: 10px">
+        <div class="cabecalho-impressao" style="display: none">
+            <h5 style="text-align: center"><?php echo $this->escola->nome_fantasia ?></h5>
+            <p style="text-align: center;">CNPJ: <?php echo AppUtil::convertIntToCNPJ($this->escola->cnpj) ?></p>
+
+            <img  style="float: left;height: 50px;margin-top: -45px;width: 50px;border: none;padding: 4px" src="<?php echo AppUtil::getFileView($this->escola, 'e', '50') ?>">
+            <div style="margin: auto;width: 50%;margin-top: -10px">
+                <p style="text-align: center">Rua <?php echo $this->escola->Unidade[0]->Endereco[0]->logradouro ?>, N° <?php echo $this->escola->Unidade[0]->Endereco[0]->numero ?> — Bairro <?php echo $this->escola->Unidade[0]->Endereco[0]->bairro ?>, <?php echo $this->escola->Unidade[0]->Endereco[0]->cidade ?> - <?php echo $this->escola->Unidade[0]->Endereco[0]->estado ?></p>
+            </div>
+
+            <div style="margin: auto;width: 50%;">
+                <h5 style="text-align: center;">Mensalidade Escolar</h5>
+            </div>
+        </div>
+
+
+        <form id="form_mensalidade" method="GET" action="" enctype="multipart/form-data">
+            <fieldset>
+                <?php echo $this->flashMessenger(); ?>
+                <div class="row well noprint">
+                    <div class="span4">
+                        <div class="control-group">
+                            <label class="control-label" for="unidade">Unidade</label>
+                            <div class="controls">
+                                <select data-placeholder="[ Selecione a Unidade ]" class="input-large chzn-select-deselect" name="unidade" id="unidade">
+                                    <option value="0"></option>
+                                    <?php foreach ($this->unidades as $unidade): ?>
+                                        <option <?php echo ViewUtil::fillFieldSelect($this->repository_filter->getParamByField('unidade'), $unidade->id) ?> value="<?php echo $unidade->id ?>"><?php echo $unidade->descricao ?></option>
+                                    <?php endforeach ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="span4">
+                        <div class="control-group">
+                            <label class="control-label" for="curso">Curso</label>
+                            <div class="controls">
+                                <select data-placeholder="[ Selecione o Curso ]" class="input-large chzn-select-deselect" name="curso" id="curso">
+                                    <option value="0"></option>
+                                    <?php foreach ($this->cursos as $curso): ?>
+                                        <option <?php echo ViewUtil::fillFieldSelect($this->repository_filter->getParamByField('curso'), $curso->id) ?> value="<?php echo $curso->id ?>"><?php echo $curso->descricao ?></option>
+                                    <?php endforeach ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="span3">
+                        <div class="control-group">
+                            <label class="control-label" for="turma">Turma</label>
+                            <div class="controls">
+                                <select data-placeholder="[ Selecione a Turma ]" class="input-large chzn-select-deselect" name="turma" id="turma">
+                                    <option value="0"></option>
+                                    <?php foreach ($this->turmas as $turma): ?>
+                                        <option <?php echo ViewUtil::fillFieldSelect($this->repository_filter->getParamByField('turma'), $turma->id) ?> value="<?php echo $turma->id ?>"><?php echo $turma->descricao ?></option>
+                                    <?php endforeach ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="span8">
+                        <div class="control-group">
+                            <label class="control-label" for="aluno">Aluno</label>
+                            <div class="controls">
+                                <select data-placeholder="[ Selecione o Aluno ]" class="input-xxlarge chzn-select-deselect" name="aluno" id="aluno">
+                                    <option value="0"></option>
+                                    <?php foreach ($this->alunos as $aluno): ?>
+                                        <option <?php echo ViewUtil::fillFieldSelect($this->repository_filter->getParamByField('aluno'), $aluno->id) ?> value="<?php echo $aluno->id ?>"><?php echo $aluno->nome ?></option>
+                                    <?php endforeach ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="span3">
+                        <div class="control-group">
+                            <label class="control-label">&nbsp;</label>
+                            <div class="controls">
+                                <button type="submit" class="btn btn-info"><i class="icon-filter icon-white"></i>Filtrar</button>
+                                <a class=" btn btn-inverse " href="javascript:self.print()"><i class="icon-print icon-white"></i>Imprimir</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+            <?php if ($this->unidade_obj != "") { ?>
+                <div style="display: none; float: left;margin-right: 20px" class="cabecalho-impressao">
+                    <p><b>Unidade: </b><?php echo $this->unidade_obj->descricao ?></p>
+                </div>
+            <?php } ?>
+            <?php if ($this->curso_obj != NULL) { ?>
+                <div style="display: none;float: left;margin-right: 20px" class="cabecalho-impressao">
+                    <p><b>Curso: </b><?php echo $this->curso_obj->descricao ?></p>
+                </div>
+            <?php } ?>
+            <?php if ($this->turma_obj != NULL) { ?>
+                <div style="display: none;float: left;margin-right: 20px" class="cabecalho-impressao">
+                    <p><b>Turma: </b><?php echo $this->turma_obj->descricao ?></p>
+                </div>
+            <?php } ?>
+            <?php if ($this->aluno_obj != NULL) { ?>
+                <div style="display: none;float: left;" class="cabecalho-impressao">
+                    <p><b>Aluno: </b><?php echo $this->aluno_obj->nome ?></p>
+                </div>
+            <?php } ?>
+
+            <hr/>
+        </form>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Matrícula</th>
+                    <th>Aluno</th>
+                    <?php foreach ($this->tabela[0][2] as $produtos) : ?>
+                        <th><?php echo $produtos ?></th>
+                    <?php endforeach; ?>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($this->tabela as $item): ?>
+
+                    <?php if ($item[0]): ?>
+                        <tr>
+                            <td><?php echo $item[1] ?></td>
+                            <td><?php echo AppUtil::resumeTexto($item[0], 15) ?></td>
+                            <?php $total_aluno = 0; ?>
+                            <?php foreach ($item[2] as $key => $preco) : ?>
+                                <td><?php echo AppUtil::convertFloatToString($preco, '.') ?></td>
+                                <?php $total_produto[$key] += $preco ?>
+                                <?php $total_aluno += $preco ?>
+                            <?php endforeach; ?>
+                            <td><b><?php echo AppUtil::convertFloatToString($total_aluno, '.') ?></b></td>
+                        </tr>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+                <tr>
+                    <td colspan="<?php echo count($this->produtos) + 3 ?>">&nbsp</td>
+                </tr>
+                <tr>
+                    <th colspan="2">TOTAL</th>
+                    <?php foreach ($total_produto as $total_valor) : ?>
+                        <td><b><?php echo AppUtil::convertFloatToString($total_valor, '.') ?></b></td>
+                    <?php endforeach; ?>
+                    <td></td>
+                </tr>
+
+
+            </tbody>
+        </table>
+        <div style="width: 100%;">
+            <blockquote>
+                <small><b>LEGENDA</b></small>
+                <?php foreach ($this->produtos as $produto) : ?>
+                    <small><b><?php echo $produto->sigla ?></b> - <?php echo $produto->descricao ?></small>
+                <?php endforeach; ?>
+            </blockquote>
+        </div>
+
+        <div style="float: right;display: none" class="cabecalho-impressao"> <p>Emitido dia: <?php echo date('d/m/Y H:i:s') ?></p></div>
+    </div>
+    <div class="cabecalho-impressao" style="display: none;margin: auto;width: 150px;height: 20px;margin-top: 20px">         
+        <img  style="height: 13px;width: 115px;opacity: 0.6;" src="<?php echo $this->baseUrl(); ?>/content/img/sbrasil.png">
+    </div>
+</div>

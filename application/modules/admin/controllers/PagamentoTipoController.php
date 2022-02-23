@@ -17,7 +17,7 @@ class Admin_PagamentoTipoController extends Zend_Controller_Action {
 
         $filter = new RepositoryFilter($params);
         $filter->addFilter('empresa_id = ?', $this->_empresa_id);
-        $filter->addTextFilter('descricao', $params['descricao_curso']);
+        $filter->addTextFilter('descricao', $params['descricao']);
         $filter->addSelectFilter('status', $params['status']);
         $filter->addFilter('status != ?', PagamentoTipo::EXCLUIDO);
 

@@ -12,14 +12,19 @@
  * @property integer $status
  * @property Doctrine_Collection $Auditoria
  * @property Doctrine_Collection $Cliente
+ * @property Doctrine_Collection $ContaBancaria
  * @property Doctrine_Collection $Endereco
  * @property Doctrine_Collection $Fornecedor
  * @property Doctrine_Collection $FornecedorCategoria
  * @property Doctrine_Collection $Lancamento
+ * @property Doctrine_Collection $Movimento
  * @property Doctrine_Collection $PagamentoTipo
  * @property Doctrine_Collection $PlanoDeContas
  * @property Doctrine_Collection $Procedimento
  * @property Doctrine_Collection $ProcedimentoTipo
+ * @property Doctrine_Collection $Produto
+ * @property Doctrine_Collection $ProdutoCategoria
+ * @property Doctrine_Collection $RegistroPonto
  * @property Doctrine_Collection $Usuario
  * 
  * @package    ##PACKAGE##
@@ -89,6 +94,10 @@ abstract class DaoEmpresa extends DaoGeneric
              'local' => 'id',
              'foreign' => 'empresa_id'));
 
+        $this->hasMany('ContaBancaria', array(
+             'local' => 'id',
+             'foreign' => 'empresa_id'));
+
         $this->hasMany('Endereco', array(
              'local' => 'id',
              'foreign' => 'empresa_id'));
@@ -105,6 +114,10 @@ abstract class DaoEmpresa extends DaoGeneric
              'local' => 'id',
              'foreign' => 'empresa_id'));
 
+        $this->hasMany('Movimento', array(
+             'local' => 'id',
+             'foreign' => 'empresa_id'));
+
         $this->hasMany('PagamentoTipo', array(
              'local' => 'id',
              'foreign' => 'empresa_id'));
@@ -118,6 +131,18 @@ abstract class DaoEmpresa extends DaoGeneric
              'foreign' => 'empresa_id'));
 
         $this->hasMany('ProcedimentoTipo', array(
+             'local' => 'id',
+             'foreign' => 'empresa_id'));
+
+        $this->hasMany('Produto', array(
+             'local' => 'id',
+             'foreign' => 'empresa_id'));
+
+        $this->hasMany('ProdutoCategoria', array(
+             'local' => 'id',
+             'foreign' => 'empresa_id'));
+
+        $this->hasMany('RegistroPonto', array(
              'local' => 'id',
              'foreign' => 'empresa_id'));
 

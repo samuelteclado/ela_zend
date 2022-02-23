@@ -12,10 +12,11 @@
  * @property integer $status
  * @property string $observacao
  * @property date $data_confirmacao
+ * @property integer $tipo
  * @property integer $pagamento_tipo_id
+ * @property integer $procedimento_tipo_id
  * @property integer $usuario_id
  * @property integer $cliente_id
- * @property integer $procedimento_tipo_id
  * @property integer $empresa_id
  * @property Cliente $Cliente
  * @property Empresa $Empresa
@@ -77,9 +78,9 @@ abstract class DaoProcedimento extends DaoGeneric
              'notnull' => true,
              'autoincrement' => false,
              ));
-        $this->hasColumn('observacao', 'string', 45, array(
+        $this->hasColumn('observacao', 'string', 200, array(
              'type' => 'string',
-             'length' => 45,
+             'length' => 200,
              'fixed' => false,
              'unsigned' => false,
              'primary' => false,
@@ -94,7 +95,25 @@ abstract class DaoProcedimento extends DaoGeneric
              'notnull' => false,
              'autoincrement' => false,
              ));
+        $this->hasColumn('tipo', 'integer', 4, array(
+             'type' => 'integer',
+             'length' => 4,
+             'fixed' => false,
+             'unsigned' => false,
+             'primary' => false,
+             'notnull' => true,
+             'autoincrement' => false,
+             ));
         $this->hasColumn('pagamento_tipo_id', 'integer', 4, array(
+             'type' => 'integer',
+             'length' => 4,
+             'fixed' => false,
+             'unsigned' => false,
+             'primary' => false,
+             'notnull' => false,
+             'autoincrement' => false,
+             ));
+        $this->hasColumn('procedimento_tipo_id', 'integer', 4, array(
              'type' => 'integer',
              'length' => 4,
              'fixed' => false,
@@ -113,15 +132,6 @@ abstract class DaoProcedimento extends DaoGeneric
              'autoincrement' => false,
              ));
         $this->hasColumn('cliente_id', 'integer', 4, array(
-             'type' => 'integer',
-             'length' => 4,
-             'fixed' => false,
-             'unsigned' => false,
-             'primary' => false,
-             'notnull' => true,
-             'autoincrement' => false,
-             ));
-        $this->hasColumn('procedimento_tipo_id', 'integer', 4, array(
              'type' => 'integer',
              'length' => 4,
              'fixed' => false,

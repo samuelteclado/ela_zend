@@ -1,6 +1,6 @@
 <div id="data_lancamento" class="dados" >
     <div class="row well">
-        <div class="span5">
+        <div class="span4">
             <div class="control-group">
                 <label class="control-label" for="lancamento_descricao">Descrição</label>
                 <div class="controls">
@@ -28,7 +28,31 @@
                 </div>
             </div>
         </div>
-        <div class="span5">
+        <div class="span2 no_transf" style="display: none">
+            <div class="control-group">
+                <label class="control-label" for="tipo_lancamento">Tipo</label>
+                <div class="controls">
+                    <select  class="input-small" name="tipo_lancamento"  id="tipo_lancamento">
+                        <option <?php echo ViewUtil::fillFieldSelect($this->lancamento->tipo, Lancamento::RECEITA) ?> value="<?php echo Lancamento::RECEITA ?>">Receita</option>
+                        <option <?php echo ViewUtil::fillFieldSelect($this->lancamento->tipo, Lancamento::DESPESA) ?> value="<?php echo Lancamento::DESPESA ?>">Despesa</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="span4">
+            <div class="control-group">
+                <label class="control-label" for="conta_bancaria">Conta</label>
+                <div class="controls">
+                    <select  class="input-xlarge" name="conta_bancaria" id="conta_bancaria">
+                        <option value="0">[  Selecione a Conta ]</option>
+                        <?php foreach ($this->contas as $conta_bancaria): ?>
+                            <option <?php echo ViewUtil::fillFieldSelect($this->lancamento->conta_bancaria_id, $conta_bancaria->id) ?> value="<?php echo $conta_bancaria->id ?>"><?php echo $conta_bancaria->descricao ?></option>
+                        <?php endforeach ?>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="span6">
             <div class="control-group">
                 <label class="control-label" for="plano_de_contas_id">Plano de Contas</label>
                 <div class="controls">
@@ -46,17 +70,7 @@
                 </div>
             </div>
         </div>
-        <div class="span2 no_transf" style="display: none">
-            <div class="control-group">
-                <label class="control-label" for="tipo_lancamento">Tipo</label>
-                <div class="controls">
-                    <select  class="input-small" name="tipo_lancamento"  id="tipo_lancamento">          
-                        <option <?php echo ViewUtil::fillFieldSelect($this->lancamento->tipo, Lancamento::RECEITA) ?> value="<?php echo Lancamento::RECEITA ?>">Receita</option>
-                        <option <?php echo ViewUtil::fillFieldSelect($this->lancamento->tipo, Lancamento::DESPESA) ?> value="<?php echo Lancamento::DESPESA ?>">Despesa</option>
-                    </select>
-                </div>
-            </div>
-        </div>
+
         <div class="span11">
             <hr/>
         </div>
@@ -64,9 +78,9 @@
             <div class="control-group">
                 <label class="control-label" for="lancamento_para">Para</label>
                 <div class="controls">
-                    <select  class="input-medium" name="lancamento_para" id="lancamento_para">          
-                        <option <?php echo ViewUtil::fillFieldSelect($this->lancamento_para['tipo'], Lancamento::CLIENTE) ?> value="<?php echo Lancamento::CLIENTE ?>">Cliente</option>
-                        <option <?php echo ViewUtil::fillFieldSelect($this->lancamento_para['tipo'], Lancamento::FORNECEDOR) ?> value="<?php echo Lancamento::FORNECEDOR ?>">Fornecedor</option>
+                    <select  class="input-medium" name="lancamento_para" id="lancamento_para">
+                        <option <?php echo ViewUtil::fillFieldSelect($this->lancamento_para['lancamento_para'], Lancamento::CLIENTE) ?> value="<?php echo Lancamento::CLIENTE ?>">Cliente</option>
+                        <option <?php echo ViewUtil::fillFieldSelect($this->lancamento_para['lancamento_para'], Lancamento::FORNECEDOR) ?> value="<?php echo Lancamento::FORNECEDOR ?>">Fornecedor</option>
                     </select>
                 </div>
             </div>
@@ -75,8 +89,8 @@
             <div class="control-group">
                 <label class="control-label" for="cliente">Cliente</label>
                 <div class="controls">
-                    <select data-placeholder="[  Selecione o Cliente ]" class="input-xxlarge chzn-select-deselect" name="cliente" id="cliente">
-                        <option value="0"></option>                           
+                    <select data-placeholder="[ Selecione o Cliente ]" class="input-xxlarge chzn-select-deselect" name="cliente" id="cliente">
+                        <option value="0"></option>
                         <?php foreach ($this->clientes as $cliente): ?>
                             <option <?php echo ViewUtil::fillFieldSelect($this->lancamento->cliente_id, $cliente->id) ?> value="<?php echo $cliente->id ?>"><?php echo $cliente->nome . " ".$cliente->sobrenome?></option>
                         <?php endforeach ?>
@@ -89,7 +103,7 @@
                 <label class="control-label" for="fornecedor">Fornecedor</label>
                 <div class="controls">
                     <select data-placeholder="[  Selecione o Fornecedor ]" class="input-xxlarge chzn-select-deselect" name="fornecedor" id="fornecedor">
-                        <option value="0"></option>                           
+                        <option value="0"></option>
                         <?php foreach ($this->fornecedores as $fornecedor): ?>
                             <option <?php echo ViewUtil::fillFieldSelect($this->lancamento->fornecedor_id, $fornecedor->id) ?> value="<?php echo $fornecedor->id ?>"><?php echo $fornecedor->descricao ?></option>
                         <?php endforeach ?>
@@ -106,7 +120,7 @@
                     <div class="control-group">
                         <label class="control-label" for="recorrencia">Recorrência</label>
                         <div class="controls">
-                            <select  class="input-small" name="recorrencia" id="recorrencia">          
+                            <select  class="input-small" name="recorrencia" id="recorrencia">
                                 <option <?php echo ViewUtil::fillFieldSelect($this->recorrencia_data[recorrencia], Lancamento::NAO) ?> value="<?php echo Lancamento::NAO ?>">Não</option>
                                 <option <?php echo ViewUtil::fillFieldSelect($this->recorrencia_data[recorrencia], Lancamento::SIM) ?> value="<?php echo Lancamento::SIM ?>">Sim</option>
                             </select>
@@ -148,25 +162,29 @@
             </div>
             <div class="span2 pagamento">
                 <div class="control-group">
-                    <label class="control-label" for="pagamento_valor">Valor Pago</label>
+                    <label class="control-label" for="pagamento_valor">Valor a Pagar</label>
                     <div class="controls">
                         <input class="input-small txValor" id="pagamento_valor" name="pagamento_valor" maxlength="8" type="text" value="<?php echo AppUtil::convertFloatToString($this->lancamento->pagamento_valor) ?>">
                         <span class="help-block">R$</span>
                     </div>
                 </div>
             </div>
-
-            <div class="span11">
-                <div class="control-group">
-                    <div style="text-align: left;">
-                        <strong id="valor_a_pagar">&nbsp;</strong>  
-                    </div>
+        </div>
+    </div>
+    <div class="row well">
+        <div class="span3" >
+            <div class="control-group">
+                <label class="control-label" for="forma_pagamento">Forma de Pagamento</label>
+                <div class="controls">
+                    <select  class="input-large" name="forma_pagamento" id="forma_pagamento">
+                        <option value="0">[ Selecione a Forma ]</option>
+                        <?php foreach ($this->forma_pagamento as $pagamento): ?>
+                            <option <?php echo ViewUtil::fillFieldSelect($this->lancamento->pagamento_tipo_id, $pagamento->id) ?> value="<?php echo $pagamento->id ?>"><?php echo $pagamento->descricao ?></option>
+                        <?php endforeach ?>
+                    </select>
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="row well">
         <div class="span2">
             <div class="control-group">
                 <label class="control-label" for="pagamento_desconto">Valor Desconto</label>
@@ -180,7 +198,7 @@
             <div class="control-group">
                 <label class="control-label" for="pagamento_percentual">Taxa de Pagamento</label>
                 <div class="controls">
-                    <input class="input-small txValor" id="pagamento_percentual" name="pagamento_percentual" maxlength="5" type="text" value="<?php echo AppUtil::convertFloatToString($this->lancamento->pagamento_percentual) ?>">
+                    <input class="input-small txValor" id="pagamento_percentual" readonly name="pagamento_percentual" maxlength="5" type="text" value="<?php echo AppUtil::convertFloatToString($this->lancamento->pagamento_percentual) ?>">
                     <span class="help-block">%</span>
                 </div>
             </div>
@@ -189,7 +207,7 @@
             <div class="control-group">
                 <label class="control-label" for="pagamento_taxa">Taxa Descontada</label>
                 <div class="controls">
-                    <input class="input-small txValor" id="pagamento_taxa" name="pagamento_taxa" maxlength="5" type="text" value="<?php echo AppUtil::convertFloatToString($this->lancamento->pagamento_taxa) ?>">
+                    <input class="input-small txValor" id="pagamento_taxa"  readonly name="pagamento_taxa" maxlength="5" type="text" value="<?php echo AppUtil::convertFloatToString($this->lancamento->pagamento_taxa) ?>">
                     <span class="help-block">R$</span>
                 </div>
             </div>

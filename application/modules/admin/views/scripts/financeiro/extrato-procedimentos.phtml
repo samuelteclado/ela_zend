@@ -1,0 +1,171 @@
+<style>
+    .valores{width: 100px}
+</style>
+<div id="esquerda">
+    <div style="margin: 10px">
+        <div class="cabecalho-impressao" style="display: none">
+            <h5 style="text-align: center"><?php echo $this->empresa->nome_fantasia ?></h5>
+            <p style="text-align: center;">CNPJ: <?php echo AppUtil::convertIntToCNPJ($this->empresa->cnpj) ?></p>
+            <img  style="float: left;height: 50px;margin-top: -45px;width: 50px;border: none;padding: 4px" src="<?php echo AppUtil::getFileView($this->empresa, 'e', '100') ?>">
+            <div style="margin: auto;width: 50%;margin-top: -10px">
+                <p style="text-align: center"><?php echo $this->empresa->Endereco[0]->logradouro ?>, N°: <?php echo $this->empresa->Endereco[0]->numero ?> — <?php echo $this->empresa->Endereco[0]->bairro ?>, <?php echo $this->empresa->Endereco[0]->cidade ?> - <?php echo $this->empresa->Endereco[0]->estado ?></p>
+            </div>
+            <div style="margin: auto;width: 50%;">
+                <h5 style="text-align: center;">Extrato Resumido</h5>
+            </div>
+        </div>
+
+
+        <form id="form_extrato" method="POST" action="" enctype="multipart/form-data">
+            <fieldset>
+                <?php echo $this->flashMessenger(); ?>
+                <div class="row well noprint">
+                    <div style="margin: auto;width: 50%;">
+                        <h2 style="text-align: center;">Extrato Resumido</h2>
+                    </div>
+                    <div class="span5">
+                        <div class="control-group">
+                            <label>&nbsp;</label>
+                            <span class="control-label" for="data_inicial">Exibir extrato de</span>
+                            <input class="txData input-small" id="data_inicial" name="data_inicial" type="text" value="<?php echo $this->repository_filter->getParamByField('data_inicial') ?>">
+
+                            <span class="control-label" for="data_final">até</span>
+                            <input class="txData input-small" id="data_final" name="data_final" type="text" value="<?php echo $this->repository_filter->getParamByField('data_final') ?>">
+                        </div>
+                    </div>
+                    <div class="span4">
+                        <div class="control-group">
+                            <label class="control-label" for="colaborador">Colaborador</label>
+                            <div class="controls">
+                                <select data-placeholder="[  Selecione o Colaborador ]" class="input-xlarge chzn-select-deselect" name="colaborador" id="colaborador">
+                                    <option value="0"></option>
+                                    <?php foreach ($this->colaboradores as $colaborador): ?>
+                                        <option <?php echo ViewUtil::fillFieldSelect($this->repository_filter->getParamByField('colaborador'), $colaborador->id) ?> value="<?php echo $colaborador->id ?>"><?php echo $colaborador->nome ." ". $colaborador->sobrenome ?></option>
+                                    <?php endforeach ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">&nbsp;</label>
+                        <div class="controls">
+                            <button type="submit" class="btn btn-info"><i class="icon-filter icon-white"></i>Filtrar</button>
+                            <a class=" btn btn-inverse " href="javascript:self.print()"><i class="icon-print icon-white"></i>Imprimir</a>
+                        </div>
+                    </div>
+                </div>
+
+            </fieldset>
+
+            <div class="cabecalho-impressao" style="margin: auto;text-align: center;margin-top: -10px;width: 50%;display: none">
+                <p>Período:
+                    <b style="text-decoration: underline "><?php echo AppUtil::convertDateToString($this->data_inicial) ?></b>
+                    <?php if ($this->data_final != NULL) { ?>
+                        a <b style="text-decoration: underline "><?php echo AppUtil::convertDateToString($this->data_final) ?></b>
+                    <?php } ?></p>
+            </div>
+            <hr/>
+        </form>
+        <table class="table table-bordered" >
+            <thead>
+            <tr>
+                <th>Data</th>
+                <th>Cliente</th>
+                <th>Colaborada</th>
+                <th>Procedimento</th>
+                <th>Valor</th>
+                <th>Forma de Pg</th>
+                <th>Valor Real</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($this->list as $item): ?>
+                <?php $i++?>
+                <tr  style="background-color: <?php echo $item->Procedimento->Usuario->cor?>">
+
+                    <?php if ($item->tipo == Lancamento::RECEITA  && $item->pagamento_valor > 0 ){
+                        $total_entrada += $item->pagamento_valor;
+                        $saldo += $item->pagamento_valor;
+                    }
+                    ?>
+                    <td><?php echo AppUtil::convertDateToString($item->pagamento_data) ?></td>
+                    <td><?php echo $item->Cliente->getFullNome()?></td>
+                    <td><?php echo $item->Procedimento->Usuario->nome ?></td>
+                    <td><?php echo $item->Procedimento->ProcedimentoTipo->getTipo() ." - ".$item->Procedimento->ProcedimentoTipo->descricao?></td>
+                    <td>R$ <?php echo AppUtil::convertFloatToString($item->vencimento_valor,'.')?></td>
+                    <td><?php echo $item->Procedimento->PagamentoTipo->descricao?></td>
+                    <td>R$ <?php echo AppUtil::convertFloatToString($item->pagamento_valor,'.')?></td>
+                </tr>
+            <?php endforeach; ?>
+            <tr>
+                <td colspan="7">&nbsp</td>
+            </tr>
+            <tr style="font-weight:bold">
+                <td colspan="4">Total de <?php echo $i?> Atendimentos Realizados</td>
+                <td  style="color: blue;">( + ) R$ <?php echo AppUtil::convertFloatToString($total_entrada,'.') ?></td>
+                <td></td>
+                <td  style="color: black;">( = ) R$ <?php echo AppUtil::convertFloatToString($saldo,'.') ?></td>
+            </tr>
+            </tbody>
+
+
+        </table>
+        <table class="table table-bordered table-striped ">
+            <thead>
+            <tr>
+                <th>FORMA DE PAGAMENTO</th>
+                <th style="text-align: center">QT</th>
+                <th style="text-align: center">TOTAL</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($this->pagamento_tipo as $pagamento): ?>
+                <tr>
+                    <td><?php echo $pagamento['tipo_pagamento']['descricao']?></td>
+                    <td style="text-align: center"><?php echo $pagamento['tipo_pagamento']['qt_total']?></td>
+                    <td style="text-align: center">R$ <?php echo AppUtil::convertFloatToString($pagamento['tipo_pagamento']['valor_total'], '.')?></td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+        <table class="table table-bordered table-striped ">
+            <thead>
+            <tr>
+                <th>FORMA DE PAGAMENTO</th>
+                <th style="text-align: center">QT</th>
+                <th style="text-align: center">TOTAL</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($this->pagamento_tipo as $pagamento): ?>
+                <tr>
+                    <td><?php echo $pagamento['tipo_pagamento']['descricao']?></td>
+                    <td style="text-align: center"><?php echo $pagamento['tipo_pagamento']['qt_total']?></td>
+                    <td style="text-align: center">R$ <?php echo AppUtil::convertFloatToString($pagamento['tipo_pagamento']['valor_total'], '.')?></td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+
+        <table class="table table-bordered table-striped">
+            <thead>
+            <tr>
+                <th>PROCEDIMENTOS</th>
+                <th style="text-align: center">QT</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($this->procedimentos as $procedimento): ?>
+                <tr>
+                    <td><?php echo $procedimento['procedimento_tipo']['descricao']?></td>
+                    <td style="text-align: center"><?php echo $procedimento['procedimento_tipo']['qt_total']?></td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+        <div style="float: right;display: none" class="cabecalho-impressao"> <p>Emitido dia: <?php echo date('d/m/Y H:i:s') ?></p></div>
+    </div>
+    <div class="cabecalho-impressao" style="display: none;margin: auto;width: 150px;height: 20px;margin-top: 20px">
+        <img  style="height: 30px;width: 100px;opacity: 0.6;" src="<?php echo $this->baseUrl(); ?>/content/img/logo_holy.png">
+    </div>
+</div>

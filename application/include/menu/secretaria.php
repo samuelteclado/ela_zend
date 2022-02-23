@@ -1,47 +1,48 @@
 <ul>
-    <li><a href="<?php echo $this->baseUrl() ?>/secretaria">Home</a></li>
-    <li><a href="#">Secretaria</a>
+    <li><a href="<?php echo $this->baseUrl() ?>/secretaria/principal">Home</a></li>
+    <li><a href="<?php echo $this->baseUrl(); ?>/funcionario/cliente/">Cliente</a></li>
+    <li><a href="#">Agenda</a>
         <ul>
-            <li><a href="<?php echo $this->baseUrl() ?>/secretaria/disciplina"><i class="icon-star"></i> Disciplinas</a></li>
-            <li><a href="<?php echo $this->baseUrl() ?>/secretaria/curso"><i class="icon-bookmark"></i> Cursos</a></li>
-            <li><a href="<?php echo $this->baseUrl() ?>/secretaria/turma"><i class="icon-th"></i> Turmas</a></li>
-            <li><a href="<?php echo $this->baseUrl() ?>/secretaria/professor"><i class="icon-user"></i> Professores</a></li>
-            <li><a href="<?php echo $this->baseUrl() ?>/secretaria/comunicado"><i class="icon-envelope"></i> Comunicados</a></li>
-            <li><a href="#"><i class="icon-file"></i> Relatórios</a>
+            <li><a href="<?php echo $this->baseUrl(); ?>/funcionario/procedimento-cilios"><i class="icon-eye-open"></i> Cílios</a> </li>
+            <li><a href="<?php echo $this->baseUrl(); ?>/funcionario/procedimento-massagem"><i class="icon-heart"></i> Massagem</a> </li>
+            <li><a href="#"><i class="icon-file"></i>Relatórios</a>
                 <ul>
-                    <li><a href="<?php echo $this->baseUrl() ?>/secretaria/turma/vagas"><i class="icon"></i> Vagas por Turma</a></li>
+                    <li><a href="<?php echo $this->baseUrl(); ?>/funcionario/relatorio/procedimento-cancelado">Procedimentos Cancelados</a></li>
+                    <li><a href="<?php echo $this->baseUrl(); ?>/funcionario/relatorio/clientes-confirmar">Clientes à Confirmar</a></li>
                 </ul>
             </li>
         </ul>
     </li>
     <li><a href="#">Fornecedor</a>
         <ul>
-            <li><a href="<?php echo $this->baseUrl() ?>/secretaria/fornecedor"><i class="icon-shopping-cart"></i> Fornecedores</a></li>
-            <li><a href="<?php echo $this->baseUrl() ?>/secretaria/fornecedor-categoria"><i class="icon-folder-close"></i> Categorias Fornecedor</a></li>
-        </ul>
-    </li>
-    <li><a href="#">Aluno</a>
-        <ul>
-            <li><a href="<?php echo $this->baseUrl() ?>/secretaria/aluno"><i class="icon-user"></i> Cadastro de Alunos</a></li>
-            <li><a href="<?php echo $this->baseUrl() ?>/secretaria/presenca"><i class="icon-check"></i> Presença</a></li>
-            <li><a href="<?php echo $this->baseUrl() ?>/secretaria/nota"><i class="icon-plus-sign"></i> Notas</a></li>
-            <li><a href="<?php echo $this->baseUrl() ?>/secretaria/boletim"><i class="icon-file"></i> Boletim</a></li>
-
-<!--<li><a href="#"><i class="icon-file"></i> Relatórios</a>
+            <li><a href="<?php echo $this->baseUrl(); ?>/admin/fornecedor"><i class="icon-shopping-cart"></i> Fornecedor</a> </li>
+            <li><a href="<?php echo $this->baseUrl(); ?>/admin/fornecedor-categoria"><i class="icon-folder-close"></i> Categoria de Fornecedor</a> </li>
+            <li><a href="#"><i class="icon-file"></i>Relatórios</a>
                 <ul>
-                    <li><a href="<?php echo $this->baseUrl() ?>/secretaria/turma/vagas"><i class="icon"></i> Vagas por Turma</a></li>
+                    <li><a href="<?php echo $this->baseUrl(); ?>/admin/relatorio/fornecedor"> Fornecedores</a> </li>
                 </ul>
-            </li>-->
+            </li>
         </ul>
     </li>
-    <li><a href="#">Biblioteca</a>
+    <li><a href="#">Produto</a>
         <ul>
-            <li><a href="<?php echo $this->baseUrl() ?>/biblioteca/livro"><i class="icon-book"></i> Livros</a></li>
-            <li><a href="<?php echo $this->baseUrl() ?>/biblioteca/emprestimo"><i class="icon-arrow-right"></i> Empréstimos</a></li>
-            <li><a href="<?php echo $this->baseUrl() ?>/biblioteca/emprestimo/devolver"><i class="icon-arrow-left"></i> Devolução</a></li>
-            <li><a href="<?php echo $this->baseUrl() ?>/biblioteca/livro-categoria"><i class="icon-tags"></i> Categorias</a></li>
-            <li><a href="<?php echo $this->baseUrl() ?>/biblioteca/livro-grau-relevancia"><i class="icon-warning-sign"></i> Relevâncias</a></li>
-
+            <li><a href="<?php echo $this->baseUrl(); ?>/admin/produto-venda"><i class="icon-shopping-cart"></i> Venda de Produtos</a> </li>
+            <li><a href="<?php echo $this->baseUrl(); ?>/admin/produto-compra"><i class="icon-shopping-cart"></i> Compra de Produtos</a> </li>
+            <li><a href="<?php echo $this->baseUrl(); ?>/admin/produto"><i class="icon-eye-open"></i> Produto</a> </li>
+            <li><a href="<?php echo $this->baseUrl(); ?>/admin/produto-categoria"><i class="icon-folder-close"></i> Categoria de Produto</a> </li>
+            <li><a href="#"><i class="icon-file"></i> Relatórios</a>
+                <ul>
+                    <li><a href="<?php echo $this->baseUrl(); ?>/admin/relatorio/produto"> Produtos</a> </li>
+                </ul>
+            </li>
         </ul>
     </li>
+    <li><a href="#">Empresa</a>
+        <ul>
+            <li><a href="<?php echo $this->baseUrl(); ?>/admin/empresa"><i class="icon-asterisk"></i> Dados da Empresa</a> </li>
+            <li><a href="<?php echo $this->baseUrl(); ?>/admin/procedimento-tipo"><i class="icon-eye-open"></i> Tipos de Procedimentos</a> </li>
+            <li><a href="<?php echo $this->baseUrl(); ?>/admin/pagamento-tipo"><i class="icon-hdd"></i> Tipos de Pagamento</a> </li>
+        </ul>
+    </li>
+
 </ul>

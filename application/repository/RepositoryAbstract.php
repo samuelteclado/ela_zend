@@ -90,7 +90,7 @@ abstract class RepositoryAbstract {
         }
 
         //echo $q->getSqlQuery();
-
+        //die;
         return $q;
     }
 

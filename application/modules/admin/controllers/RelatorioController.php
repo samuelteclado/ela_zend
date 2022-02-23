@@ -3,18 +3,20 @@
 class Admin_RelatorioController extends Zend_Controller_Action {
 
     private $_lancamentoRepository;
-    private $_contaBancariaRepository;
     private $_lancamentoRecorrenciaTipoRepostirory;
     private $_planodecontasRepository;
     private $_clienteRepository;
+    private $_fornecedorRepository;
+    private $_empresaRepository;
     private $_empresa_id;
 
     public function init() {
         $this->_empresa_id = SessionUtil::getEmpresaSession();
         $this->_lancamentoRepository = new LancamentoRepository();
-        $this->_empresaRepository = new EmpresaRepository();
         $this->_lancamentoRecorrenciaTipoRepostirory = new LancamentoRecorrenciaTipoRepository();
         $this->_planodecontasRepository = new PlanodeContasRepository();
+        $this->_empresaRepository = new EmpresaRepository();
+        $this->_fornecedorRepository = new FornecedorRepository();
         $this->_clienteRepository = new ClienteRepository();
     }
 
@@ -99,176 +101,62 @@ class Admin_RelatorioController extends Zend_Controller_Action {
         $this->view->alunos = $this->_alunoRepository->getListByEscola($this->_empresa_id);
     }
 
-    public function mensalidadeAction() {
+    public function usuarioAction() {
         $params = $this->getRequest()->getParams();
         $filter = new RepositoryFilter($params);
-        $filter->addFilter('escola_id = ?', $this->_empresa_id);
-        $filter->addFilter('p.status != ?', Aluno::EXCLUIDO);
+        $filter->addFilter('empresa_id = ?', $this->_empresa_id);
+        $filter->addFilter('status != ?', Cliente::EXCLUIDO);
+        $filter->addSelectFilter('status', $params['status']);
 
 
-
-        $filter->addSelectFilter('u.id', $params['unidade']);
-        $filter->addSelectFilter('c.id', $params['curso']);
-        $filter->addSelectFilter('t.id', $params['turma']);
-        $filter->addSelectFilter('p.id', $params['aluno']);
-        $filter->addLeftJoinFilter('p.Turma t');
-        $filter->addLeftJoinFilter('t.Curso c');
-        $filter->addLeftJoinFilter('t.Unidade u');
-
-
-        $this->view->unidade_obj = $this->_unidadeRepository->getById($params['unidade'], $this->_empresa_id);
-        $this->view->curso_obj = $this->_cursoRepository->getById($params['curso'], $this->_empresa_id);
-        $this->view->aluno_obj = $this->_alunoRepository->getById($params['aluno'], $this->_empresa_id);
-        $this->view->turma_obj = $this->_turmaRepository->getById($params['turma'], $this->_empresa_id);
-
+        $this->view->clientes = $this->_clienteRepository->getById($params['cliente']);
 
         $sortParam = ($params["sort"]) ? $params["sort"] : 'nome';
         $orderParam = ($params["order"]) ? $params["order"] : 'DESC';
         $orderby = new RepositoryOrder($params);
         $orderby->addOrder($sortParam, ($orderParam == 'ASC') ? 'DESC' : 'ASC');
 
-        $list = new Zend_Paginator(new My_Zend_Paginator_Adapter_Doctrine($this->_alunoRepository->getListByFilter($filter, $orderby)));
+        $list = new Zend_Paginator(new My_Zend_Paginator_Adapter_Doctrine($this->_clienteRepository->getListByFilter($filter, $orderby)));
         $list->setItemCountPerPage(500);
         $list->setCurrentPageNumber($params["page"]);
         $this->view->list = $list;
         $this->view->list_params = array('filter' => $filter);
-        $this->view->page = 'Mensalidade Escolar';
+        $this->view->page = 'Clientes Espaço ELA';
 
         $this->view->repository_filter = $filter;
         $this->view->repository_order = $orderby;
-        $this->view->produtos = $this->_produtoRepository->getListByEscola($this->_empresa_id);
-        $this->view->escola = $this->_escolaRepository->getById($this->_empresa_id);
-        $this->view->unidades = $this->_unidadesRepository->getUnidades($this->_empresa_id);
-        $this->view->alunos = $this->_alunoRepository->getListActive($this->_empresa_id);
-        $this->view->cursos = $this->_cursoRepository->getListByEscola($this->_empresa_id);
-        $this->view->turmas = $this->_turmaRepository->getListByEscola($this->_empresa_id);
+        $empresa = $this->_empresaRepository->getById($this->_empresa_id);
+        $this->view->empresa = $empresa;
 
-        $tabela = array();
-        $produtos_modelo = $this->_produtoRepository->getListByEscola($this->_empresa_id);
-
-        $produtos_array = array();
-        foreach ($produtos_modelo as $produto) {
-            $produtos_array[$produto->id] = NULL;
-            $produto_array_modelo[$produto->id] = $produto->sigla;
-        }
-
-        $alunos = array();
-        $alunos[0][2] = $produto_array_modelo;
-        foreach ($list as $aluno) {
-            $alunos[$aluno->id][0] = $aluno->nome;
-            $alunos[$aluno->id][1] = $aluno->matricula;
-            $alunos[$aluno->id][2] = $produtos_array;
-        }
-
-        $produto_aprovados = $this->_produtoAlunoRepository->getListAprovadorByEscola($this->_empresa_id);
-
-        foreach ($produto_aprovados as $produto_aprovado) {
-            $alunos[$produto_aprovado->aluno_id][2][$produto_aprovado->ProdutoCurso->produto_id] = $produto_aprovado->valor_parcela;
-        }
-
-
-        foreach ($alunos as $aluno) {
-            foreach ($list->ProdutoAluno as $produto) {
-                $tabela[$aluno->id][$produto->id] = $this->_produtoAlunoRepository->getProdutoAprovadoByAluno($produto->id, $aluno->id, $this->_empresa_id);
-            }
-        }
-
-        $this->view->tabela = $alunos;
     }
 
-    public function extratoAction() {
+
+    public function fornecedorAction() {
         $params = $this->getRequest()->getParams();
         $filter = new RepositoryFilter($params);
-
-        if ($this->getRequest()->isPost()) {
-
-
-            $data_inicial = AppUtil::convertStringToDate($params['data_inicial']);
-            $data_final = AppUtil::convertStringToDate($params['data_final']);
-            $plano_de_contas_filtro = $params['plano_de_contas'];
-
-            if ($data_inicial == NULL) {
-                $data_inicial = $this->_lancamentoRepository->getDatePrimeiroLancamento($this->_empresa_id);
-                $data_inicial = date("Y-m-d", strtotime(date("Y-m-d H:i:s", strtotime($data_inicial)) . "-1 day"));
-            }
-
-            $data_final_atualizada = $data_final;
-            if ($data_final == NULL) {
-                $data_final = date('Y' . '-12-31');
-                $data_final_atualizada = NULL;
-            }
-
-
-            if ($plano_de_contas_filtro != NULL) {
-                $planos_de_contas_id = array();
-                foreach ($plano_de_contas_filtro as $plano_de_contas_item) {
-                    $plano_de_conta_obj = $this->_planodecontasRepository->getById($plano_de_contas_item);
-                    if ($plano_de_conta_obj->PlanoDeContas->count() > 0) {
-                        foreach ($plano_de_conta_obj->PlanoDeContas as $plano_de_contas_filho) {
-                            $planos_de_contas_id[] = $plano_de_contas_filho->id;
-                        }
-                    }
-                    $planos_de_contas_id[] = $plano_de_contas_item;
-                }
-                $filter->addGenericFilter('plano_de_contas_id IN (' . implode(",", $planos_de_contas_id) . ')');
-            }
-
-            $planos_de_contas_obj = array();
-            $plano_de_contas_impressao = array();
-            foreach ($plano_de_contas_filtro as $plano_de_contas_item) {
-                $plano_de_conta_obj = $this->_planodecontasRepository->getById($plano_de_contas_item);
-                $planos_de_contas_obj['codigo'] = $plano_de_conta_obj->codigo;
-                $planos_de_contas_obj['descricao'] = $plano_de_conta_obj->descricao;
-                $plano_de_contas_impressao[] = $planos_de_contas_obj;
-            }
-
-            $this->view->plano_de_contas_obj = $plano_de_contas_impressao;
-
-            $this->view->planos_de_contas = $this->_planodecontasRepository->getPlanoDeContas();
-        } else {
-
-            $data_inicial = date('Y-m-1');
-            $ultimo_dia = date("d", mktime(0, 0, 0, (date('m') + 1), 0, date('Y')));
-            $data_final = date('Y-m-' . $ultimo_dia);
-        }
-
-
         $filter->addFilter('empresa_id = ?', $this->_empresa_id);
-        $filter->addFilter('tipo != ?', Lancamento::MENSALIDADE);
-        $filter->addNotNullFilter('pagamento_data');
-        $filter->addSelectFilter('conta_bancaria_id', $params['banco']);
-        $filter->addFilter('pagamento_data BETWEEN ? AND ?', array($data_inicial, $data_final));
-        $filter->addLeftJoinFilter('p.PlanoDeContas pc');
+        $filter->addSelectFilter('status', $params['status']);
 
-        $sortParam = ($params["sort"]) ? $params["sort"] : 'pagamento_data';
+
+        $sortParam = ($params["sort"]) ? $params["sort"] : 'descricao';
         $orderParam = ($params["order"]) ? $params["order"] : 'DESC';
         $orderby = new RepositoryOrder($params);
         $orderby->addOrder($sortParam, ($orderParam == 'ASC') ? 'DESC' : 'ASC');
 
-        $list = new Zend_Paginator(new My_Zend_Paginator_Adapter_Doctrine($this->_lancamentoRepository->getListByFilter($filter, $orderby)));
+        $list = new Zend_Paginator(new My_Zend_Paginator_Adapter_Doctrine($this->_fornecedorRepository->getListByFilter($filter, $orderby)));
         $list->setItemCountPerPage(500);
         $list->setCurrentPageNumber($params["page"]);
         $this->view->list = $list;
         $this->view->list_params = array('filter' => $filter);
-        $this->view->page = 'Extrato ' . AppUtil::convertDateToString($data_inicial) . ' a ' . AppUtil::convertDateToString($data_final);
+        $this->view->page = 'Clientes Espaço ELA';
 
         $this->view->repository_filter = $filter;
         $this->view->repository_order = $orderby;
-        $this->view->alunos = $this->_alunoRepository->getListActive($this->_empresa_id);
-        $receita = $this->_lancamentoRepository->getReceitaByDate($this->_empresa_id, $data_inicial);
-        $despesa = $this->_lancamentoRepository->getDespesaByDate($this->_empresa_id, $data_inicial);
+        $empresa = $this->_empresaRepository->getById($this->_empresa_id);
+        $this->view->empresa = $empresa;
 
-        $saldo = $receita - $despesa;
-        $this->view->saldo_anterior = $saldo;
-        $this->view->plano_de_contas_list = $plano_de_contas_filtro;
-        $this->view->data_inicial = $data_inicial;
-        $this->view->data_final = $data_final_atualizada;
-
-        $this->view->params = $params;
-        $this->view->empresa = $this->_empresaRepository->getById($this->_empresa_id);
-
-        $this->view->planos_de_contas = $this->_planodecontasRepository->getPlanoDeContas();
     }
+
 
     public function fluxoCaixaAction() {
 

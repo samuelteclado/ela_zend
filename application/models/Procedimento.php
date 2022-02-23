@@ -17,6 +17,9 @@ class Procedimento extends DaoProcedimento
     const CANCELADO = 3;
     const EXCLUIDO = 4;
 
+    const CILIOS = 1;
+    const MASSAGEM = 2;
+
 
     public function getStatus() {
         switch ($this->status) {

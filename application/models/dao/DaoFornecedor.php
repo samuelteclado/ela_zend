@@ -17,6 +17,7 @@
  * @property FornecedorCategoria $FornecedorCategoria
  * @property Doctrine_Collection $Endereco
  * @property Doctrine_Collection $Lancamento
+ * @property Doctrine_Collection $Movimento
  * 
  * @package    ##PACKAGE##
  * @subpackage ##SUBPACKAGE##
@@ -117,6 +118,10 @@ abstract class DaoFornecedor extends DaoGeneric
              'foreign' => 'fornecedor_id'));
 
         $this->hasMany('Lancamento', array(
+             'local' => 'id',
+             'foreign' => 'fornecedor_id'));
+
+        $this->hasMany('Movimento', array(
              'local' => 'id',
              'foreign' => 'fornecedor_id'));
     }

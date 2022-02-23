@@ -1,0 +1,98 @@
+<style>
+    .valores{width: 100px}
+
+    .label_dados{
+        float: left;
+        padding-left: 3px;
+        padding-bottom: -20px;
+    }
+    .label_linha{
+        border-bottom: 1px solid #000;
+        float: left;
+        padding-left: 3px;
+        padding-bottom: -20px;
+    }
+    .label_dados p{
+        font-size: 14px;
+    }
+
+    .table-bordered {
+        border: 4px solid #dddddd;
+        border-collapse: collapse;
+        border-left: 4px solid #dddddd;
+    }
+
+</style>
+<div id="esquerda">
+    <div style="margin: 10px">
+        <div class="cabecalho-impressao" style="display: none">
+            <h5 style="text-align: center"><?php echo $this->empresa->nome_fantasia ?></h5>
+            <p style="text-align: center;">CNPJ: <?php echo AppUtil::convertIntToCNPJ($this->empresa->cnpj) ?></p>
+            <img  style="float: left;height: 50px;margin-top: -45px;width: 50px;border: none;padding: 4px" src="<?php echo AppUtil::getFileView($this->empresa, 'e', '100') ?>">
+            <div style="margin: auto;width: 50%;margin-top: -10px">
+                <p style="text-align: center"><?php echo $this->empresa->Endereco[0]->logradouro ?>, N°: <?php echo $this->empresa->Endereco[0]->numero ?> — <?php echo $this->empresa->Endereco[0]->bairro ?>, <?php echo $this->empresa->Endereco[0]->cidade ?> - <?php echo $this->empresa->Endereco[0]->estado ?></p>
+            </div>
+            <div style="margin: auto;width: 50%;">
+                <h5 style="text-align: center;">Relação de  Clientes</h5>
+            </div>
+        </div>
+
+
+        <form id="form_extrato" method="POST" action="" enctype="multipart/form-data">
+            <fieldset>
+                <?php echo $this->flashMessenger(); ?>
+                <div class="page-header" >
+                    <h3>Relação de  Clientes</h3>
+                </div>
+                <div class="row well noprint">
+                    <div class="span4">
+                        <div class="control-group">
+                            <label class="control-label" for="procedimento">Último Procedimento</label>
+                            <div class="controls">
+                                <select data-placeholder="[ Todos ]" class="input-medium chzn-select-deselect" name="procedimento" id="procedimento">
+                                    <option value="0"></option>
+                                    <option <?php echo ViewUtil::fillFieldSelect($this->repository_filter->getParamByField('procedimento'), Cliente::SIM) ?> value="<?php echo Cliente::SIM?>">SIM</option>
+                                    <option <?php echo ViewUtil::fillFieldSelect($this->repository_filter->getParamByField('procedimento'), Cliente::NAO) ?> value="<?php echo Cliente::NAO?>">NÃO</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">&nbsp;</label>
+                        <div class="controls">
+                            <button type="submit" class="btn btn-info"><i class="icon-filter icon-white"></i>Filtrar</button>
+                            <a class=" btn btn-inverse " href="javascript:self.print()"><i class="icon-print icon-white"></i>Imprimir</a>
+                        </div>
+                    </div>
+
+            </fieldset>
+
+            <hr/>
+        </form>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>Qt</th>
+                <th>Nome</th>
+                <th>Último Procedimento</th>
+                <th>Telefone</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php $count =1; foreach ($this->list as $item): ?>
+                <tr>
+                    <td><?php echo $count?></td>
+                    <td style="text-transform: uppercase;"><b><a target="_blank" href="<?php echo $this->baseUrl()?>/funcionario/cliente/editar/id/<?php echo $item->id ?>"><?php echo $item->getFullNome()?></a></b></td>
+                    <td><?php echo AppUtil::convertDateToString($item->getUltimoAtendimento()) ?></td>
+                    <td><?php echo AppUtil::convertIntToCelular($item->Endereco[0]->telefone_1)?></td>
+                </tr>
+                <?php $count++?>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+        <div style="float: right;display: none" class="cabecalho-impressao"> <p>Emitido dia: <?php echo date('d/m/Y H:i:s') ?></p></div>
+    </div>
+    <div class="cabecalho-impressao" style="display: none;margin: auto;width: 150px;height: 20px;margin-top: 20px">
+        <img  style="height: 30px;width: 100px;opacity: 0.6;" src="<?php echo $this->baseUrl(); ?>/content/img/logo_holy.png">
+    </div>
+</div>

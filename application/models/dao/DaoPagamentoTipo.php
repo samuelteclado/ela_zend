@@ -11,6 +11,8 @@
  * @property float $percentual
  * @property integer $empresa_id
  * @property Empresa $Empresa
+ * @property Doctrine_Collection $Lancamento
+ * @property Doctrine_Collection $Movimento
  * @property Doctrine_Collection $Procedimento
  * 
  * @package    ##PACKAGE##
@@ -74,6 +76,14 @@ abstract class DaoPagamentoTipo extends DaoGeneric
         $this->hasOne('Empresa', array(
              'local' => 'empresa_id',
              'foreign' => 'id'));
+
+        $this->hasMany('Lancamento', array(
+             'local' => 'id',
+             'foreign' => 'pagamento_tipo_id'));
+
+        $this->hasMany('Movimento', array(
+             'local' => 'id',
+             'foreign' => 'pagamento_tipo_id'));
 
         $this->hasMany('Procedimento', array(
              'local' => 'id',

@@ -1,0 +1,110 @@
+﻿<div id="esquerda">
+
+    <div style="margin: 10px">
+
+        <a style="float: right;" class="btn btn-success btn-large" href="<?php echo $this->baseUrl(); ?>/admin/conta-bancaria/novo/">
+            <i class="icon-plus icon-white"></i> Novo </a>
+
+
+        <div class="page-header" >
+            <h2>Contas</h2>
+        </div>
+
+        <form method="GET" action="" style="display: none;" id="form_filtrar">
+            <div class="row well">
+                <a id="btn_close" class="close" href="#">&times;</a>
+
+
+                <div class="span4">
+                    <div class="control-group">
+                        <label class="control-label" for="razao_social">Razão Social</label>
+                        <div class="controls">
+                            <input class="input-xlarge" id="razao_social" name="razao_social" type="text" value="<?php echo $this->repository_filter->getParamByField('razao_social') ?>">
+                        </div>
+                    </div>
+                </div>
+                <div class="span4">
+                    <div class="control-group">
+                        <label class="control-label" for="nome_fatasia">Nome Fantasia</label>
+                        <div class="controls">
+                            <input class="input-xlarge" id="nome_fatasia" name="nome_fatasia" type="text" value="<?php echo $this->repository_filter->getParamByField('nome_fatasia') ?>">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="span4">
+                    <div class="control-group">
+                        <label class="control-label" for="cnpj">CNPJ</label>
+                        <div class="controls">
+                            <input class="input-prepend txCnpj" id="cnpj" name="cnpj" type="text" value="<?php echo $this->repository_filter->getParamByField('cnpj') ?>">
+                        </div>
+                    </div>
+                </div>
+                <div class="span4">
+                    <div class="control-group">
+                        <label class="control-label" for="status">Status</label>
+                        <div class="controls">
+                            <select data-placeholder="[ Todos ]" class="input-small chzn-select-deselect" name="status" id="status">
+                                <option value="0"></option>
+                                <option <?php echo ViewUtil::fillFieldSelect($this->repository_filter->getParamByField('status'), Escola::ATIVA) ?> value="<?php echo Escola::ATIVA ?>">Ativa</option>
+                                <option <?php echo ViewUtil::fillFieldSelect($this->repository_filter->getParamByField('status'), Escola::INATIVA) ?> value="<?php echo Escola::INATIVA ?>">Inativa</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+                <div class="span8">
+                    <hr/>
+                    <button type="submit" data-loading-text="Filtrando..." class="btn btn-info btn-large"><i class="icon-filter icon-white"></i>&nbsp;Filtrar</button>
+                </div>
+
+            </div>
+        </form>
+
+        <?php echo $this->flashMessenger(); ?>
+
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th><?php echo ViewUtil::getOrderBy('Descrição', 'descricao', $this->repository_order) ?></th>
+                    <th><?php echo ViewUtil::getOrderBy('Banco', 'b.descricao', $this->repository_order) ?></th>
+                    <th><?php echo ViewUtil::getOrderBy('PIX', 'pix', $this->repository_order) ?></th>
+                    <th><?php echo ViewUtil::getOrderBy('Agência', 'agencia', $this->repository_order) ?></th>
+                    <th><?php echo ViewUtil::getOrderBy('Conta', 'conta', $this->repository_order) ?></th>                    
+                    <th><?php echo ViewUtil::getOrderBy('Status', 'status', $this->repository_order) ?></th>                    
+
+                    <th colspan="2"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($this->list as $item): ?>
+
+                    <tr>
+                        <td><?php echo $item->descricao ?></td>
+                        <td><?php echo $item->Banco->descricao ?></td>
+                        <td><?php echo $item->pix ?></td>
+                        <td><?php echo $item->agencia ?></td>
+                        <td><?php echo $item->conta ?></td>
+                        <td><?php echo $item->getStatus() ?></td>
+
+                        <td width="20px" style="text-align: center; vertical-align: middle;">
+                            <a href="<?php echo $this->baseUrl(); ?>/admin/conta-bancaria/editar/id/<?php echo $item->id; ?>"><i title="editar" class="icon-pencil"></i></a>
+                        </td>
+                        <td width="20px" style="text-align: center; vertical-align: middle;">
+                            <a onclick="return confirm('Confirma a exclusão desta conta ?')" href="<?php echo $this->baseUrl(); ?>/admin/conta-bancaria/deletar/id/<?php echo $item->id; ?>"><i title="excluir" class="icon-trash"></i></a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+
+        <?php if (isset($this->list)) echo $this->paginationControl($this->list, "All", "paginator.phtml", $this->list_params); ?>
+
+    </div>
+
+</div>

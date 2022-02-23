@@ -1,0 +1,74 @@
+<div id="esquerda">
+    <div style="margin: 10px">
+        <div class="cabecalho-impressao" style="display: none">
+            <h5 style="text-align: center"><?php echo $this->empresa->nome_fantasia ?></h5>
+            <p style="text-align: center;">CNPJ: <?php echo AppUtil::convertIntToCNPJ($this->empresa->cnpj) ?></p>
+            <img  style="float: left;height: 50px;margin-top: -45px;width: 50px;border: none;padding: 4px" src="<?php echo AppUtil::getFileView($this->empresa, 'e', '100') ?>">
+            <div style="margin: auto;width: 50%;margin-top: -10px">
+                <p style="text-align: center"><?php echo $this->empresa->Endereco[0]->logradouro ?>, N°: <?php echo $this->empresa->Endereco[0]->numero ?> — <?php echo $this->empresa->Endereco[0]->bairro ?>, <?php echo $this->empresa->Endereco[0]->cidade ?> - <?php echo $this->empresa->Endereco[0]->estado ?></p>
+            </div>
+            <div style="margin: auto;width: 50%;">
+                <h5 style="text-align: center;">CLIENTES</h5>
+            </div>
+        </div>
+        <form id="form_usuario" method="GET" action="" enctype="multipart/form-data">
+            <fieldset>
+                <?php echo $this->flashMessenger(); ?>
+                <div class="row well noprint">
+
+                    <div class="span5">
+                        <div class="control-group">
+                            <label class="control-label" for="status">Status</label>
+                            <div class="controls">
+                                <select data-placeholder="[ Todos ]" class="input-large chzn-select-deselect" name="status" id="status">
+                                    <option value="0"></option>
+                                    <option <?php echo ViewUtil::fillFieldSelect($this->repository_filter->getParamByField('status'), Cliente::ATIVO) ?> value="<?php echo Cliente::ATIVO ?>">Ativo</option>
+                                    <option <?php echo ViewUtil::fillFieldSelect($this->repository_filter->getParamByField('status'), Cliente::INATIVO) ?> value="<?php echo Cliente::INATIVO ?>">Inativo</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="span3">
+                        <div class="control-group">
+                            <label class="control-label">&nbsp;</label>
+                            <div class="controls">
+                                <button type="submit" class="btn btn-info"><i class="icon-filter icon-white"></i>Filtrar</button>
+                                <a class=" btn btn-inverse " href="javascript:self.print()"><i class="icon-print icon-white"></i>Imprimir</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+            <hr/>
+        </form>
+        <table class="table table-bordered table-striped">
+            <thead>
+            <tr>
+                <th></th>
+                <th>Nome Completo</th>
+                <th>Aten. Realizados</th>
+                <th>Email</th>
+                <th>Celular</th>
+                <th>Idade</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php $i=1; foreach ($this->list as $cliente): ?>
+                <tr>
+                    <td><?php echo $i?></td>
+                    <td><?php echo $cliente->nome." ".$cliente->sobrenome?></td>
+                    <td><?php echo $cliente->getTotalAtendimentos()?></td>
+                    <td><?php echo $cliente->email?></td>
+                    <td><?php echo AppUtil::convertIntToCelular($cliente->Endereco[0]->telefone_1)?></td>
+                    <td><?php echo AppUtil::calcularIdade($cliente->data_aniversario)?> anos</td>
+                </tr>
+            <?php $i++; endforeach; ?>
+            </tbody>
+        </table>
+
+        <div style="float: right;display: none" class="cabecalho-impressao"> <p>Emitido dia: <?php echo date('d/m/Y H:i:s') ?></p></div>
+    </div>
+    <div class="cabecalho-impressao" style="display: none;margin: auto;width: 150px;height: 20px;margin-top: 20px">
+        <img  style="height: 30px;width: 100px;opacity: 0.6;" src="<?php echo $this->baseUrl(); ?>/content/img/logo_holy.png">
+    </div>
+</div>

@@ -1,0 +1,239 @@
+<script type="text/javascript">
+
+    $(document).ready(function() {
+        //Quando carregar a pagina
+        $(".dados").hide(); //esta primeira linha servirá para esconder as divs do conteúdo
+        //$("#cultos li a:first").addClass("active").show(); //Ativar primeira aba
+        //$(".horario:first").show('slow'); //abre a pagina suavemente
+        var activeaba = '#data_bolsa';
+        $('#data_bolsa').fadeIn('slow');
+        //On Click Event
+        $("#dados ul li a").click(function() {// quando clicar no link do menu irá executar a seguinte função:
+            $("#dados ul li").removeClass("active"); //remove a class no link clicado para que não fica marcado
+            $(this).parent().addClass("active"); //adiciona a classe no link clicado para que o usuario saiba em qual link ele esta
+            $(".dados").hide(); //esconder as divs do conteúdo
+            activeaba = $(this).attr("href"); //Encontrar o valor do atributo rel para identificar a aba que esta ativa + conteúdo
+            $(activeaba).fadeIn('slow'); //efeito de fade in com o conteúdo ativo
+            return false; // o returno falso evita que ao clicar no link a página role para o topo.
+        });
+    });
+
+
+
+
+    function removeImagemButton(id) {
+        $('#remove').attr('value', id);
+        $('#form_aluno').submit();
+    }
+
+    function selectedOptionCurso(id) {
+        var optionSelected = <?php echo ($this->aluno->Turma->curso_id > 0) ? $this->aluno->Turma->curso_id : '0' ?>;
+        if (optionSelected == id)
+            return 'selected';
+        return '';
+    }
+
+    function selectedOptionTurma(id) {
+        var optionSelected = <?php echo ($this->aluno->turma_id > 0) ? $this->aluno->turma_id : '0' ?>;
+        if (optionSelected == id)
+            return 'selected';
+        return '';
+    }
+    function selectedParcelaSelecionada(parcela,parcela_selecionada) {
+        if (parcela == parcela_selecionada)
+            return 'selected';
+        return '';
+    }
+
+    function setParcelas(produto) {
+        var select = '<select disabled class="input-mini ' + produto.class + '" name="produto_parcela[]" >';
+        for (var i = 1; i <= produto.parcelas; i++) {
+            select += '<option '+ selectedParcelaSelecionada(i,produto.parcela_selecionada)+' value="' + i + '">' + i + '</option>';
+        }
+        select += '</select>';
+        return select;
+    }
+
+    $(function() {
+        $('#unidade').change(function() {
+            var unidade = "";
+            $("#unidade option:selected").each(function() {
+                unidade = parseInt($(this).val());
+            });
+            $('#curso').html('<option value="0">Carregando aguarde ...</option>');
+            $('#curso').attr("disabled", true);
+            $.getJSON("<?php echo $this->baseUrl() ?>/ajax/curso/list/", {id: unidade}, function(list) {
+                var list = jQuery.parseJSON(list)
+                var cursos = "";
+                $('#curso').html('');
+                $('#curso').append('<option value="0">[ Selecione a Curso ]</option>');
+                $.each(list, function(key, item) {
+                    cursos += '<option ' + selectedOptionCurso(item.id) + ' value="' + item.id + '">' + item.descricao + '</option>';
+                });
+                $('#curso').append(cursos);
+                $('#curso').attr("disabled", false);
+
+                $('#curso').change();
+            })
+        })
+            .trigger('change');
+
+        $('#curso').change(function() {
+            var curso = "";
+            $("#curso option:selected").each(function() {
+                curso = parseInt($(this).val());
+            });
+            $('#turma').html('<option value="0">Carregando aguarde ...</option>');
+            $('#turma').attr("disabled", true);
+            $.getJSON("<?php echo $this->baseUrl() ?>/ajax/turma/list/", {id: curso}, function(list) {
+                var list = jQuery.parseJSON(list)
+                var campus = "";
+                $('#turma').html('');
+                $('#turma').append('<option value="0">[ Selecione a Turma ]</option>');
+                $.each(list, function(key, item) {
+                    campus += '<option ' + selectedOptionTurma(item.id) + ' value="' + item.id + '">' + item.descricao + '</option>';
+                });
+                $('#turma').append(campus);
+                $('#turma').attr("disabled", false);
+            });
+
+            var aluno_id = <?php echo ($this->aluno->id > 0) ? $this->aluno->id : '0' ?>;
+            $.getJSON("<?php echo $this->baseUrl() ?>/ajax/produto/list/", {id: curso, aluno_id: aluno_id}, function(list) {
+                var list = jQuery.parseJSON(list)
+                var produtos = "";
+                $('#produtos tbody').html('');
+                $.each(list, function(key, produto) {
+                    produtos += '<tr class="' + produto.class + '"><td><input type="checkbox" ' + produto.checked + ' ' + produto.mensalidade + ' class="produto_check ' + produto.class + '"  name="produto_id[]"  value="' + produto.id + '"></td><td>' + produto.descricao + '</td><td>' + produto.valor + '</td>\n\
+                    <td ' + produto.mensalidade + '>' + setParcelas(produto) + '</td><td><input class="input-xlarge ' + produto.class + '" name="produto_observacao[]" disabled type="text" ' + produto.mensalidade + ' value="'+produto.observacao+'"></td><td>' + produto.status + '</td></tr>';
+                });
+                $('#produtos tbody').append(produtos);
+                var list = $('.produto_check');
+                $.each(list, function(key, item) {
+                    var tr = $(item).parent().parent();
+                    tr.find('input:text, select').attr("disabled", !$(item).is(":checked"));
+                    tr.find('.desabilitar').attr("disabled", true);
+                });
+
+                $('.produto_check').click(function() {
+                    var tr = $(this).parent().parent();
+                    tr.find('input:text, select').attr("disabled", !$(this).is(":checked"));
+                    tr.find('.desabilitar').attr("disabled", true);
+                });
+
+            })
+        }).trigger('change');
+
+
+    });
+</script>
+
+<?php echo $this->flashMessenger(); ?>
+
+<form id="form_aluno" method="POST" action="" enctype="multipart/form-data">
+    <fieldset>
+        <div colspan="4">
+            <div id="dados">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#data_aluno">Dados do Aluno</a></li>
+                    <li><a href="#data_responsavel">Responsável</a></li>
+                    <li><a href="#data_observacao">Observações</a></li>
+                    <li><a href="#data_bolsa">Bolsa - Desconto</a></li>
+                    <li><a href="#data_produto">Produtos</a></li>
+
+
+                </ul>
+            </div>
+        </div>
+        <?php include 'aluno_bolsa.phtml'; ?>
+        <?php include 'aluno_responsavel.phtml'; ?>
+        <?php include 'aluno_observacao.phtml'; ?>
+        <?php include 'aluno_bolsa.phtml'; ?>
+        <?php include 'aluno_produto.phtml'; ?>
+        <?php if ($this->aluno->id > 0) : ?>
+            <?php include 'aluno_extrato_financeiro.phtml'; ?>
+        <?php endif; ?>
+
+        </div>
+    </fieldset>
+    <div style="width: 100%;height: 50px">
+        <div class="btn-concluir">
+            <a class="btn btn-large" href="<?php echo $this->baseUrl(); ?>/secretaria/aluno/">Cancelar</a>
+            <button type="submit" class="btn btn-success btn-large">Salvar</button>
+        </div>
+    </div>
+</form>
+<script type="text/javascript">
+    function format_cep(cep) {
+        cep = cep.replace(".", "");
+        cep = cep.replace("-", "");
+        cep = cep.replace(" ", "");
+        cep = cep.replace(/_/g, "");
+        return cep;
+    }
+
+
+
+    function format_string(str) {
+        if (str == null)
+            return '';
+        str = str.replace(/-/g, " ");
+        return str;
+    }
+
+
+    $("#cep").keyup(function(e) {
+
+        var cep = format_cep($(this).val());
+        if (cep.length < 8)
+            return false;
+        $('#data_aluno .endereco').attr('readonly', true);
+        $('#erro_cep').hide();
+        $('#loading_cep').show();
+
+        $.getJSON('<?php echo $this->baseUrl(); ?>/ajax/busca-cep/busca-cep', {cep: cep},
+            function(endereco) {
+                var data = jQuery.parseJSON(endereco);
+                console.debug(data);
+                if (data.resultado == 1) {
+                    $('#erro_cep').hide();
+                    $("#logradouro").val(format_string(data.tipo_logradouro) + ' ' + format_string(data.logradouro));
+                    $("#numero").val('');
+                    $("#bairro").val(format_string(data.bairro));
+                    $("#cidade").val(format_string(data.cidade));
+                    $("#estado").val(format_string(data.uf));
+                    $("#numero").focus();
+                    $('#loading_cep').hide();
+
+                } else if (data.resultado == 0) {
+                    $("#logradouro").val('');
+                    $("#numero").val('');
+                    $("#bairro").val('');
+                    $("#cidade").val('');
+                    $("#estado").val('');
+                    $('#loading_cep').hide();
+                    $('#erro_cep').show('slow');
+                }
+
+                $('#data_aluno .endereco').attr('readonly', false);
+
+            }, "json"
+        );
+    });
+</script>
+<script src="<?php echo $this->baseUrl(); ?>/content/upload/jquery/js/load-image.min.js"></script>
+<script type="text/javascript">
+    var result = $('#result');
+    document.getElementById('file').onchange = function(e) {
+        window.loadImage(
+            (e.dataTransfer || e.target).files[0],
+            function(img) {
+                result.children().replaceWith(img);
+            },
+            {
+                maxWidth: 160,
+                maxHeight: 160,
+                canvas: true
+            }
+        );
+    };
+</script>

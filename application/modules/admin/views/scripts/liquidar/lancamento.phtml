@@ -1,0 +1,154 @@
+<script type="text/javascript">
+    $(function() {
+
+
+        $('#forma_pagamento').change(function() {
+            var pagamentoTipo = "";
+            $("#forma_pagamento option:selected").each(function() {
+                pagamentoTipo = $(this).val();
+                tipo_lancamento = $('#tipo_lancamento').val();
+                if(tipo_lancamento == 1) {
+                    $.getJSON("<?php echo $this->baseUrl() ?>/ajax/lancamento/liquidar/", {
+                        pagamentoTipo: pagamentoTipo,
+                        lancamento: <?php echo $this->lancamento->id?>}, function (formaPagamento) {
+                        var forma_pagamento = jQuery.parseJSON(formaPagamento);
+                        $('#pagamento_percentual').val(forma_pagamento.percentual);
+                        $('#pagamento_taxa').val(forma_pagamento.pagamento_taxa);
+                        $('#pagamento_valor').val(forma_pagamento.pagamento_valor);
+
+                    })
+                } else{
+                    $('#pagamento_percentual').val('0,00');
+                    $('#pagamento_taxa').val('0,00');
+                    $('#pagamento_valor').val($('#vencimento_valor').val());
+                }
+            });
+        })
+            .trigger('change');
+
+
+        $( "#form_liquidar" ).submit(function( event ) {
+            event.preventDefault();
+            $.ajax({
+                type: "POST",
+                url: "<?php echo $this->baseUrl(); ?>/admin/liquidar/lancamento/id/<?php echo $this->lancamento->id ?>",
+                data: $(this).serialize(),
+                success: function() {
+                    // callback code here
+                     //$.colorbox.close();
+                    //location.reload();
+                }
+            })
+
+        });
+
+    });
+
+
+
+</script>
+<div id="">
+
+    <div style="margin: 10px">
+
+        <div class="page-header" >
+            <h2>Baixar Titulo</h2>
+        </div>
+
+        <?php echo $this->flashMessenger(); ?>
+
+        <form id="form_liquidar" method="POST" action="" enctype="multipart/form-data">
+            <fieldset>
+                <div id="data_lancamento" class="dados" >
+                    <div class="row well">
+                        <div class="span4">
+                            <div class="control-group">
+                                <label class="control-label" for="lancamento_descricao">Descrição</label>
+                                <div class="controls">
+                                    <input class="input-xlarge" id="lancamento_descricao" readonly name="lancamento_descricao" type="text" value="<?php echo $this->lancamento->descricao ?>">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span2">
+                            <div class="control-group">
+                                <label class="control-label" for="vencimento_data">Vencimento</label>
+                                <div class="controls">
+                                    <div class="input-append">
+                                        <input class="input-small txData"  readonly id="vencimento_data" name="vencimento_data" type="text"  value="<?php echo AppUtil::convertDateToString($this->lancamento->vencimento_data) ?>">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span2">
+                            <div class="control-group">
+                                <label class="control-label" for="vencimento_valor">Valor</label>
+                                <div class="controls">
+                                    <input class="input-small txValor" id="vencimento_valor" readonly name="vencimento_valor" maxlength="8" type="text" value="<?php echo AppUtil::convertFloatToString($this->lancamento->vencimento_valor) ?>">
+                                    <span class="help-block">R$</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span4">
+                            <div class="control-group">
+                                <label class="control-label" for="tipo_lancamento">Tipo</label>
+                                <div class="controls">
+                                    <select  class="input-medium" name="tipo_lancamento" readonly="true"  id="tipo_lancamento">
+                                        <option <?php echo ViewUtil::fillFieldSelect($this->lancamento->tipo, Lancamento::RECEITA) ?> value="<?php echo Lancamento::RECEITA ?>">Receita</option>
+                                        <option <?php echo ViewUtil::fillFieldSelect($this->lancamento->tipo, Lancamento::DESPESA) ?> value="<?php echo Lancamento::DESPESA ?>">Despesa</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span6" >
+                            <div class="control-group">
+                                <label class="control-label" for="forma_pagamento">Forma de Pagamento</label>
+                                <div class="controls">
+                                    <select  class="span6" name="forma_pagamento" id="forma_pagamento">
+                                        <option value="0">[  Selecione a Forma ]</option>
+                                        <?php foreach ($this->forma_pagamento as $pagamento): ?>
+                                            <option <?php echo ViewUtil::fillFieldSelect($this->lancamento->pagamento_tipo_id, $pagamento->id) ?> value="<?php echo $pagamento->id ?>"><?php echo $pagamento->descricao ?></option>
+                                        <?php endforeach ?>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span2">
+                            <div class="control-group">
+                                <label class="control-label" for="pagamento_percentual">Taxa de Pagamento</label>
+                                <div class="controls">
+                                    <input class="input-small txValor" id="pagamento_percentual" readonly name="pagamento_percentual" maxlength="5" type="text" value="<?php echo AppUtil::convertFloatToString($this->lancamento->pagamento_percentual) ?>">
+                                    <span class="help-block">%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span2">
+                            <div class="control-group">
+                                <label class="control-label" for="pagamento_taxa">Taxa Descontada</label>
+                                <div class="controls">
+                                    <input class="input-small txValor" id="pagamento_taxa" name="pagamento_taxa" type="text" value="<?php echo AppUtil::convertFloatToString($this->lancamento->pagamento_taxa) ?>">
+                                    <span class="help-block">R$</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span2">
+                            <div class="control-group">
+                                <label class="control-label" for="pagamento_valor">Valor Real</label>
+                                <div class="controls">
+                                    <input class="input-small txValor" id="pagamento_valor" name="pagamento_valor" maxlength="8" type="text" value="<?php echo AppUtil::convertFloatToString($this->lancamento->pagamento_valor) ?>">
+                                    <span class="help-block">R$</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </fieldset>
+            <hr/>
+            <div style="width: 100%;height: 20px;padding-bottom: 20px">
+                <div class="btn-concluir">
+                        <button type="submit" id="baixar" class="btn btn-success btn-large">Baixar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

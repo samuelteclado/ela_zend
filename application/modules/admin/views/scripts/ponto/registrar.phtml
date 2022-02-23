@@ -1,0 +1,47 @@
+<div style="margin-bottom: 20px;min-height: 390px;">
+    <div style="width: 100%; margin-top: 130px;margin-bottom: -80px">
+
+        <div class="body-content">
+
+            <div class="content">
+
+                <div class="rounded"  style=" width: 330px; margin: auto;">
+                    <form action="<?php echo $this->baseUrl(); ?>/admin/ponto/registrar"  autocomplete="off" method="POST">
+                        <table border="0">
+                            <tr>
+                                <td colspan="3" style="text-align: center;">
+                                    <h4>REGISTRAR PONTO</h4>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" style="font-size: 12px; text-align: center;">
+                                    <?php echo $this->flashMessenger(); ?>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right">
+                                    <label class="control-label" for="usuario">Email:</label>
+                                </td>
+                                <td colspan="2">
+                                    <input name="usuario_email" autocomplete="new-password"  placeholder="Digite seu email" style="width: 250px;" class="text-input" type="text">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right">
+                                    <label class="control-label" for="senha">Senha:</label>
+                                </td>
+                                <td>
+                                    <input name="senha_ponto" autocomplete="new-password" placeholder="Senha" style="width: 180px;" class="text-input" type="password">
+                                </td>
+                                <td>
+                                    <input class="submit btn primary-btn btn-warning flex-table-btn js-submit" type="submit" value="REGISTRAR">
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

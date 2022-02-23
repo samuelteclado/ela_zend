@@ -1,0 +1,273 @@
+<div id="procedimento_detalhes" class="dados">
+    <div class="row well">
+        <div class="span5">
+            <div class="control-group">
+                <label class="control-label" for="fumante">É fumante?</label>
+                <label class="radio inline">
+                    <input type="radio" name="fumante" value="1"<?php echo $this->procedimento->ProcedimentoDetalhe[0]->fumante == 1 ? 'checked' : '' ?>>
+                    Sim
+                </label>
+                <label class="radio inline">
+                    <input type="radio" name="fumante" value="0"<?php echo $this->procedimento->ProcedimentoDetalhe[0]->fumante  == 0 ? 'checked' : '' ?>>
+                    Não
+                </label>
+            </div>
+        </div>
+        <div class="span11">
+            <hr/>
+        </div>
+        <div class="span5">
+            <div class="control-group">
+                <label class="control-label" for="lash_lift">Já fez Lash Lifting?</label>
+                <label class="radio inline">
+                    <input type="radio" name="lash_lift" value="1"<?php echo $this->procedimento->ProcedimentoDetalhe[0]->lash_lift == 1 ? 'checked' : '' ?>>
+                    Sim
+                </label>
+                <label class="radio inline">
+                    <input type="radio" name="lash_lift" value="0"<?php echo $this->procedimento->ProcedimentoDetalhe[0]->lash_lift  == 0 ? 'checked' : '' ?>>
+                    Não
+                </label>
+            </div>
+        </div>
+        <div class="span11">
+            <hr/>
+        </div>
+
+        <div class="span5">
+            <div class="control-group">
+                <label class="control-label" for="covid">Já teve COVID-19?</label>
+                <label class="radio inline">
+                    <input type="radio" name="covid" value="1"<?php echo $this->procedimento->ProcedimentoDetalhe[0]->covid == 1 ? 'checked' : '' ?>>
+                    Sim
+                </label>
+                <label class="radio inline">
+                    <input type="radio" name="covid" value="0"<?php echo $this->procedimento->ProcedimentoDetalhe[0]->covid  == 0 ? 'checked' : '' ?>>
+                    Não
+                </label>
+            </div>
+        </div>
+        <div class="span4">
+            <div class="control-group">
+                <label class="control-label" for="covid_detalhes">Quando :</label>
+                <div class="controls">
+                    <input class="input-xlarge" id="covid_detalhes" name="covid_detalhes" type="text" value="<?php echo $this->procedimento->ProcedimentoDetalhe[0]->covid_detalhes ?>">
+                </div>
+            </div>
+        </div>
+        <div class="span11">
+            <hr/>
+        </div>
+        <div class="span5">
+            <div class="control-group">
+                <label class="control-label" for="maquiagem">Está de rímel ou maquiagem ?</label>
+                <label class="radio inline">
+                    <input type="radio" name="maquiagem" value="1"<?php echo $this->procedimento->ProcedimentoDetalhe[0]->maquiagem == 1 ? 'checked' : '' ?>>
+                    Sim
+                </label>
+                <label class="radio inline">
+                    <input type="radio" name="maquiagem" value="0"<?php echo $this->procedimento->ProcedimentoDetalhe[0]->maquiagem  == 0 ? 'checked' : '' ?>>
+                    Não
+                </label>
+            </div>
+        </div>
+        <div class="span2">
+            <div class="control-group">
+                <label class="control-label" for="gestante">É gestante?</label>
+                <label class="radio inline">
+                    <input type="radio" name="gestante" value="1"<?php echo $this->procedimento->ProcedimentoDetalhe[0]->gestante == 1 ? 'checked' : '' ?>>
+                    Sim
+                </label>
+                <label class="radio inline">
+                    <input type="radio" name="gestante" value="0"<?php echo $this->procedimento->ProcedimentoDetalhe[0]->gestante  == 0 ? 'checked' : '' ?>>
+                    Não
+                </label>
+            </div>
+        </div>
+        <div class="span11">
+            <hr/>
+        </div>
+        <div class="span5">
+            <div class="control-group">
+                <label class="control-label" for="procedimento_recente">Fez algum procedimento recetemente nos olhos?</label>
+                <label class="radio inline">
+                    <input type="radio" name="procedimento_recente" value="1"<?php echo $this->procedimento->ProcedimentoDetalhe[0]->procedimento_recente == 1 ? 'checked' : '' ?>>
+                    Sim
+                </label>
+                <label class="radio inline">
+                    <input type="radio" name="procedimento_recente" value="0"<?php echo $this->procedimento->ProcedimentoDetalhe[0]->procedimento_recente  == 0 ? 'checked' : '' ?>>
+                    Não
+                </label>
+            </div>
+        </div>
+        <div class="span4">
+            <div class="control-group">
+                <label class="control-label" for="lente_contato">Está de lente de contato?</label>
+                <label class="radio inline">
+                    <input type="radio" name="lente_contato" value="1"<?php echo $this->procedimento->ProcedimentoDetalhe[0]->lente_contato == 1 ? 'checked' : '' ?>>
+                    Sim
+                </label>
+                <label class="radio inline">
+                    <input type="radio" name="lente_contato" value="0"<?php echo $this->procedimento->ProcedimentoDetalhe[0]->lente_contato  == 0 ? 'checked' : '' ?>>
+                    Não
+                </label>
+            </div>
+        </div>
+        <div class="span11">
+            <hr/>
+        </div>
+        <div class="span5">
+            <div class="control-group">
+                <label class="control-label" for="alergia">Possui alergia à esmaltes/cosméticos/cianoacrilato?</label>
+                <label class="radio inline">
+                    <input type="radio" name="alergia" value="1"<?php echo $this->procedimento->ProcedimentoDetalhe[0]->alergia == 1 ? 'checked' : '' ?>>
+                    Sim
+                </label>
+                <label class="radio inline">
+                    <input type="radio" name="alergia" value="0"<?php echo $this->procedimento->ProcedimentoDetalhe[0]->alergia  == 0 ? 'checked' : '' ?>>
+                    Não
+                </label>
+            </div>
+        </div>
+        <div class="span4">
+            <div class="control-group">
+                <label class="control-label" for="alergia_outros">Especifique :</label>
+                <div class="controls">
+                    <input class="input-xlarge" id="alergia_outros" name="alergia_outros" type="text" value="<?php echo $this->procedimento->ProcedimentoDetalhe[0]->alergia_outros ?>">
+                </div>
+            </div>
+        </div>
+        <div class="span11">
+            <hr/>
+        </div>
+        <div class="span8">
+            <div class="control-group">
+                <label class="control-label" for="problema_ocular">Possui glaucoma/blefarite/algum problema ocular?</label>
+                <label class="radio inline">
+                    <input type="radio" name="problema_ocular" value="1"<?php echo $this->procedimento->ProcedimentoDetalhe[0]->problema_ocular == 1 ? 'checked' : '' ?>>
+                    Sim
+                </label>
+                <label class="radio inline">
+                    <input type="radio" name="problema_ocular" value="0"<?php echo $this->procedimento->ProcedimentoDetalhe[0]->problema_ocular  == 0 ? 'checked' : '' ?>>
+                    Não
+                </label>
+            </div>
+        </div>
+        <div class="span11">
+            <hr/>
+        </div>
+        <div class="span5">
+            <div class="control-group">
+                <label class="control-label" for="tireoide">Possui problemas de tireóide?</label>
+                <label class="radio inline">
+                    <input type="radio" name="tireoide" value="1"<?php echo $this->procedimento->ProcedimentoDetalhe[0]->tireoide == 1 ? 'checked' : '' ?>>
+                    Sim
+                </label>
+                <label class="radio inline">
+                    <input type="radio" name="tireoide" value="0"<?php echo $this->procedimento->ProcedimentoDetalhe[0]->tireoide  == 0 ? 'checked' : '' ?>>
+                    Não
+                </label>
+            </div>
+        </div>
+        <div class="span4">
+            <div class="control-group">
+                <label class="control-label" for="tireoide_outros">Especifique :</label>
+                <div class="controls">
+                    <input class="input-xlarge" id="tireoide_outros" name="tireoide_outros" type="text" value="<?php echo $this->procedimento->ProcedimentoDetalhe[0]->tireoide_outros ?>">
+                </div>
+            </div>
+        </div>
+        <div class="span11">
+            <hr/>
+        </div>
+        <div class="span8">
+            <div class="control-group">
+                <label class="control-label" for="oncologico">Está em tratamento oncológico?</label>
+                <label class="radio inline">
+                    <input type="radio" name="oncologico" value="1"<?php echo $this->procedimento->ProcedimentoDetalhe[0]->oncologico == 1 ? 'checked' : '' ?>>
+                    Sim
+                </label>
+                <label class="radio inline">
+                    <input type="radio" name="oncologico" value="0"<?php echo $this->procedimento->ProcedimentoDetalhe[0]->oncologico  == 0 ? 'checked' : '' ?>>
+                    Não
+                </label>
+            </div>
+        </div>
+        <div class="span11">
+            <hr/>
+        </div>
+        <div class="span5">
+            <div class="control-group">
+                <label class="control-label" for="dorme_lado">Dorme de Lado?</label>
+                <label class="radio inline">
+                    <input type="radio" name="dorme_lado" value="1"<?php echo $this->procedimento->ProcedimentoDetalhe[0]->dorme_lado == 1 ? 'checked' : '' ?>>
+                    Sim
+                </label>
+                <label class="radio inline">
+                    <input type="radio" name="dorme_lado" value="0"<?php echo $this->procedimento->ProcedimentoDetalhe[0]->dorme_lado  == 0 ? 'checked' : '' ?>>
+                    Não
+                </label>
+            </div>
+        </div>
+        <div class="span5">
+            <div class="control-group">
+                <label class="control-label" for="dorme_esquerdo_direito">Se Dorme de Lado?</label>
+                <label class="radio inline">
+                    <input type="radio" name="dorme_esquerdo_direito" value="1"<?php echo $this->procedimento->ProcedimentoDetalhe[0]->dorme_esquerdo_direito == 1 ? 'checked' : '' ?>>
+                    Direito
+                </label>
+                <label class="radio inline">
+                    <input type="radio" name="dorme_esquerdo_direito" value="0"<?php echo $this->procedimento->ProcedimentoDetalhe[0]->dorme_esquerdo_direito  == 0 ? 'checked' : '' ?>>
+                    Esquerdo
+                </label>
+            </div>
+        </div>
+        <div class="span9">
+            <div class="control-group">
+                <label class="control-label" for="problema">Existe algum problema que julgue ser necessário informar ao profissional antes do procedimento :</label>
+                <div class="controls">
+                    <input class="input-xxlarge" id="problema" name="problema" type="text" value="<?php echo $this->procedimento->ProcedimentoDetalhe[0]->problema ?>">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <hr>
+    <div class="row well">
+        <h3>Uso Interno</h3>
+        <div class="span4">
+            <div class="control-group">
+                <label class="control-label" for="modelo_fios">Modelo dos fios:</label>
+                <div class="controls">
+                    <input class="input-large" id="modelo_fios" name="modelo_fios" type="text" value="<?php echo $this->procedimento->ProcedimentoDetalhe[0]->modelo_fios ?>">
+                </div>
+            </div>
+        </div>
+        <div class="span5">
+            <div class="control-group">
+                <label class="control-label" for="espessura">Espessura:</label>
+                <div class="controls">
+                    <input class="input-medium" id="espessura" name="espessura" type="text" value="<?php echo $this->procedimento->ProcedimentoDetalhe[0]->espessura ?>">
+                </div>
+            </div>
+        </div>
+
+        <div class="span4">
+            <div class="control-group">
+                <label class="control-label" for="curvatura">Curvatura:</label>
+                <div class="controls">
+                    <input class="input-medium" id="curvatura" name="curvatura" type="text" value="<?php echo $this->procedimento->ProcedimentoDetalhe[0]->curvatura ?>">
+                </div>
+            </div>
+        </div>
+        <div class="span3">
+            <div class="control-group">
+                <label class="control-label" for="adesivo_cola">Adesivo/cola:</label>
+                <div class="controls">
+                    <input class="input-medium" id="adesivo_cola" name="adesivo_cola" type="text" value="<?php echo $this->procedimento->ProcedimentoDetalhe[0]->adesivo_cola ?>">
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

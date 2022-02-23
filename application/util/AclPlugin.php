@@ -6,9 +6,8 @@ class AclPlugin extends Zend_Controller_Plugin_Abstract {
 
         if ($request->getControllerName() == 'auth' OR $request->getControllerName() == 'error' 
                 OR $request->getModuleName() == 'ajax' OR ($request->getModuleName() == 'admin' && $request->getControllerName() == 'index') 
-                OR ($request->getModuleName() == 'aluno' && $request->getControllerName() == 'index') 
-                OR ($request->getModuleName() == 'admin' && $request->getControllerName() == 'conta' && ($request->getActionName() == 'lembrarsenha') 
-                OR $request->getActionName() == 'lembraraluno') 
+                OR ($request->getModuleName() == 'funcionario' && $request->getControllerName() == 'principal')
+                OR ($request->getModuleName() == 'admin' && $request->getControllerName() == 'conta' && ($request->getActionName() == 'lembrarsenha'))
                 OR ($request->getModuleName() == 'admin' && $request->getControllerName() == 'usuario' && $request->getActionName() == 'editar')
                 OR ($request->getModuleName() == 'site'))
             return;

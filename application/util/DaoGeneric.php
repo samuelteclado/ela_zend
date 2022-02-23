@@ -50,7 +50,7 @@ abstract class DaoGeneric extends Doctrine_Record {
         $auditoria->objeto_classe = get_class($this);
         $auditoria->objeto = json_encode($obj);
         $auditoria->metodo = $metodo;
-        $auditoria->date = date('d/m/Y h:i:s a', time());
+        $auditoria->date = date('Y/m/d h:i:s');
         $auditoria->ip = $this->_getUserIpAddr();
         $auditoria->browser = AppUtil::getBrowser();
 

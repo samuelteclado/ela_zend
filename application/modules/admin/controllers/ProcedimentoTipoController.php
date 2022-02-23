@@ -19,8 +19,11 @@ class Admin_ProcedimentoTipoController extends Zend_Controller_Action {
         $filter->addFilter('empresa_id = ?', $this->_empresa_id);
         $filter->addTextFilter('descricao', $params['descricao']);
         $filter->addSelectFilter('tipo', $params['tipo']);
+        $filter->addSelectFilter('procedimento_categoria', $params['categoria']);
         $filter->addSelectFilter('status', $params['status']);
         $filter->addFilter('status != ?', ProcedimentoTipo::EXCLUIDO);
+
+
 
         $sortParam = ($params["sort"]) ? $params["sort"] : 'descricao';
         $orderParam = ($params["order"]) ? $params["order"] : 'DESC';
@@ -28,7 +31,7 @@ class Admin_ProcedimentoTipoController extends Zend_Controller_Action {
         $orderby->addOrder($sortParam, ($orderParam == 'ASC') ? 'DESC' : 'ASC');
 
         $list = new Zend_Paginator(new My_Zend_Paginator_Adapter_Doctrine($this->_procedimentoTipoRepository->getListByFilter($filter, $orderby)));
-        $list->setItemCountPerPage(10);
+        $list->setItemCountPerPage(20);
         $list->setCurrentPageNumber($params["page"]);
         $this->view->list = $list;
         $this->view->list_params = array('filter' => $filter);
@@ -104,6 +107,7 @@ class Admin_ProcedimentoTipoController extends Zend_Controller_Action {
         $procedimentoTipo->tipo = $data['tipo'];
         $procedimentoTipo->intervalo_dias = (int) $data['manutencao'];
         $procedimentoTipo->valor = AppUtil::convertStringToFloat($data['valor']);
+        $procedimentoTipo->procedimento_categoria = $data['categoria'];
         $procedimentoTipo->empresa_id = $this->_empresa_id;
 
     }

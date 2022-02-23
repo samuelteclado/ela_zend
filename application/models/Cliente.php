@@ -17,6 +17,11 @@ class Cliente extends DaoCliente
     const EXCLUIDO = 3;
 
 
+    const SIM = 1;
+    const NAO = 2;
+
+
+
     public function getStatus() {
         switch ($this->status) {
 
@@ -34,15 +39,40 @@ class Cliente extends DaoCliente
         }
     }
 
-    public function getUltimoAtendimento() {
 
+    public function getFullNome(){
+        $nome = $this->nome ." ".$this->sobrenome;
+        return $nome;
+    }
+
+    public function getTotalAtendimentos() {
+
+        $i = 0;
+        foreach ($this->Procedimento as $procedimento) {
+            if ($procedimento->status == Procedimento::REALIZADO)
+                $i++;
+
+        }
+        return $i;
+    }
+
+    public function getUltimoAtendimento()
+    {
+        $data_array = array();
+        $count = 0;
         foreach ($this->Procedimento as $procedimento) {
             if ($procedimento->status == Procedimento::REALIZADO) {
-                $data = $procedimento->data;
-                break;
+                $data_array[] = $procedimento->data;
+                $count++;
             }
         }
-        return $data;
+        rsort($data_array);
+        return $data_array[0];
+     }
+
+    private function _date_sort($a, $b)
+    {
+        return strtotime($b) - strtotime($a);
     }
 
 }

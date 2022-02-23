@@ -11,7 +11,8 @@ class LancamentoRecorrenciaTipoRepository extends RepositoryAbstract {
   public function getListActive() {
         $q = Doctrine_Query::create()
                 ->from(get_class($this->obj))
-                ->where("status = ". LancamentoRecorrenciaTipo::ATIVO);
+                ->where("status = ". LancamentoRecorrenciaTipo::ATIVO)
+                ->orderBy("dias");
         return $q->execute();
     }
     

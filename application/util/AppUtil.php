@@ -18,6 +18,14 @@ class AppUtil {
         return $w;
     }
 
+    public static function getAdicionarDia($num_dia){
+        $data = date("Y-m-d");
+        $data_atualizada = date("Y-m-d", strtotime(date("Y-m-d H:i:s", strtotime($data)) . "+" . $num_dia . " day"));
+
+        return $data_atualizada;
+    }
+
+
     public static function setAddDay($add_dia) {
         $data = date("Y-m-d");
         $data_atualizada = date("Y-m-d", strtotime(date("Y-m-d H:i:s", strtotime($data)) . "+" . $add_dia . " day"));
@@ -42,6 +50,21 @@ class AppUtil {
         }
 
         return date($saida, $timestamp_final);
+    }
+
+    public static function calcularIdade($data){
+        $idade = 0;
+        $data_nascimento = date('Y-m-d', strtotime($data));
+        list($anoNasc, $mesNasc, $diaNasc) = explode('-', $data_nascimento);
+
+        $idade = date("Y") - $anoNasc;
+        if (date("m") < $mesNasc){
+            $idade -= 1;
+        } elseif ((date("m") == $mesNasc) && (date("d") <= $diaNasc) ){
+            $idade -= 1;
+        }
+
+        return $idade;
     }
 
     public function getDiferecaDias($data_inicial, $data_final) {
@@ -435,25 +458,25 @@ class AppUtil {
         ;
     }
 
-    public static function convertFloatToStringExtrato($value) {
-        if ($value->tipo == Lancamento::RECEITA)
-            return $value->pagamento_valor;
-
-        return $value->pagamento_valor * -1;
-    }
-
     public static function convertLancamentoReceita($value) {
-        if ($value->tipo == Lancamento::RECEITA)
+        if ($value->tipo == Lancamento::RECEITA && $value->pagamento_data =! NULL)
             return $value->pagamento_valor;
 
         return 0;
+    }
+
+    public static function convertFloatToStringExtrato($value) {
+        if ($value->tipo == Lancamento::RECEITA && $value->pagamento_data =! NULL)
+            return $value->pagamento_valor * 1;
+
+            return $value->pagamento_valor * -1;
     }
 
     public static function convertLancamentoDespesa($value) {
-        if ($value->tipo == Lancamento::DESPESA)
+        if ($value->tipo == Lancamento::DESPESA && $value->pagamento_data =! NULL)
             return $value->pagamento_valor;
 
-        return 0;
+        return $value->pagamento_valor * 0 ;
     }
 
     public static function convertIntToCelular($value) {
@@ -585,12 +608,13 @@ class AppUtil {
         return Zend_Controller_Front::getInstance()->getBaseUrl() . '/content/site/thumb.php?src=' . self::getImage($obj, $path) . '&amp;h=' . $heigth . '&amp;w=' . $width;
     }
 
-    public static function getFileName($obj, $imageSuffix = null) {
-        if ($imageSuffix)
+    public static function getFileName($obj, $imageSuffix = null, $extension = 'jpg') {
+        if ($imageSuffix && $imageSuffix <> "")
             $imageSuffix = '_' . $imageSuffix;
 
-        return md5($obj->id) . $imageSuffix . '.jpg';
+        return md5($obj->id) . $imageSuffix . "." . $extension;
     }
+
 
     /**
      * Translates a number to a short alhanumeric version
@@ -719,15 +743,11 @@ class AppUtil {
     }
 
     public static function authenticate(Usuario $usuario) {
-        if ($usuario->usuario_grupo_id == UsuarioGrupo:: FUNCIONARIO) {
-            $login = $usuario->matricula;
-            $senha = $usuario->senha;
-            $Identity_column = "matricula";
-        } else {
+
             $login = $usuario->email;
             $senha = $usuario->senha;
             $Identity_column = "email";
-        }
+
 
         if (!isset($login) || $login == '' || !isset($senha) || $senha == '')
             return FALSE;

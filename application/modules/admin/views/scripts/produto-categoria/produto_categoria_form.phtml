@@ -1,0 +1,33 @@
+<?php echo $this->flashMessenger(); ?>
+
+<form id="form_fornecedor_categoria" method="POST" action="">
+    <fieldset class="well">
+        <div class="span5">
+            <div class="control-group">
+                <label class="control-label" for="descricao">Descrição</label>
+                <div class="controls">
+                    <input class="input-xlarge" id="descricao_categoria" name="descricao" type="text" value="<?php echo $this->produto_categoria->descricao ?>">
+                </div>
+            </div>
+        </div>
+        <div class="span4">
+            <div class="control-group">
+                <label class="control-label" for="status">Status</label>
+                <div class="controls">
+                    <select class="input-medium" name="status" id="status">
+                        <option <?php echo ViewUtil::fillFieldSelect($this->produto_categoria->status, ProdutoCategoria::ATIVO) ?> value="<?php echo ProdutoCategoria::ATIVO ?>">Ativo</option>
+                        <option <?php echo ViewUtil::fillFieldSelect($this->produto_categoria->status, ProdutoCategoria::INATIVO) ?> value="<?php echo ProdutoCategoria::INATIVO ?>">Inativo</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+
+    <hr/>
+    <div style="width: 100%;height: 20px">
+        <div class="btn-concluir">
+            <a class="btn btn-large" href="<?php echo $this->baseUrl(); ?>/admin/produto-categoria/?nolayout=<?php echo $this->layout?>">Cancelar</a>
+            <button type="submit" class="btn btn-success btn-large">Salvar</button>
+        </div>
+    </div>
+</form>

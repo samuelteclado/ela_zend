@@ -1,0 +1,127 @@
+
+
+<script type="text/javascript">
+
+    $(document).ready(function() {
+        //Quando carregar a pagina
+        $(".dados").hide(); //esta primeira linha servirá para esconder as divs do conteúdo
+        //$("#cultos li a:first").addClass("active").show(); //Ativar primeira aba
+        //$(".horario:first").show('slow'); //abre a pagina suavemente
+        var activeaba = '#procedimento_dados';
+        $('#procedimento_dados').fadeIn('slow');
+        //On Click Event
+        $("#dados ul li a").click(function() {// quando clicar no link do menu irá executar a seguinte função:
+            $("#dados ul li").removeClass("active"); //remove a class no link clicado para que não fica marcado
+            $(this).parent().addClass("active"); //adiciona a classe no link clicado para que o usuario saiba em qual link ele esta
+            $(".dados").hide(); //esconder as divs do conteúdo
+            activeaba = $(this).attr("href"); //Encontrar o valor do atributo rel para identificar a aba que esta ativa + conteúdo
+            $(activeaba).fadeIn('slow'); //efeito de fade in com o conteúdo ativo
+            return false; // o returno falso evita que ao clicar no link a página role para o topo.
+        });
+    });
+
+
+    function selectedOption(id) {
+        var optionSelected = <?php echo (isset($this->procedimento)) ? $this->procedimento->cliente_id : '0' ?>;
+
+        if (optionSelected == id)
+            return 'selected';
+
+        return '';
+    }
+
+    function removeImagemButton(id) {
+        $('#remove').attr('value', id);
+        $('#form_procedimento').submit();
+    }
+
+    $(function() {
+        $('#procedimento').change(function() {
+            var procedimento_tipo = "";
+            $("#procedimento option:selected").each(function() {
+                procedimento_tipo = $(this).val();
+
+                $.getJSON("<?php echo $this->baseUrl() ?>/ajax/procedimento-tipo/procedimento/", {procedimento: procedimento_tipo}, function(prcedimentoTipo) {
+                    var prcedimentoTipo = jQuery.parseJSON(prcedimentoTipo);
+                    $('#valor').val(prcedimentoTipo.valor);
+                })
+            });
+        })
+            //.trigger('change');
+
+
+
+        $(".popup_cliente").colorbox({
+            iframe: true,
+            width: "80%",
+            height: "80%",
+            fixed: true,
+            opacity: 0.8,
+            onClosed: function() {
+                $('#cliente').html('<option value="0">Carregando aguarde ...</option>');
+                $('#cliente').attr("disabled", true);
+                $.getJSON("<?php echo $this->baseUrl() ?>/ajax/cliente/list", {ajax: 'true'}, function(list) {
+                    var list = jQuery.parseJSON(list)
+                    //console.log(list);
+                    var clientes = '';
+                    $('#cliente').html('');
+
+                    $('#cliente').append('<option value="0">[ Selecione o Cliente ]</option>');
+                    $.each(list, function(key, item) {
+                        clientes += '<option ' + selectedOption(item.id) + ' value="' + item.id + '">' + item.nome + '</option>';
+                    });
+                    $('#cliente').append(clientes);
+                    $('#cliente').attr("disabled", false);
+                    $('#cliente').trigger("liszt:updated");
+
+                })
+            }
+        });
+    });
+</script>
+
+<?php echo $this->flashMessenger(); ?>
+
+<form id="form_procedimento" method="POST" action="" enctype="multipart/form-data">
+    <fieldset>
+        <div colspan="2">
+            <div id="dados">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#procedimento_dados">Dados do Procedimento</a></li>
+                    <li><a href="#procedimento_detalhes">Ficha Anamnese</a></li>
+                </ul>
+            </div>
+        </div>
+        <?php include 'procedimento_dados.phtml'; ?>
+        <?php include 'procedimento_detalhes.phtml'; ?>
+    </fieldset>
+
+
+    <hr/>
+    <div style="width: 100%;height: 20px">
+        <div class="btn-concluir">
+            <a class="btn btn-large" href="<?php echo $this->baseUrl(); ?>/funcionario/procedimento-massagem/">Cancelar</a>
+            <button type="submit" class="btn btn-success btn-large">Salvar</button>
+        </div>
+    </div>
+</form>
+
+
+<script src="<?php echo $this->baseUrl(); ?>/content/upload/jquery/js/load-image.min.js"></script>
+<script type="text/javascript">
+    var result = $('#result');
+
+    document.getElementById('file').onchange = function(e) {
+        window.loadImage(
+            (e.dataTransfer || e.target).files[0],
+            function(img) {
+                result.children().replaceWith(img);
+            },
+            {
+                maxWidth: 160,
+                maxHeight: 160,
+                canvas: true
+            }
+        );
+    };
+</script>

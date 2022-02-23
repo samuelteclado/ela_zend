@@ -14,6 +14,7 @@ class UsuarioGrupo extends DaoUsuarioGrupo {
 
     const ADMINISTRADOR = 1;
     const FUNCIONARIO = 2;
+    const SECRETARIA = 3;
 
     public function getFuncionalidades() {
         $funcionalidades = array();
@@ -32,6 +33,9 @@ class UsuarioGrupo extends DaoUsuarioGrupo {
 
             case UsuarioGrupo::FUNCIONARIO:
                 return 'funcionario';
+
+            case UsuarioGrupo::SECRETARIA:
+                return 'secretaria';
 
             default:
                 return 'Indefinido';

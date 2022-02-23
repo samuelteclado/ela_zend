@@ -20,6 +20,10 @@ class ProcedimentoTipo extends DaoProcedimentoTipo
     const APLICACAO = 1;
     const MANUTENCAO = 2;
     const REMOCAO = 3;
+    const REPARO = 4;
+
+    const CILIOS = 1;
+    const MASSAGEM = 2;
 
 
     public function getStatus() {
@@ -50,6 +54,23 @@ class ProcedimentoTipo extends DaoProcedimentoTipo
 
             case ProcedimentoTipo::REMOCAO:
                 return 'Remoção';
+
+            case ProcedimentoTipo::REPARO:
+                return 'Reparo';
+
+            default:
+                return 'Indefinido';
+        }
+    }
+
+    public function getCategoria() {
+        switch ($this->procedimento_categoria) {
+
+            case ProcedimentoTipo::CILIOS:
+                return 'Cílios';
+
+            case ProcedimentoTipo::MASSAGEM:
+                return 'Massagem';
 
             default:
                 return 'Indefinido';

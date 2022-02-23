@@ -1,0 +1,92 @@
+<script type="text/javascript">
+    function textCounter(field, maxlimit) {
+        var texto = field.value;
+        var n = texto.split('\n').length;
+
+        if (n > 3) {
+            field.value = field.value.substring(0, field.value.length - 1);
+        }
+
+
+        if (field.value.length > maxlimit)
+            field.value = field.value.substring(0, maxlimit);
+        else
+            $('#' + field.id + '_caracter').html(maxlimit - field.value.length);
+    }
+</script>
+<form id="form_conta" method="POST" action="" enctype="multipart/form-data">
+    <fieldset>
+        <?php echo $this->flashMessenger(); ?>
+        <div class="row well">
+            <div class="span4">
+                <div class="control-group">
+                    <label class="control-label" for="descricao">Descrição</label>
+                    <div class="controls">
+                        <input class="input-xlarge" id="descricao_conta" placeholder="Descrição da Conta" name="descricao" type="text" value="<?php echo $this->conta_bancaria->descricao ?>">
+                    </div>
+                </div>
+            </div>
+            <div class="span4">
+                <div class="control-group">
+                    <label class="control-label" for="banco">Banco</label>
+                    <div class="controls">
+                        <select  class="input-xlarge" name="banco" id="banco">
+                            <option value="0">[  Selecione o Banco ]</option>
+                            <?php foreach ($this->bancos as $banco): ?>
+                                <option <?php echo ViewUtil::fillFieldSelect($this->conta_bancaria->banco_id, $banco->id) ?> value="<?php echo $banco->id ?>"><?php echo $banco->descricao ?></option>
+                            <?php endforeach ?>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="span2">
+                <div class="control-group">
+                    <label class="control-label" for="pix">PIX</label>
+                    <div class="controls">
+                        <input class="input-medium" id="pix" name="pix"  type="text" value="<?php echo $this->conta_bancaria->pix ?>">
+                    </div>
+                </div>
+            </div>
+             <div class="span2">
+                <div class="control-group">
+                    <label class="control-label" for="agencia">Agência</label>
+                    <div class="controls">
+                        <input class="input-small" id="agencia" name="agencia" maxlength="6" type="text" value="<?php echo $this->conta_bancaria->agencia ?>">
+                    </div>
+                </div>
+            </div>
+            <div class="span2">
+                <div class="control-group">
+                    <label class="control-label" for="conta">Conta</label>
+                    <div class="controls">
+                        <div class="input-append">
+                            <input class="input-small" id="conta" name="conta" type="text" maxlength="12" value="<?php echo $this->conta_bancaria->conta ?>">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="span2">
+                <div class="control-group">
+                    <label class="control-label" for="status">Status</label>
+                    <div class="controls">
+                        <select  class="input-small" name="status" id="status">          
+                            <option <?php echo ViewUtil::fillFieldSelect($this->conta_bancaria->status, ContaBancaria::ATIVO) ?> value="<?php echo ContaBancaria::ATIVO ?>">Ativo</option>
+                            <option <?php echo ViewUtil::fillFieldSelect($this->conta_bancaria->status, ContaBancaria::INATIVO) ?> value="<?php echo ContaBancaria::INATIVO ?>">Inativo</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+    </fieldset>
+    <div style="width: 100%;height: 20px">
+        <div class="btn-concluir">
+            <a class="btn btn-large" href="<?php echo $this->baseUrl(); ?>/admin/conta-bancaria/">Cancelar</a>
+            <button type="submit" class="btn btn-success btn-large">Salvar</button>
+         </div>
+    </div>
+</form>

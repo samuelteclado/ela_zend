@@ -11,6 +11,7 @@
  * @property float $valor
  * @property integer $intervalo_dias
  * @property integer $tipo
+ * @property integer $procedimento_categoria
  * @property integer $empresa_id
  * @property Empresa $Empresa
  * @property Doctrine_Collection $Procedimento
@@ -69,6 +70,15 @@ abstract class DaoProcedimentoTipo extends DaoGeneric
              'autoincrement' => false,
              ));
         $this->hasColumn('tipo', 'integer', 4, array(
+             'type' => 'integer',
+             'length' => 4,
+             'fixed' => false,
+             'unsigned' => false,
+             'primary' => false,
+             'notnull' => true,
+             'autoincrement' => false,
+             ));
+        $this->hasColumn('procedimento_categoria', 'integer', 4, array(
              'type' => 'integer',
              'length' => 4,
              'fixed' => false,

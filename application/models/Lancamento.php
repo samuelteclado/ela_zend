@@ -14,6 +14,8 @@ class Lancamento extends DaoLancamento
 {
     const RECEITA = 1;
     const DESPESA = 2;
+    const EXCLUIDO = 3;
+
 
     const ABERTO = 1;
     const LIQUIDADO = 2;
@@ -53,6 +55,13 @@ class Lancamento extends DaoLancamento
         return is_null($this->pagamento_data);
     }
 
+    public function getValorLancamento() {
+        if ($this->pagamento_data)
+            return $this->pagamento_valor;
+
+        return $this->vencimento_valor;
+    }
+
     public function getValorVencimentoAtual() {
         if ($this->vencimento_valor_atualizado)
             return $this->vencimento_valor_atualizado;
@@ -61,18 +70,12 @@ class Lancamento extends DaoLancamento
     }
 
     public function getVencido() {
-        if ($this->getDataVencimentoAtual() < date('Y-m-d') && $this->pagamento_data == NULL)
+        if ( $this->pagamento_data == NULL)
             return TRUE;
 
         return NULL;
     }
 
-    public function getDataVencimentoAtual() {
-        if ($this->vencimento_data_atualizada)
-            return $this->vencimento_data_atualizada;
-
-        return $this->vencimento_data;
-    }
 
     public function getValorDivergente() {
         $valor_a_pagar = $this->getValorVencimentoAtual() - $this->pagamento_desconto ;

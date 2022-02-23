@@ -60,7 +60,7 @@
                                         <span>Selecionar imagem ...</span>
                                         <?php echo $this->form->file ?>
                                     </span>
-                                    <?php if (AppUtil::isFileExists($this->usuario, 'u')) { ?>
+                                    <?php if (AppUtil::isFileExists($this->empresa, 'e')) { ?>
                                         <a title="Remover imagem da logo" class="btn" onClick="removeImagemButton(<?php echo $this->empresa->id ?>);">
                                             <i class="icon-trash"></i>
                                         </a>
@@ -80,11 +80,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="span3">
+                <div class="span8">
                     <div class="control-group">
                         <label class="control-label" for="status">Status</label>
                         <div class="controls">
-                            <select data-placeholder="[  Selecione o Status ]" class="input-xlarge" name="status" id="status">
+                            <select data-placeholder="[ Selecione o Status ]" class="input-xlarge" name="status" id="status">
                                 <option <?php echo ViewUtil::fillFieldSelect($this->empresa->status, Empresa::ATIVA) ?> value="<?php echo Empresa::ATIVA ?>">Ativa</option>
                                 <option <?php echo ViewUtil::fillFieldSelect($this->empresa->status, Empresa::INATIVA) ?> value="<?php echo Empresa::INATIVA ?>">Inativa</option>
                             </select>
@@ -92,11 +92,11 @@
                     </div>
                 </div>
 
-                <div class="span3">
+                <div class="span4">
                     <div class="control-group">
                         <label class="control-label" for="telefone_1">Celular 1</label>
                         <div class="controls">
-                            <input class="input-medium txCelular" id="telefone_1" name="telefone_1" type="text" value="<?php echo AppUtil::convertIntToCelular($this->empresa->Endereco[0]->telefone_1) ?>">
+                            <input class="input-xlarge txCelular" id="telefone_1" name="telefone_1" type="text" value="<?php echo AppUtil::convertIntToCelular($this->empresa->Endereco[0]->telefone_1) ?>">
                         </div>
                     </div>
                 </div>
@@ -104,7 +104,7 @@
                     <div class="control-group">
                         <label class="control-label" for="telefone_2">Celular 2</label>
                         <div class="controls">
-                            <input class="input-medium txCelular" id="telefone_2" name="telefone_2" type="text" value="<?php echo AppUtil::convertIntToCelular($this->empresa->Endereco[0]->telefone_2) ?>">
+                            <input class="input-xlarge txCelular" id="telefone_2" name="telefone_2" type="text" value="<?php echo AppUtil::convertIntToCelular($this->empresa->Endereco[0]->telefone_2) ?>">
                         </div>
                     </div>
                 </div>
@@ -116,7 +116,7 @@
                     <div class="control-group">
                         <label class="control-label" for="cep">CEP</label>
                         <div class="controls">
-                            <input class="input-small txCep endereco" placeholder="_____-___" id="cep" name="cep" type="text" value="<?php echo $this->empresa->Endereco[0]->cep ?>">
+                            <input class="input-xlarge txCep endereco" placeholder="_____-___" id="cep" name="cep" type="text" value="<?php echo $this->empresa->Endereco[0]->cep ?>">
                             <img id="loading_cep" style="display: none;" src="<?php echo $this->baseUrl() ?>/content/img/loading.gif" />
                             <span id="erro_cep" style="display: none">Cep não encontrado</span>
                         </div>

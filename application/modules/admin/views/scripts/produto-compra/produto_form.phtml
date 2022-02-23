@@ -1,0 +1,213 @@
+<script type="text/javascript">
+    $(function() {
+
+        function removerLinha(tr) {
+            tr.hide(100, function() {
+                tr.remove();
+            });
+        }
+
+        function remover() {
+
+            if (!confirm('Confirma a exclusão deste Produto'))
+                return false;
+            var tr = $(this).parent().parent();
+            var produto_id = parseInt($(this).parent().find('.movimento_item_id').val());
+
+            if (produto_id <= 0) {
+                removerLinha(tr);
+            } else {
+                $.getJSON("<?php echo $this->baseUrl() ?>/ajax/movimento-item/deletar/", {produto_id: produto_id}, function(result) {
+                    var produto_result = jQuery.parseJSON(result);
+                    if (produto_result.success)
+                        removerLinha(tr);
+                });
+            }
+            return false;
+
+        }
+
+        function adicionar() {
+            var tr = $('#item-table').find('.contato-item').last();
+            var tr_nova = tr.clone(false, false);
+            var inputs = tr_nova.find('input');
+            var selects = tr_nova.find('select');
+            inputs.val('');
+            selects.val(0);
+            inputs.attr('disabled', false);
+            selects.attr('disabled', false);
+
+            tr_nova.find('.adicionar').click(adicionar);
+            tr_nova.find('.remover').click(remover);
+            //tr_nova.find(".txValor")..maskMoney({symbol: "", decimal: ",", thousands: "", precision: 2, allowNegative: false, allowZero: true});
+            tr_nova.removeClass('contato-modelo');
+            tr_nova.css('display', 'table-row');
+            tr.after(tr_nova);
+
+            tr_nova.fadeIn(300, nomalizarIntervalos);
+            return false;
+        }
+
+
+        $('.adicionar').click(adicionar);
+        $('.remover').click(remover);
+
+
+    });
+
+</script>
+<form id="form_compra" method="POST" action="" enctype="multipart/form-data">
+    <fieldset>
+        <?php echo $this->flashMessenger(); ?>
+            <div class="row well">
+                <div class="span9 fornecedor">
+                    <div class="control-group">
+                        <label class="control-label" for="fornecedor">Fornecedor</label>
+                        <div class="controls">
+                            <select data-placeholder="[  Selecione o Fornecedor ]" class="input-xxlarge chzn-select-deselect" name="fornecedor" id="fornecedor">
+                                <option value="0"></option>
+                                <?php foreach ($this->fornecedores as $fornecedor): ?>
+                                    <option <?php echo ViewUtil::fillFieldSelect($this->produto_compra->fornecedor_id, $fornecedor->id) ?> value="<?php echo $fornecedor->id ?>"><?php echo $fornecedor->descricao ?></option>
+                                <?php endforeach ?>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="span2">
+                    <div class="control-group">
+                        <label class="control-label" for="data_compra">Data Compra</label>
+                        <div class="controls">
+                            <div class="input-append">
+                                <input class="input-small txData" id="data_compra" placeholder="__/__/____"name="data_compra" type="text"  value="<?php echo AppUtil::convertDateToString($this->produto_compra->data_movimento) ?>">
+                                <span class="add-on"><span class="icon-calendar"></span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="span3">
+                    <div class="control-group">
+                        <label class="control-label" for="tipo">Tipo</label>
+                        <div class="controls">
+                            <select data-placeholder="[ Selecione o Tipo ]" class="input-large" name="tipo" id="tipo">
+                                <option <?php echo ViewUtil::fillFieldSelect($this->produto_compra->tipo, Movimento::COMPRA) ?> value="<?php echo Movimento::COMPRA ?>">COMPRA</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="span6" >
+                    <div class="control-group">
+                        <label class="control-label" for="forma_pagamento">Forma de Pagamento</label>
+                        <div class="controls">
+                            <select  class="input-xlarge" name="forma_pagamento" id="forma_pagamento">
+                                <option value="0">[ Selecione a Forma ]</option>
+                                <?php foreach ($this->forma_pagamento as $pagamento): ?>
+                                    <option <?php echo ViewUtil::fillFieldSelect($this->produto_compra->pagamento_tipo_id, $pagamento->id) ?> value="<?php echo $pagamento->id ?>"><?php echo $pagamento->descricao ?></option>
+                                <?php endforeach ?>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="span3">
+                    <div class="control-group">
+                        <label class="control-label" for="status">Status</label>
+                        <div class="controls">
+                            <select data-placeholder="[ Selecione o Status ]" class="input-large" name="status" id="status">
+                                <option <?php echo ViewUtil::fillFieldSelect($this->produto_compra->status, Movimento::ABERTO) ?> value="<?php echo Movimento::ABERTO ?>">Aberto</option>
+                                <option <?php echo ViewUtil::fillFieldSelect($this->produto_compra->status, Movimento::REALIZADO) ?> value="<?php echo Movimento::REALIZADO ?>">Realizado</option>
+                                <option <?php echo ViewUtil::fillFieldSelect($this->produto_compra->status, Movimento::CANCELADO) ?> value="<?php echo Movimento::CANCELADO ?>">Cancelado</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="span6">
+                    <div class="control-group">
+                        <label class="control-label" for="valor">Valor</label>
+                        <div class="controls">
+                            <input class="input-small txValor" id="valor"  name="valor" maxlength="7" type="text" value="<?php echo AppUtil::convertFloatToString($this->produto_compra->valor) ?>">
+                            <span class="help-block">R$</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="span4">
+                    <div class="control-group">
+                        <label class="control-label" for="observacao">Observação</label>
+                        <div class="controls">
+                            <input class="input-xxlarge" id="observacao_compra" name="observacao" type="text" value="<?php echo $this->produto_compra->observacao ?>">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+        <div class="row well">
+            <table class="table-condensed" id="item-table" style="vertical-align: middle;">
+                <thead>
+                <tr style="text-align: left">
+                    <th></th>
+                    <th>Produto</th>
+                    <th>Valor Unidade</th>
+                    <th>QT</th>
+                    <th>Valor Total</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="contato-item contato-modelo" style="display: none;">
+                    <td style="font-size: 14px; vertical-align: middle;">
+                        <a title="Remover Produto" class="remover" style="cursor: pointer;" onclick="return false;"><span class="icon-trash"></span></a>
+                        <input name="movimento_item_id[]" class="movimento_item_id"  type="hidden" value="">
+                    </td>
+                    <td>
+                        <select class="input-large" name="produto_item_id[]" id="produto_item_id">
+                            <option value="0">[ Selecione o Produto ]</option>
+                            <?php foreach ($this->produtos as $produto): ?>
+                                <option value="<?php echo $produto->id ?>"><?php echo $produto->descricao ?></option>
+                            <?php endforeach ?>
+                        </select>
+                    </td>
+                    <td>
+                        <input class="input-small txValor" placeholder="0,00" id="qt_valor" name="qt_valor[]" type="text" value="">
+                    </td>
+                    <td>
+                        <input class="input-mini" id="qt_produto" name="qt_produto[]" type="text" value="">
+                    </td>
+                    <td>
+                        <input class="input-mini" id="valor_total" name="valor_total[]" type="text" value="">
+                    </td>
+
+                </tr>
+
+                <?php foreach ($this->cliente->Contato as $contato) : ?>
+                    <tr class="contato-item">
+                        <td style="font-size: 14px; vertical-align: middle;">
+                            <a title="Remover contato" class="remover" style="cursor: pointer;" onclick="return false;"><span class="icon-trash"></span></a>
+                        </td>
+                        <td>
+                            <input class="input-large" id="nome_contato" name="nome_contato[]" type="text" value="<?php echo $contato->nome ?>">
+                        </td>
+                        <td>
+                            <input class="input-large txTelefone" id="telefone_contato" name="telefone_contato[]" type="text" value="<?php echo AppUtil::convertIntToTelefone($contato->telefone) ?>">
+                        </td>
+                        <td>
+                            <input class="input-large" id="email_contato" name="email_contato[]" type="email" value="<?php echo $contato->email ?>">
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+
+            </table>
+            <hr/>
+            <button title="Adicionar Produto" class="adicionar btn" onclick="return false;"><span class="icon-plus-sign"></span> Adicionar Produto</button>
+
+        </div>
+    </fieldset>
+
+
+    <hr/>
+    <div style="width: 100%;height: 20px">
+    <div class="btn-concluir">
+        <a class="btn btn-large" href="<?php echo $this->baseUrl(); ?>/admin/produto-compra/">Cancelar</a>
+        <button type="submit" class="btn btn-success btn-large">Salvar</button>
+    </div>
+    </div>
+</form>

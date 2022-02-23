@@ -57,12 +57,17 @@ class Admin_AuthController extends Zend_Controller_Action {
             $storage = $auth->getStorage();
             $storage->write($info);
 
+            //var_dump($info);die;
+
            
             switch ($info->usuario_grupo_id) {
                 case UsuarioGrupo::ADMINISTRADOR:
                     return $this->_helper->redirector->setGotoSimple('index', 'principal', 'admin');
                 case UsuarioGrupo::FUNCIONARIO:
-                    return $this->_helper->redirector->goToRoute(array('controller' => 'funcionario'), null, true);
+                    return $this->_helper->redirector->setGotoSimple('index', 'principal', 'funcionario');
+                case UsuarioGrupo::SECRETARIA:
+                    return $this->_helper->redirector->setGotoSimple('index', 'principal', 'secretaria');
+                    //return $this->_helper->redirector->goToRoute(array('controller' => 'funcionario'), null, true);
             }
         } else {
             $this->_helper->FlashMessenger(array('error' => 'Email e/ou senha inválidos!'));

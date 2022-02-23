@@ -142,13 +142,18 @@ class Admin_UsuarioController extends Zend_Controller_Action {
         $usuario->sobrenome = AppUtil::setFirstUpWord($data['sobrenome']);
         $usuario->email = strtolower($data['email']);
         $usuario->usuario_grupo_id = $data['usuario_grupo_id'];
+        $usuario->tipo = $data['tipo'];
         $usuario->status = $data['status'];
         $usuario->empresa_id = $this->_empresa_id;
         $usuario->cpf = str_replace($caracter_remove, "", $data['cpf']);
         $usuario->admissao = AppUtil::convertStringToDate($data['admissao']);
         $usuario->demissao = AppUtil::convertStringToDate($data['demissao']);
         $usuario->data_aniversario = AppUtil::convertStringToDate($data['data_aniversario']);
+        $usuario->comissao_tipo = $data['comissao_tipo'];
+        $usuario->comissao = AppUtil::convertStringToFloat($data['comissao']);
+        $usuario->senha = $data['senha'];
         $usuario->cor = $data['cor'];
+
         if ($usuario->id <= 0) {
             $usuario->senha = ($data['senha']);
             if ($usuario->senha == "")
@@ -215,6 +220,12 @@ class Admin_UsuarioController extends Zend_Controller_Action {
         if ($usuario->nome == "")
             $result .= "<li>O campo <b>Nome </b> deve ser informado.</li>";
 
+        if ($usuario->usuario_grupo_id <= 0)
+            $result .= "<li>O campo <b>Grupo </b> deve ser informado.</li>";
+
+        if ($usuario->tipo <= 0)
+            $result .= "<li>O campo <b>Tipo </b> deve ser informado.</li>";
+
         $result .= $this->_validateEmail($usuario);
 
         if ($usuario->senha == "")
@@ -272,7 +283,7 @@ class Admin_UsuarioController extends Zend_Controller_Action {
         $to = $usuario->email;
 
         $subject = "Seja Bem Vindo(a) ao Espaço ELA";
-        $body = $html->render('lembrar_senha.phtml');
+        $body = $html->render('usuario_cadastro.phtml');
 
         EmailUtil::send($from, $to, $subject, $body);
     }

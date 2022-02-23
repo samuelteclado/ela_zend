@@ -6,7 +6,7 @@
 </script>
 
 
-<form id="form_usuario" method="POST" action="" enctype="multipart/form-data">
+<form id="form_usuario" method="POST" action="" enctype="multipart/form-data" autocomplete="off">
     <fieldset>
         <?php echo $this->flashMessenger(); ?>
         <div class="row well">
@@ -14,7 +14,7 @@
                 <div class="control-group">
                     <label class="control-label" for="nome">Nome</label>
                     <div class="controls">
-                        <input class="input-medium" id="nome" name="nome" type="text" value="<?php echo $this->usuario->nome ?>">
+                        <input class="input-medium" autocomplete="off" id="nome" name="nome" type="text" value="<?php echo $this->usuario->nome ?>">
                     </div>
                 </div>
             </div>
@@ -22,7 +22,7 @@
                 <div class="control-group">
                     <label class="control-label" for="sobrenome">Sobrenome</label>
                     <div class="controls">
-                        <input class="input-prepend" id="sobrenome" name="sobrenome" type="text" value="<?php echo $this->usuario->sobrenome ?>">
+                        <input class="input-prepend" autocomplete="off" id="sobrenome" name="sobrenome" type="text" value="<?php echo $this->usuario->sobrenome ?>">
                     </div>
                 </div>
             </div>
@@ -54,7 +54,7 @@
                 <div class="control-group">
                     <label class="control-label" for="cpf">CPF</label>
                     <div class="controls">
-                        <input class="input-medium txCpf" id="cpf" name="cpf" type="text" value="<?php echo $this->usuario->cpf ?>">
+                        <input class="input-medium txCpf" autocomplete="off" id="cpf" name="cpf" type="text" value="<?php echo $this->usuario->cpf ?>">
                     </div>
                 </div>
             </div>
@@ -62,7 +62,7 @@
                 <div class="control-group">
                     <label class="control-label" for="email">Email</label>
                     <div class="controls">
-                        <input class="input-prepend" id="email" name="email" type="text" value="<?php echo $this->usuario->email ?>">
+                        <input class="input-prepend" autocomplete="off" id="email" name="email" type="text" value="<?php echo $this->usuario->email ?>">
                     </div>
                 </div>
             </div>
@@ -80,7 +80,7 @@
                     </div>
                 </div>
             </div>
-            <div class="span3">
+            <div class="span4">
                 <div class="control-group">
                     <label class="control-label" for="status">Status</label>
                     <div class="controls">
@@ -91,11 +91,11 @@
                     </div>
                 </div>
             </div>
-            <div class="span2">
+            <div class="span3">
             <div class="control-group senha">
                 <label class="control-label" for="senha">Senha</label>
                 <div class="controls">
-                    <input class="input-small" id="senha" name="senha" type="text" value="<?php echo $this->usuario->senha ?>">
+                    <input class="input-medium" autocomplete="off" id="senha" name="senha" type="text" value="<?php echo $this->usuario->senha ?>">
                 </div>
             </div>
         </div>
@@ -103,32 +103,47 @@
                 <div class="control-group">
                     <label class="control-label" for="telefone_1">Celular 1</label>
                     <div class="controls">
-                        <input class="input-medium txCelular" id="telefone_1" name="telefone_1" type="text" value="<?php echo AppUtil::convertIntToCelular($this->usuario->Endereco[0]->telefone_1) ?>">
+                        <input class="input-large txCelular" autocomplete="off" id="telefone_1" name="telefone_1" type="text" value="<?php echo AppUtil::convertIntToCelular($this->usuario->Endereco[0]->telefone_1) ?>">
+                    </div>
+                </div>
+            </div>
+            <div class="span9">
+                <div class="control-group">
+                    <label class="control-label" for="telefone_2">Celular 2</label>
+                    <div class="controls">
+                        <input class="input-medium txCelular"  id="telefone_2" name="telefone_2" type="text" value="<?php echo AppUtil::convertIntToCelular($this->usuario->Endereco[0]->telefone_2) ?>">
                     </div>
                 </div>
             </div>
             <div class="span3">
                 <div class="control-group">
-                    <label class="control-label" for="telefone_2">Celular 2</label>
+                    <label class="control-label" for="tipo">Tipo</label>
                     <div class="controls">
-                        <input class="input-medium txCelular" id="telefone_2" name="telefone_2" type="text" value="<?php echo AppUtil::convertIntToCelular($this->usuario->Endereco[0]->telefone_2) ?>">
+                        <select data-placeholder="[  Selecione o Tipo ]" class="input-medium" name="tipo" id="tipo">
+                            <option <?php echo ViewUtil::fillFieldSelect($this->usuario->tipo, Usuario::CILIOS) ?> value="<?php echo Usuario::CILIOS ?>">Cilios</option>
+                            <option <?php echo ViewUtil::fillFieldSelect($this->usuario->tipo, Usuario::MASSAGEM) ?> value="<?php echo Usuario::MASSAGEM ?>">Massagem</option>
+                            <option <?php echo ViewUtil::fillFieldSelect($this->usuario->tipo, Usuario::CILIOS_MASSAGEM) ?> value="<?php echo Usuario::CILIOS_MASSAGEM ?>">Cilios & Massagem</option>
+                            <option <?php echo ViewUtil::fillFieldSelect($this->usuario->tipo, Usuario::ADMINISTRATIVO) ?> value="<?php echo Usuario::ADMINISTRATIVO ?>">Administrativo</option>
+                        </select>
                     </div>
                 </div>
             </div>
-            <div class="span4">
+
+            <div class="span6">
                 <div class="control-group senha">
                     <label class="control-label" for="cor">Cor</label>
                     <div class="controls">
-                        <input class="input-small" id="cor" name="cor" type="text" value="<?php echo $this->usuario->cor ?>">
+                        <input class="input-medium" style="height: 35px" id="cor" name="cor" type="color" value="<?php echo $this->usuario->cor ?>">
                     </div>
                 </div>
             </div>
+
             <div class="span3">
                 <div class="control-group">
                     <label class="control-label" for="data_aniversario">Data de Aniversário</label>
                     <div class="controls">
                         <div class="input-append">
-                            <input class="input-small txData" id="data_aniversario" placeholder="__/__/____"name="data_aniversario" type="text"  value="<?php echo AppUtil::convertDateToString($this->usuario->data_aniversario) ?>">
+                            <input class="input-small txData"  autocomplete="off" id="data_aniversario" placeholder="__/__/____"name="data_aniversario" type="text"  value="<?php echo AppUtil::convertDateToString($this->usuario->data_aniversario) ?>">
                             <span class="add-on"><span class="icon-calendar"></span></span>
                         </div>
                     </div>
@@ -139,23 +154,44 @@
                     <label class="control-label" for="admissao">Data de Admissão</label>
                     <div class="controls">
                         <div class="input-append">
-                            <input class="input-small txData" id="admissao" placeholder="__/__/____"name="admissao" type="text"  value="<?php echo AppUtil::convertDateToString($this->usuario->admissao) ?>">
+                            <input class="input-small txData" autocomplete="off" id="admissao" placeholder="__/__/____"name="admissao" type="text"  value="<?php echo AppUtil::convertDateToString($this->usuario->admissao) ?>">
                             <span class="add-on"><span class="icon-calendar"></span></span>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <div class="span4">
+                <div class="control-group">
+                    <label class="control-label" for="demissao">Data de Demissão</label>
+                    <div class="controls">
+                        <div class="input-append">
+                            <input class="input-small txData" autocomplete="off"  id="demissao" placeholder="__/__/____"name="demissao" type="text"  value="<?php echo AppUtil::convertDateToString($this->usuario->demissao) ?>">
+                            <span class="add-on"><span class="icon-calendar"></span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="span3">
+                <div class="control-group">
+                    <label class="control-label" for="comissao_tipo">Tipo de Comissão</label>
+                    <div class="controls">
+                        <select data-placeholder="[  Selecione o Tipo ]" class="input-medium chzn-select-deselect" name="comissao_tipo" id="comissao_tipo">
+                            <option <?php echo ViewUtil::fillFieldSelect($this->usuario->comissao_tipo, Usuario::PERCENTUAL) ?> value="<?php echo Usuario::PERCENTUAL ?>">Percentual</option>
+                            <option <?php echo ViewUtil::fillFieldSelect($this->usuario->comissao_tipo, Usuario::VALOR_FIXO) ?> value="<?php echo Usuario::VALOR_FIXO ?>">Valor Fixo</option>
+                        </select>
                     </div>
                 </div>
             </div>
             <div class="span2">
                 <div class="control-group">
-                    <label class="control-label" for="demissao">Data de Demissão</label>
+                    <label class="control-label" for="comissao">Comissão</label>
                     <div class="controls">
-                        <div class="input-append">
-                            <input class="input-small txData" id="demissao" placeholder="__/__/____"name="demissao" type="text"  value="<?php echo AppUtil::convertDateToString($this->usuario->demissao) ?>">
-                            <span class="add-on"><span class="icon-calendar"></span></span>
-                        </div>
+                        <input class="input-small txValor" autocomplete="off" id="comissao" name="comissao" type="text" value="<?php echo AppUtil::convertFloatToString($this->usuario->comissao) ?>">
                     </div>
                 </div>
             </div>
+
+
 
         </div>
 
@@ -166,7 +202,7 @@
                 <div class="control-group">
                     <label class="control-label" for="cep">CEP</label>
                     <div class="controls">
-                        <input class="input-small txCep endereco" placeholder="_____-___" id="cep" name="cep" type="text" value="<?php echo $this->usuario->Endereco[0]->cep ?>">
+                        <input class="input-xlarge txCep endereco" autocomplete="off" placeholder="_____-___" id="cep" name="cep" type="text" value="<?php echo $this->usuario->Endereco[0]->cep ?>">
                         <img id="loading_cep" style="display: none;" src="<?php echo $this->baseUrl() ?>/content/img/loading.gif" />
                         <span id="erro_cep" style="display: none">Cep não encontrado</span>
                     </div>
@@ -184,7 +220,7 @@
                 <div class="control-group">
                     <label class="control-label" for="numero">Nº</label>
                     <div class="controls">
-                        <input class="input-small endereco" id="numero" name="numero" type="text" value="<?php echo $this->usuario->Endereco[0]->numero ?>">
+                        <input class="input-small endereco" autocomplete="off" id="numero" name="numero" type="text" value="<?php echo $this->usuario->Endereco[0]->numero ?>">
                     </div>
                 </div>
             </div>
@@ -217,7 +253,7 @@
                 <div class="control-group">
                     <label class="control-label" for="complemento_endereco">Complemento Endereço</label>
                     <div class="controls">
-                        <input class="input-xxlarge " id="complemento_endereco" name="complemento_endereco" type="text" value="<?php echo $this->usuario->Endereco[0]->complemento_endereco ?>">
+                        <input class="input-xxlarge" autocomplete="off"  id="complemento_endereco" name="complemento_endereco" type="text" value="<?php echo $this->usuario->Endereco[0]->complemento_endereco ?>">
                     </div>
                 </div>
             </div>

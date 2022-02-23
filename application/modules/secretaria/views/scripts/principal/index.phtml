@@ -1,0 +1,63 @@
+<div id="esquerda">
+
+    <div style="margin: 10px">
+        <style>
+            #barra {
+                text-align: center;
+                background-color: #d52170;
+                color: #FFF;
+            }
+            #barra h1{
+                text-shadow: black 0.1em 0.1em 0.25em
+            }
+            #icone {
+                margin-top: 20px;
+                background-color: #f5d9e5;
+                height: 535px
+            }
+            #icone li{
+                padding: 15px;
+                list-style-type: none                
+            }
+            #icone li img{
+                width: 70px;
+            }
+            #icone a{
+                margin-left: 10px;
+                line-height: 50px;
+                text-shadow: 0.1em 0.1em #e2e2e2;
+                font-weight: bold;
+                font-size: 18px;
+                font-family: Arial; 
+            }
+            #icone a:link, #icone a:active{
+                text-decoration: none;
+            }
+        </style>   
+
+        <div style="margin: 10px;">
+            <?php echo $this->flashMessenger(); ?>
+        </div>
+
+        <div id="barra"><h1>Menus de Acesso Rápido</h1> </div>
+        <div  id="icone"class="rounded">
+            <ul>
+                <li class="span3">
+                    <img src="<?php echo $this->baseUrl() ?>/content/img/group_user.png" >
+                    <a href="<?php echo $this->baseUrl() ?>/funcionario/cliente">Clientes</a>
+                </li>
+                <li class="span3">
+                    <img  src="<?php echo $this->baseUrl() ?>/content/img/agendamento.png" >
+                    <a  href="<?php echo $this->baseUrl() ?>/funcionario/procedimento">Procedimentos</a>
+                </li>
+                <li class="span3">
+                    <img  src="<?php echo $this->baseUrl() ?>/content/img/cartao-ponto.png" >
+                    <a  href="<?php echo $this->baseUrl() ?>/funcionario/ponto">Ponto</a>
+                </li>
+
+
+
+            </ul>   
+        </div>
+    </div>
+</div>

@@ -124,7 +124,21 @@
                     
                 });
                 //FORM PESQUISAR
-    
+
+
+                $(".popup_ponto").colorbox({
+                    iframe: true,
+                    width: "65%",
+                    height: "60%",
+                    fixed: true,
+                    opacity: 0.8,
+                    onClosed: function() {
+                        location.reload();
+                    }
+                });
+
+
+
             });
         </script>
     </head>

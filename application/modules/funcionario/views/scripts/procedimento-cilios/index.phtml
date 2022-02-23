@@ -1,0 +1,67 @@
+﻿<script type="text/javascript">
+    $(function() {
+        $(".popup_extrato").colorbox({
+            iframe: true,
+            width: "90%",
+            height: "90%",
+            fixed: true,
+            opacity: 0.8
+        });
+    });
+
+</script>
+<div id="esquerda">
+    <div style="margin: 10px">
+
+        <a style="float: right;" class="btn btn-success btn-large" href="<?php echo $this->baseUrl(); ?>/funcionario/procedimento-cilios/novo/">
+            <i class="icon-plus icon-white"></i> Novo </a>
+
+        <div class="page-header" >
+            <h2>Procedimentos Cílios</h2>
+        </div>
+
+        <?php echo $this->flashMessenger(); ?>
+
+
+
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th><?php echo ViewUtil::getOrderBy('Data', 'data', $this->repository_order) ?></th>
+                    <th><?php echo ViewUtil::getOrderBy('Horario', 'horario', $this->repository_order) ?></th>
+                    <th><?php echo ViewUtil::getOrderBy('Cliente', 'c.nome', $this->repository_order) ?></th>
+                    <th><?php echo ViewUtil::getOrderBy('Procedimento', 'procedimento_tipo_id', $this->repository_order) ?></th>
+                    <th><?php echo ViewUtil::getOrderBy('Colaborador', 'usuario_id', $this->repository_order) ?></th>
+                    <th><?php echo ViewUtil::getOrderBy('Status', 'status', $this->repository_order) ?></th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <?php foreach ($this->list as $item): ?>
+                    <tr style="color: <?php echo ($item->status == Procedimento::ABERTO) ? "green" : "" ?>;color: <?php echo ($item->status == Procedimento::REALIZADO) ? "blue" : " " ?>;color: <?php echo ($item->status == Procedimento::CANCELADO) ? "red" : "" ?>; background-color:<?php echo ($item->status == Procedimento::ABERTO) ? "#d4f4d4" : "" ?>;background-color:<?php echo ($item->status == Procedimento::REALIZADO) ? "#d9edf7" : "" ?>;background-color:<?php echo ($item->status == Procedimento::CANCELADO) ? "#f4d6d7" : "" ?> ">
+                        <td><?php echo AppUtil::convertDateToString($item->data) ?></td>
+                            <td><?php echo $item->horario ?></td>
+                        <td>
+                            <a href="<?php echo $this->baseUrl(); ?>/funcionario/cliente/editar/id/<?php echo $item->cliente_id; ?>" target="_blank">
+                                <?php echo $item->Cliente->getFullNome()?>
+                            </a>
+                        </td>
+                            <?php if($item->procedimento_tipo_id != NULL){?>
+                                <td><?php echo $item->ProcedimentoTipo->descricao. " - " .$item->ProcedimentoTipo->getTipo()?></td>
+                            <?php } else {?>
+                                <td></td>
+                            <?php }?>
+                            <td><?php echo $item->Usuario->nome?></td>
+                            <td><?php echo $item->getStatus()?></td>
+                            <td width="20px" style="text-align: center; vertical-align: middle;">
+                                <a href="<?php echo $this->baseUrl(); ?>/funcionario/procedimento-cilios/editar/id/<?php echo $item->id; ?>"><i title="Editar Procedimento" class="icon-pencil"></i></a>
+                            </td>
+
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+        <?php //if (isset($this->list)) echo $this->paginationControl($this->list, "All", "paginator.phtml", $this->list_params);  ?>
+    </div>
+</div>

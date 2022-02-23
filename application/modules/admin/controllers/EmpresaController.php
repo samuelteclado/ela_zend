@@ -4,10 +4,12 @@ class Admin_EmpresaController extends Zend_Controller_Action
 {
 
     private $_empresaRepository;
+    private $_empresa;
 
     public function init() {
         $this->_empresa = SessionUtil::getEmpresaSession();
         $this->_empresaRepository = new EmpresaRepository();
+
     }
 
     public function indexAction() {
@@ -39,13 +41,12 @@ class Admin_EmpresaController extends Zend_Controller_Action
     public function novoAction() {
         $form = new UploadForm();
 
-
         if ($this->getRequest()->isPost()) {
             $empresa = new Empresa();
 
             $data = $this->getRequest()->getPost();
 
-            $this->_setData($empresa, $data);
+            $this->_setata($empresa, $data);
 
             $validate = $this->_validate($empresa);
 
@@ -53,7 +54,6 @@ class Admin_EmpresaController extends Zend_Controller_Action
 
                 $empresa->save();
                 $this->_saveImage($empresa, $form, $data);
-
 
                 $this->_helper->FlashMessenger('Empresa cadastrada com sucesso.');
                 $this->_redirect($this->view->baseUrl() . '/admin/empresa/');
@@ -147,6 +147,7 @@ class Admin_EmpresaController extends Zend_Controller_Action
     }
 
     private function _setDataEndereco(Endereco $endereco, $data) {
+
         $caracter_remove = array("(", ")", "-", " ", ".");
         $endereco->cep = str_replace($caracter_remove, "", $data['cep']);
         $endereco->bairro = AppUtil::setFirstUpWord($data['bairro']);
@@ -155,10 +156,9 @@ class Admin_EmpresaController extends Zend_Controller_Action
         $endereco->estado = AppUtil::setWordUpper($data['estado']);
         $endereco->logradouro = AppUtil::setFirstUpWord($data['logradouro']);
         $endereco->complemento_endereco = AppUtil::setFirstUpWord($data['complemento_endereco']);
-        $endereco->empresa_id = $this->_empresa_id;
+        $endereco->empresa_id = $this->_empresa;
         $endereco->telefone_1 = str_replace($caracter_remove, "", $data['telefone_1']);
         $endereco->telefone_2 = str_replace($caracter_remove, "", $data['telefone_2']);
-
     }
 
     private function _validate(Empresa $empresa) {

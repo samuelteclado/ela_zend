@@ -33,7 +33,7 @@
     }
 </style>
 <div id="top_header_small" >
-    <a href="http://www.sbrasilsolucoes.com/institucional" target='_blank' style="position:absolute; margin: -5px 0px 0px 5px;">
+    <a href="<?php echo $this->baseUrl(); ?>" target='_blank' style="position:absolute; margin: -5px 0px 0px 5px;">
         <img style="width: 60px; float: left;" src="<?php echo PageUtil::getLogo() ?>">
     </a>
     <div style="width: 420px;margin-top: 15px;height: 25px;text-align: right; float: right; line-height: 25px; font-size: 12px; color: #777">

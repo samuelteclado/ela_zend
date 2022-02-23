@@ -1,0 +1,153 @@
+<div id="procedimento_historicos" class="dados">
+    <?php foreach($this->procedimento_historicos as $procedimento_historico):?>
+    <div class="row well">
+        <div class="span4" >
+            <div class="control-group">
+                <label class="control-label" for="data">Data</label>
+                <div class="controls">
+                    <div class="input-append">
+                        <input class="input-small" readonly type="text" value="<?php echo AppUtil::convertDateToString($procedimento_historico->data) ?>">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="span3" >
+            <div class="control-group">
+                <label class="control-label" for="horario">Horario</label>
+                <div class="controls">
+                    <div class="input-append">
+                        <input class="input-medium" readonly type="time" value="<?php echo $procedimento_historico->horario ?>">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="span2" >
+            <div class="control-group">
+                <label class="control-label" for="data_confirmacao">Data de Confirmação</label>
+                <div class="controls">
+                    <div class="input-append">
+                        <input class="input-medium" readonly type="text" value="<?php echo AppUtil::convertDateToString($procedimento_historico->data_confirmacao) ?>">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="span11">
+            <hr/>
+        </div>
+        <div class="span4" >
+            <div class="control-group">
+                <label class="control-label" for="procedimento">Procedimento</label>
+                <div class="controls">
+                    <div class="input-append">
+                        <input class="input-large" readonly type="text" value="<?php echo $procedimento_historico->ProcedimentoTipo->descricao ." - ".$procedimento_historico->ProcedimentoTipo->getTipo()?>">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="span3">
+            <div class="control-group">
+                <label class="control-label" for="valor">Valor R$</label>
+                <div class="controls">
+                    <input class="input-medium"readonly value="<?php echo AppUtil::convertFloatToString($procedimento_historico->valor) ?>">
+                </div>
+            </div>
+        </div>
+
+        <div class="span4">
+            <div class="control-group">
+                <label class="control-label" for="valor">Lançamento</label>
+                <div class="controls">
+                    <input class="input-medium"readonly value="<?php echo str_pad($procedimento_historico->Lancamento[0]->id, 7, "0", STR_PAD_LEFT)?>">
+                </div>
+            </div>
+        </div>
+        <div class="span4" >
+            <div class="control-group">
+                <label class="control-label" for="pagamento">Forma de Pagamento</label>
+                <div class="controls">
+                    <div class="input-append">
+                        <input class="input-large" readonly type="text" value="<?php echo $procedimento_historico->PagamentoTipo->descricao?>">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="span3" >
+            <div class="control-group">
+                <label class="control-label" for="status">Status</label>
+                <div class="controls">
+                    <div class="input-append">
+                        <input class="input-medium"  readonly type="text" value="<?php echo $procedimento_historico->getStatus()?>">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="span4" >
+            <div class="control-group">
+                <label class="control-label" for="colaborador">Extensionista</label>
+                <div class="controls">
+                    <div class="input-append">
+                        <input class="input-medium"  readonly type="text" value="<?php echo $procedimento_historico->Usuario->nome?>">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="span3" style="float: right">
+            <div class="control-group">
+                <label class="control-label" for="mapping">Mapping</label>
+                <div class="controls">
+                    <div class="row" >
+                        <div id="result" style="background-color: #fff; margin: 10px 30px 10px 1px; padding: 5px;  float: left;" class="rounded-light shadow">
+                            <img src="<?php echo AppUtil::getFileView($procedimento_historico, 'p', '160') ?>">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="span6">
+            <div class="control-group">
+                <label class="control-label" for="observacao">Observação</label>
+                <div class="controls">
+                    <input class="input-xxlarge" readonly type="text"  value="<?php echo $procedimento_historico->observacao ?>">
+                </div>
+            </div>
+        </div>
+            <div class="span4">
+                <div class="control-group">
+                    <label class="control-label" for="modelo_fios_historico">Modelo dos fios:</label>
+                    <div class="controls">
+                        <input class="input-large" id="modelo_fios_historico"  readonly name="modelo_fios_historico" type="text" value="<?php echo $procedimento_historico->ProcedimentoDetalhe[0]->modelo_fios ?>">
+                    </div>
+                </div>
+            </div>
+            <div class="span3">
+                <div class="control-group">
+                    <label class="control-label" for="espessura_historico">Espessura:</label>
+                    <div class="controls">
+                        <input class="input-large" id="espessura_historico" readonly name="espessura_historico" type="text" value="<?php echo $procedimento_historico->ProcedimentoDetalhe[0]->espessura ?>">
+                    </div>
+                </div>
+            </div>
+
+            <div class="span4">
+                <div class="control-group">
+                    <label class="control-label" for="curvatura_historico">Curvatura:</label>
+                    <div class="controls">
+                        <input class="input-large" id="curvatura_historico" readonly name="curvatura_historico" type="text" value="<?php echo $procedimento_historico->ProcedimentoDetalhe[0]->curvatura ?>">
+                    </div>
+                </div>
+            </div>
+            <div class="span3">
+                <div class="control-group">
+                    <label class="control-label" for="adesivo_cola_historico">Adesivo/cola:</label>
+                    <div class="controls">
+                        <input class="input-large" id="adesivo_cola_historico" readonly name="adesivo_cola_historico" type="text" value="<?php echo $procedimento_historico->ProcedimentoDetalhe[0]->adesivo_cola ?>">
+                    </div>
+                </div>
+            </div>
+
+    </div>
+    <?php endforeach;?>
+</div>
+

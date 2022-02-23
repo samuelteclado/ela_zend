@@ -1,0 +1,85 @@
+<style>
+    .valores{width: 100px}
+</style>
+<div id="esquerda">
+    <div style="margin: 10px">
+        <div class="cabecalho-impressao" style="display: none">
+            <h5 style="text-align: center"><?php echo $this->empresa->nome_fantasia ?></h5>
+            <p style="text-align: center;">CNPJ: <?php echo AppUtil::convertIntToCNPJ($this->empresa->cnpj) ?></p>
+            <img  style="float: left;height: 50px;margin-top: -45px;width: 50px;border: none;padding: 4px" src="<?php echo AppUtil::getFileView($this->empresa, 'e', '100') ?>">
+            <div style="margin: auto;width: 50%;margin-top: -10px">
+                <p style="text-align: center"><?php echo $this->empresa->Endereco[0]->logradouro ?>, N°: <?php echo $this->empresa->Endereco[0]->numero ?> — <?php echo $this->empresa->Endereco[0]->bairro ?>, <?php echo $this->empresa->Endereco[0]->cidade ?> - <?php echo $this->empresa->Endereco[0]->estado ?></p>
+            </div>
+            <div style="margin: auto;width: 50%;">
+                <h5 style="text-align: center;">Clientes Desistentes</h5>
+            </div>
+        </div>
+
+        <form id="form_extrato" method="POST" action="" enctype="multipart/form-data">
+            <fieldset>
+                <?php echo $this->flashMessenger(); ?>
+                <div class="row well noprint">
+                    <div class="page-header" >
+                        <h2>Possiveis Remac</h2>
+                    </div>
+                    <div class="row">
+                        <div class="control-group span9">
+                            <label class="control-label">Ultimo Procedimento anterior a:</label>
+                            <div class="controls">
+                                <select class="span2" name="ano">
+                                    <?php foreach ($this->anos as $ano) : ?>
+                                        <option value="<?php echo $ano ?>" <?php echo ViewUtil::fillFieldSelect($ano, $this->params['ano']) ?>><?php echo $ano ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                                <select class="span2" name="mes">
+                                    <?php foreach ($this->meses as $mes) : ?>
+                                        <option value="<?php echo $mes['id'] ?>" <?php echo ViewUtil::fillFieldSelect($mes['id'], $this->params['mes']) ?>><?php echo $mes['text'] ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">&nbsp;</label>
+                            <div class="controls">
+                                <button type="submit" class="btn btn-info"><i class="icon-filter icon-white"></i>Filtrar</button>
+                                <a class=" btn btn-inverse " href="javascript:self.print()"><i class="icon-print icon-white"></i>Imprimir</a>
+                            </div>
+                        </div>
+                    </div>
+            </fieldset>
+            <div class="cabecalho-impressao" style="margin: auto;text-align: center;margin-top: -10px;width: 50%;display: none">
+                <p>Período:
+                    <b style="text-decoration: underline "><?php echo AppUtil::convertDateToString($this->data_inicial) ?></b>
+                    a <b style="text-decoration: underline "><?php echo AppUtil::convertDateToString($this->data_final) ?></b>
+            </div>
+        </form>
+
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>Data</th>
+                <th>Nome</th>
+                <th>Último Aten.</th>
+                <th>Procedimento Realizados</th>
+                <th>Celular</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php $count =1; foreach ($this->list as $item): ?>
+                <tr>
+                    <td><?php echo $count?></td>
+                    <td style="text-transform: uppercase;"><b><a target="_blank" href="<?php echo $this->baseUrl()?>/funcionario/cliente/editar/id/<?php echo $item->id ?>"><?php echo $item->nome ." ".$item->sobrenome?></a></b></td>
+                    <td><?php echo AppUtil::convertDateToString($item->getUltimoAtendimento()) ?></td>
+                    <td><?php echo $item->getTotalAtendimentos() ?></td>
+                    <td><?php echo AppUtil::convertIntToCelular($item->Endereco[0]->telefone_1)?></td>
+                </tr>
+                <?php $count++?>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+        <div style="float: right;display: none" class="cabecalho-impressao"> <p>Emitido dia: <?php echo date('d/m/Y H:i:s') ?></p></div>
+    </div>
+    <div class="cabecalho-impressao" style="display: none;margin: auto;width: 150px;height: 20px;margin-top: 20px">
+        <img  style="height: 30px;width: 100px;opacity: 0.6;" src="<?php echo $this->baseUrl(); ?>/content/img/logo_holy.png">
+    </div>
+</div>

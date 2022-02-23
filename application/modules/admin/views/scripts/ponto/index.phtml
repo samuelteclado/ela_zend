@@ -1,0 +1,59 @@
+﻿<div id="esquerda">
+    <div style="margin: 10px">
+        <a style="float: right;" class="btn btn-success btn-large" href="<?php echo $this->baseUrl(); ?>/admin/ponto/novo/?nolayout=<?php echo $this->layout?>">
+            <i class="icon-plus icon-white"></i> Novo </a>
+        <button style="float: right; margin-right: 5px;"  type="button" id="btn_filtrar" class="btn btn-info btn-large"><i class="icon-filter icon-white"></i>&nbsp;Filtro</button>
+        <div class="page-header" >
+            <h2>Registro de Pontos</h2>
+        </div>
+        <form method="GET" action="" style="display: none;" id="form_filtrar">
+            <div class="row well">
+                <a id="btn_close" class="close" href="#">&times;</a>
+                <div class="span4">
+                    <div class="control-group">
+                        <label class="control-label" for="funcionario">Funcionarios</label>
+                        <div class="controls">
+                            <select data-placeholder="[  Selecione a Funcionario ]" class="input-xlarge chzn-select-deselect" name="funcionario" id="funcionario">
+                                <option value="0"></option>
+                                <?php foreach ($this->funcionarios as $funcionario): ?>
+                                    <option <?php echo ViewUtil::fillFieldSelect($this->repository_filter->getParamByField('funcionario'), $funcionario->id) ?> value="<?php echo $funcionario->id ?>"><?php echo $funcionario->nome ?></option>
+                                <?php endforeach ?>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="span8">
+                    <hr/>
+                    <button type="submit" data-loading-text="Filtrando..." class="btn btn-info btn-large"><i class="icon-filter icon-white"></i>&nbsp;Filtrar</button>
+                </div>
+            </div>
+        </form>
+        <?php echo $this->flashMessenger(); ?>
+             <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th><?php echo ViewUtil::getOrderBy('Funcionario', 'usuario_id', $this->repository_order) ?></th>
+                    <th>Data</th>
+                    <th>Horario</th>
+                    <th colspan="2"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($this->list as $item): ?>
+                    <tr>
+                        <td><?php echo $item->Usuario->getFullNome() ?></td>
+                        <td><?php echo AppUtil::convertDateTimeToString($item->ponto,'date') ?></td>
+                        <td><?php echo AppUtil::convertDateTimeToString($item->ponto,'time') ?></td>
+                        <td width="20px" style="text-align: center; vertical-align: middle;">
+                            <a href="<?php echo $this->baseUrl(); ?>/admin/ponto/editar/id/<?php echo $item->id; ?>?nolayout=<?php echo $this->layout?>"><i title="editar" class="icon-pencil"></i></a>
+                        </td>
+                        <td width="20px" style="text-align: center; vertical-align: middle;">
+                            <a onclick="return confirm('Confirma a exclusão do registro de ponto ?')" href="<?php echo $this->baseUrl(); ?>/admin/ponto/deletar/id/<?php echo $item->id; ?>?nolayout=<?php echo $this->layout?>"><i title="excluir" class="icon-trash"></i></a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+        <?php if (isset($this->list)) echo $this->paginationControl($this->list, "All", "paginator.phtml", $this->list_params); ?>
+    </div>
+</div>

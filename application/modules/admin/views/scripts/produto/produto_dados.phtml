@@ -1,0 +1,207 @@
+<script type="text/javascript">
+
+    function selectedOption(id) {
+        var optionSelected = <?php echo (isset($this->produto)) ? $this->produto->produto_categoria_id : '0' ?>;
+
+        if (optionSelected == id)
+            return 'selected';
+
+        return '';
+    }
+
+
+    function removeImagemButton(id) {
+        $('#remove').attr('value', id);
+        $('#form_produto').submit();
+    }
+
+
+    $(function() {
+        $(".popup_categoria_produto").colorbox({
+            iframe: true,
+            width: "80%",
+            height: "80%",
+            fixed: true,
+            opacity: 0.8,
+            onClosed: function() {
+                $('#produto_categoria').html('<option value="0">Carregando aguarde ...</option>');
+                $('#produto_categoria').attr("disabled", true);
+
+                $.getJSON("<?php echo $this->baseUrl() ?>/ajax/produto-categoria/list", {ajax: 'true'}, function(list) {
+                    var list = jQuery.parseJSON(list)
+
+                    var categorias = '';
+                    $('#produto_categoria').html('');
+
+                    $('#produto_categoria').append('<option value="0">[ Selecione a Categoria ]</option>');
+                    $.each(list, function(key, item) {
+                        categorias += '<option ' + selectedOption(item.id) + ' value="' + item.id + '">' + item.descricao + '</option>';
+                    });
+                    $('#produto_categoria').append(categorias);
+                    $('#produto_categoria').attr("disabled", false);
+                    //$('#produto_categoria').trigger("liszt:updated");
+
+                })
+            }
+        });
+    });
+</script>
+<div id="data_produto" class="dados">
+    <div class="row well">
+        <div class="span3">
+            <div class="control-group">
+                <label class="control-label" for="descricao">Descrição</label>
+                <div class="controls">
+                    <input class="input-medium" id="descricao_nome" placeholder="Digite a descrição do produto" name="descricao" type="text" value="<?php echo $this->produto->descricao ?>">
+                </div>
+            </div>
+        </div>
+        <div class="span3">
+            <div class="control-group">
+                <label class="control-label" for="codigo">Código</label>
+                <div class="controls">
+                    <input class="input-medium" readonly type="text" value="<?php echo $this->produto->codigo ?>">
+                </div>
+            </div>
+        </div>
+
+        <div class="span3" style="float: right">
+            <div class="control-group">
+                <label class="control-label" for="imagem_perfil">Imagem do produto</label>
+                <div class="controls">
+                    <div class="row" >
+                        <div id="result" style="background-color: #fff; margin: 10px 30px 10px 1px; padding: 5px;  float: left;" class="rounded-light shadow">
+                            <img src="<?php echo AppUtil::getFileView($this->produto, 'pr', '160') ?>">
+                        </div>
+                        <div class="input-append">
+                                <span class="btn success fileinput-button">
+                                    <span>Selecionar imagem ...</span>
+                                    <?php echo $this->form->file ?>
+                                </span>
+                            <?php if (AppUtil::isFileExists($this->produto, 'pr')) { ?>
+                                <a title="Remover imagem do produto" class="btn" onClick="removeImagemButton(<?php echo $this->produto->id ?>);">
+                                    <i class="icon-trash"></i>
+                                </a>
+                                <input type="hidden" name="remove" id="remove">
+                            <?php } ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="span3">
+            <div class="control-group">
+                <label class="control-label" for="marca">Marca</label>
+                <div class="controls">
+                    <input class="input-medium" id="marca"  name="marca" type="text" value="<?php echo $this->produto->marca ?>">
+                </div>
+            </div>
+        </div>
+        <div class="span3">
+            <div class="control-group">
+                <label class="control-label" for="modelo">Modelo</label>
+                <div class="controls">
+                    <input class="input-medium" id="modelo"  name="modelo" type="text" value="<?php echo $this->produto->modelo ?>">
+                </div>
+            </div>
+        </div>
+        <div class="span3" >
+            <div class="control-group">
+                <label class="control-label" for="curvatura">Curvatura</label>
+                <div class="controls">
+                    <select class="input-medium"  name="curvatura" id="curvatura">
+                        <option value="0">[ Curvatura ]</option>
+                        <option <?php echo ViewUtil::fillFieldSelect($this->produto->curvatura, Produto::CURVATURA_C) ?> value="<?php echo Produto::CURVATURA_C ?>">C</option>
+                        <option <?php echo ViewUtil::fillFieldSelect($this->produto->curvatura, Produto::CURVATURA_D) ?> value="<?php echo Produto::CURVATURA_D ?>">D</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="span3">
+            <div class="control-group">
+                <label class="control-label" for="espessura">Espessura</label>
+                <div class="controls">
+                    <input class="input-medium" id="espessura"  name="espessura" type="text" value="<?php echo $this->produto->espessura ?>">
+                </div>
+            </div>
+        </div>
+        <div class="span3">
+            <div class="control-group">
+                <label class="control-label" for="tamanho">Tamanho</label>
+                <div class="controls">
+                    <input class="input-medium" id="tamanho"  name="tamanho" type="text" value="<?php echo $this->produto->tamanho ?>">
+                </div>
+            </div>
+        </div>
+        <div class="span3">
+            <div class="control-group">
+                <label class="control-label" for="qt_minima">Qt Minima</label>
+                <div class="controls">
+                    <input class="input-medium" id="qt_minima"  name="qt_minima" type="text" value="<?php echo $this->produto->qt_minima ?>">
+                </div>
+            </div>
+        </div>
+        <div class="span3">
+            <div class="control-group">
+                <label class="control-label" for="categoria">Categoria</label>
+                <div class="controls">
+                    <div class="input-small">
+                        <select name="produto_categoria" style="width: 165px" id="produto_categoria">
+                            <option value="0">[ Selecione uma Categoria ]</option>
+                            <?php foreach ($this->produtoCategoria as $categoria): ?>
+                                <option <?php echo ViewUtil::fillFieldSelect($this->produto->produto_categoria_id, $categoria->id) ?> value="<?php echo $categoria->id ?>"><?php echo $categoria->descricao ?></option>
+                            <?php endforeach ?>
+                        </select>
+                        <div style="padding-left: 165px;margin-top: -29px">
+                            <a class="popup_categoria_produto btn" title="Gerenciar categorias" href="<?php echo $this->baseUrl() ?>/admin/produto-categoria/?nolayout=1">
+                                <i class="icon-plus"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="span8" >
+            <div class="control-group">
+                <label class="control-label" for="status">Status</label>
+                <div class="controls">
+                    <select class="input-medium"  style="width: 165px"name="status" id="status">
+                        <option <?php echo ViewUtil::fillFieldSelect($this->produto->status, Produto::ATIVO) ?> value="<?php echo Produto::ATIVO ?>">Ativo</option>
+                        <option <?php echo ViewUtil::fillFieldSelect($this->produto->status, Produto::INATIVO) ?> value="<?php echo Produto::INATIVO ?>">Inativo</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="span3">
+            <div class="control-group">
+                <label class="control-label" for="ultima_compra">Última Compra</label>
+                <div class="controls">
+                    <div class="input-append">
+                        <input class="input-small txData" id="ultima_compra" readonly placeholder="__/__/____"name="ultima_compra" type="text"  value="<?php //echo AppUtil::convertDateToString($this->produto->data_ultima_compra) ?>">
+                        <span class="add-on"><span class="icon-calendar"></span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="span2">
+            <div class="control-group">
+                <label class="control-label" for="ultima_venda">Última Venda</label>
+                <div class="controls">
+                    <div class="input-append">
+                        <input class="input-small txData" id="ultima_venda" readonly placeholder="__/__/____"name="ultima_venda" type="text"  value="<?php //echo AppUtil::convertDateToString($this->produto->data_ultima_venda) ?>">
+                        <span class="add-on"><span class="icon-calendar"></span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+    </div>
+
+</div>

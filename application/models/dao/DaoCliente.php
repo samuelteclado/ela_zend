@@ -17,6 +17,7 @@
  * @property Empresa $Empresa
  * @property Doctrine_Collection $Endereco
  * @property Doctrine_Collection $Lancamento
+ * @property Doctrine_Collection $Movimento
  * @property Doctrine_Collection $Procedimento
  * 
  * @package    ##PACKAGE##
@@ -90,9 +91,8 @@ abstract class DaoCliente extends DaoGeneric
              'notnull' => false,
              'autoincrement' => false,
              ));
-        $this->hasColumn('observacao', 'string', 200, array(
+        $this->hasColumn('observacao', 'string', null, array(
              'type' => 'string',
-             'length' => 200,
              'fixed' => false,
              'unsigned' => false,
              'primary' => false,
@@ -122,6 +122,10 @@ abstract class DaoCliente extends DaoGeneric
              'foreign' => 'cliente_id'));
 
         $this->hasMany('Lancamento', array(
+             'local' => 'id',
+             'foreign' => 'cliente_id'));
+
+        $this->hasMany('Movimento', array(
              'local' => 'id',
              'foreign' => 'cliente_id'));
 

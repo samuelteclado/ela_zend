@@ -121,24 +121,36 @@
         })
                 .trigger('change');
 
-        $('#pagamento_data').change(function() {
-            var pagamento_data = "";
-            var lancamento = "<?php echo $this->lancamento->id ?>";
-            pagamento_data = $(this).val();
-            $.getJSON("<?php echo $this->baseUrl() ?>/ajax/lancamento/calculo/", {id_lancamento: lancamento, pagamento_data: pagamento_data}, function(valor) {
-                var valor = jQuery.parseJSON(valor)
 
-                if (typeof valor.multa == 'undefined') {
-                    $('#valor_a_pagar').html('');
-                } else {
-                    $('#valor_a_pagar').html('O valor total a pagar será R$' + valor.valor_total + '. Sendo R$' + valor.multa + ' de multa e R$' + valor.juros + ' de juros.');
-                }
-            })
+
+
+
+        $('#forma_pagamento').change(function() {
+            var pagamentoTipo = "";
+            $("#forma_pagamento option:selected").each(function() {
+                pagamentoTipo = $(this).val();
+                tipo_lancamento = $('#tipo_lancamento').val();
+               if(tipo_lancamento == 1) {
+                   $.getJSON("<?php echo $this->baseUrl() ?>/ajax/lancamento/liquidar/", {
+                       pagamentoTipo: pagamentoTipo,
+                       lancamento: <?php echo $this->lancamento->id =! 1 ? $this->lancamento->id : 1 ?>}, function (formaPagamento) {
+                       var forma_pagamento = jQuery.parseJSON(formaPagamento);
+                       $('#pagamento_percentual').val(forma_pagamento.percentual);
+                       $('#pagamento_taxa').val(forma_pagamento.pagamento_taxa);
+                       $('#pagamento_valor').val(forma_pagamento.pagamento_valor);
+
+                   })
+               } else{
+                   $('#pagamento_percentual').val('0,00');
+                   $('#pagamento_taxa').val('0,00');
+                   $('#pagamento_valor').val($('#vencimento_valor').val());
+               }
+            });
         })
-                .trigger('change');
+            //.trigger('change');
 
 
-        $(".popup_planos").colorbox({
+       $(".popup_planos").colorbox({
             iframe: true,
             width: "80%",
             height: "80%",
@@ -150,6 +162,7 @@
 
                 $.getJSON("<?php echo $this->baseUrl() ?>/ajax/plano-de-contas/list", {ajax: 'true'}, function(list) {
                     var list = jQuery.parseJSON(list)
+                   // console.log(list);
                     var planos_de_contas = '';
                     $('#plano_de_contas_id').html('');
 
@@ -159,6 +172,7 @@
                     });
                     $('#plano_de_contas_id').append(planos_de_contas);
                     $('#plano_de_contas_id').attr("disabled", false);
+                    $('#plano_de_contas_id').trigger("liszt:updated");
 
                 })
 

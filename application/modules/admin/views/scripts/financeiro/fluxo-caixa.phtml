@@ -1,0 +1,289 @@
+<style>
+    #fluxo-de-caixa-div {width: 100%; overflow-x: scroll;}
+    #fluxo-de-caixa td {min-width: 40px; text-align: right;}
+    #fluxo-de-caixa .meses {width: 80px; text-align: center;}
+    .noscreen { display: none; }
+</style>
+
+<style type="text/css" media="print" > 
+    * {color: #000;}
+    .noprint { display: none !important }
+    .noscreen { display: inline; }
+    body {background: #FFF; }
+    #top {display: none;}
+    .page-header {display: inline;}
+    label {font-weight: bold; font-size: 18px;}
+    form {margin-top: 40px;}
+    <?php echo ($this->params['periodo'] == 24) ? 'body {zoom: 55%;}' : '' ?>
+</style> 
+
+<script>
+    $(function() {
+
+        $('.imprimir').click(imprimir);
+
+        function imprimir() {
+
+            $('#fluxo-de-caixa-div').css('overflow-x', 'visible');
+
+            $('.selecttext').remove();
+            $('.chzn-container').addClass('noprint');
+
+            $("select").each(function() {
+
+                var $el = $(this);
+                var $options = $el.find("option:selected");
+
+                $el.after("<div class='noscreen selecttext'>" + $options.text() + "</div>");
+
+                $el.addClass('noprint');
+
+            });
+
+
+            self.print();
+
+            $('#fluxo-de-caixa-div').css('overflow-x', 'scroll');
+
+            return false;
+        }
+
+    });
+
+</script>
+<div id="esquerda" style="width: 98% !important">
+    <div style="margin: 10px">
+        <div class="cabecalho-impressao" style="display: none">
+            <h5 style="text-align: center"><?php echo $this->empresa->nome_fantasia ?></h5>
+            <p style="text-align: center;">CNPJ: <?php echo AppUtil::convertIntToCNPJ($this->empresa->cnpj) ?></p>
+            <img  style="float: left;height: 50px;margin-top: -45px;width: 50px;border: none;padding: 4px" src="<?php echo AppUtil::getFileView($this->empresa, 'e', '100') ?>">
+            <div style="margin: auto;width: 50%;margin-top: -10px">
+                <p style="text-align: center"><?php echo $this->empresa->Endereco[0]->logradouro ?>, N°: <?php echo $this->empresa->Endereco[0]->numero ?> — <?php echo $this->empresa->Endereco[0]->bairro ?>, <?php echo $this->empresa->Endereco[0]->cidade ?> - <?php echo $this->empresa->Endereco[0]->estado ?></p>
+            </div>
+            <div style="margin: auto;width: 50%;">
+                <h5 style="text-align: center;">Fluxo de Caixa</h5>
+            </div>
+        </div>
+
+        <div>
+            <form method="POST" class="well noprint" action="" enctype="multipart/form-data">
+                <fieldset>
+                <div class="row">
+                    <div class="control-group span5">
+                        <label class="control-label">A partir de:</label>
+                        <div class="controls">
+                            <select class="span2" name="ano">
+                                <?php foreach ($this->anos as $ano) : ?>
+                                    <option value="<?php echo $ano ?>" <?php echo ViewUtil::fillFieldSelect($ano, $this->params['ano']) ?>><?php echo $ano ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                            <select class="span2" name="mes">
+                                <?php foreach ($this->meses as $mes) : ?>
+                                    <option value="<?php echo $mes['id'] ?>" <?php echo ViewUtil::fillFieldSelect($mes['id'], $this->params['mes']) ?>><?php echo $mes['text'] ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="control-group span2">
+                        <label class="control-label">Período</label>
+                        <div class="controls">
+                            <select class="span2" name="periodo">
+                                <option value="1" <?php echo ViewUtil::fillFieldSelect('1', $this->params['periodo']) ?>>1 mês</option>
+                                <option value="6" <?php echo ViewUtil::fillFieldSelect('6', $this->params['periodo']) ?>>6 meses</option>
+                                <option value="12" <?php echo ViewUtil::fillFieldSelect('12', $this->params['periodo']) ?>>1 ano</option>
+                                <option value="24" <?php echo ViewUtil::fillFieldSelect('24', $this->params['periodo']) ?>>2 anos</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="control-group span3">
+                        <label class="control-label">Detalhado por: </label>
+                        <div class="controls">
+                            <select class="input-medium" name="detalhar">
+                                <option value="0">[  Nenhum ]</option> 
+                                <option value="1" <?php echo ViewUtil::fillFieldSelect('1', $this->params['detalhar']) ?>>Conta Bancária</option>
+                                <option value="2" <?php echo ViewUtil::fillFieldSelect('2', $this->params['detalhar']) ?>>Plano de Contas</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="control-group span5">
+                        <label class="control-label">Conta Bancária</label>
+                        <div class="controls">
+                            <select class="input-xlarge" name="conta_bancaria">
+                                <option value="0">[ Todas as Contas ]</option>
+                                <?php foreach ($this->filtro_contas_bancarias as $conta): ?>
+                                    <option <?php echo ViewUtil::fillFieldSelect($conta->id, $this->params['conta_bancaria']) ?> value="<?php echo $conta->id ?>"><?php echo $conta->descricao ?></option>
+                                <?php endforeach ?>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="control-group span4">
+                        <label class="control-label" for="cliente">Clientes</label>
+                        <div class="controls">
+                            <select data-placeholder="[ Selecione o Cliente ]" class="input-xlarge chzn-select-deselect" name="cliente" id="cliente">
+                                <option value="0"></option>
+                                <?php foreach ($this->filtro_clientes as $cliente): ?>
+                                    <option <?php echo ViewUtil::fillFieldSelect($cliente->id, $this->params['cliente']) ?> value="<?php echo $cliente->id ?>"><?php echo $cliente->nome ." ".$cliente->sobrenome?></option>
+                                <?php endforeach ?>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div style="float: right;" class="control-group">
+                        <label class="control-label">&nbsp;</label>
+                        <div class="controls">
+                            <button class="btn btn-info" type="submit"><i class="icon-filter icon-white"></i> Filtrar</button>
+                            <a class="imprimir btn btn-inverse"  onclick="return false;" title="Imprimir"><i class="icon-print icon-white"></i> Imprimir</a>
+                        </div>
+                    </div>
+                </div>
+                </fieldset>
+            </form>
+        </div>
+
+        <?php $total_receita = 0; ?>
+        <?php $total_despesa = 0; ?>
+        <hr/>
+
+        <div id="fluxo-de-caixa-div">
+            <table id="fluxo-de-caixa" class="table table-bordered">
+
+                <thead>
+                    <tr>
+                        <th style="min-width: 250px;"></th>
+                        <?php foreach ($this->fluxo_de_caixa as $caixa) : ?>
+                            <th class="meses"><?php echo AppUtil::getSmallMonth($caixa['mes']) ?>/<?php echo $caixa['ano'] ?></th>
+                        <?php endforeach; ?>
+                        <th class="meses">MÉDIA</th>
+                        <th class="meses">TOTAL</th>
+                    </tr>
+
+
+                    <tr style="background: #e7f0ff;">
+                        <th>Receitas</th>
+
+                        <?php foreach ($this->fluxo_de_caixa as $caixa) : ?>
+                            <?php $total_receita += $caixa['receitas']['total']; ?>
+                            <td style="color: #06d;"><?php echo AppUtil::convertFloatToString($caixa['receitas']['total'], '.', '-'); ?></td>
+                        <?php endforeach; ?>
+
+                        <td style="color: #06d;"><?php echo AppUtil::convertFloatToString($total_receita / $this->params['periodo'], '.', '-'); ?></td>
+                        <td style="color: #06d;"><?php echo AppUtil::convertFloatToString($total_receita, '.', '-'); ?></td>
+                    </tr>
+                </thead>
+
+                <?php if ($this->params['detalhar'] == '2') : ?>
+                    <?php foreach ($this->clientes['receitas'] as $cliente_id => $filtro_clientes): ?>
+                        <tr>
+                            <th style="font-size: 11px; font-weight: normal;">
+                                &nbsp;&nbsp;&nbsp;&nbsp;<?php echo $filtro_clientes['cliente_nome'] ." ". $filtro_clientes['cliente_sobrenome']?>
+                            </th>
+                            <?php $total = 0; ?>
+                            <?php foreach ($this->fluxo_de_caixa as $caixa) : ?>
+                                <?php $total += $caixa['receitas']['clientes'][$cliente_id]['cliente_valor']; ?>
+                                <td style="font-size: 11px;"><?php echo AppUtil::convertFloatToString($caixa['receitas']['clientes'][$cliente_id]['cliente_valor'], '.', '-'); ?></td>
+                            <?php endforeach; ?>
+
+                            <td style="font-size: 11px;"><?php echo AppUtil::convertFloatToString($total / $this->params['periodo'], '.', '-'); ?></td>
+                            <td style="font-size: 11px;"><?php echo AppUtil::convertFloatToString($total, '.', '-'); ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+                <?php if ($this->params['detalhar'] == '1') : ?>
+                    <?php foreach ($this->contas_bancarias as $conta_bancaria) : ?>
+                        <tr>
+                            <th style="font-size: 11px; font-weight: normal;">
+                                &nbsp;&nbsp;&nbsp;&nbsp;<?php echo $conta_bancaria->descricao; ?>
+                            </th>
+
+                            <?php $total = 0; ?>
+                            <?php foreach ($this->fluxo_de_caixa as $caixa) : ?>
+                                <?php $total += $caixa['receitas']['contas_bancarias'][$conta_bancaria->id]['conta_valor']; ?>
+                                <td style="font-size: 11px;"><?php echo AppUtil::convertFloatToString($caixa['receitas']['contas_bancarias'][$conta_bancaria->id]['conta_valor'], '.', '-'); ?></td>
+                            <?php endforeach; ?>
+
+                            <td style="font-size: 11px;"><?php echo AppUtil::convertFloatToString($total / $this->params['periodo'], '.', '-'); ?></td>
+                            <td style="font-size: 11px;"><?php echo AppUtil::convertFloatToString($total, '.', '-'); ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+
+                <thead>
+                    <tr style="background: #ffece7;">
+                        <th>Despesas</th>
+
+                        <?php foreach ($this->fluxo_de_caixa as $caixa) : ?>
+                            <?php $total_despesa += $caixa['despesas']['total']; ?>
+                            <td style="color: #ff4b00;"><?php echo AppUtil::convertFloatToString($caixa['despesas']['total'], '.', '-'); ?></td>
+                        <?php endforeach; ?>
+
+                        <td style="color: #ff4b00;"><?php echo AppUtil::convertFloatToString($total_despesa / $this->params['periodo'], '.', '-'); ?></td>
+                        <td style="color: #ff4b00;"><?php echo AppUtil::convertFloatToString($total_despesa, '.', '-'); ?></td>
+                    </tr>
+                </thead>
+
+                <?php if ($this->params['detalhar'] == '2') : ?>
+                    <?php foreach ($this->alunos['despesas'] as $cliente_id => $cliente) : ?>
+                        <tr>
+                            <th style="font-size: 11px; font-weight: normal;">
+                                &nbsp;&nbsp;&nbsp;&nbsp;<?php echo $cliente['cliente_sobrenome']; ?>
+                            </th>
+
+                            <?php $total = 0; ?>
+                            <?php foreach ($this->fluxo_de_caixa as $caixa) : ?>
+                                <?php $total += $caixa['despesas']['comissoes'][$cliente_id]['cliente_valor']; ?>
+                                <td style="font-size: 11px;"><?php echo AppUtil::convertFloatToString($caixa['despesas']['clientes'][$cliente_id]['cliente_valor'], '.', '-'); ?></td>
+                            <?php endforeach; ?>
+
+                            <td style="font-size: 11px;"><?php echo AppUtil::convertFloatToString($total / $this->params['periodo'], '.', '-'); ?></td>
+                            <td style="font-size: 11px;"><?php echo AppUtil::convertFloatToString($total, '.', '-'); ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+
+                <?php if ($this->params['detalhar'] == '1') : ?>
+                    <?php foreach ($this->contas_bancarias as $conta_bancaria) : ?>
+                        <tr>
+                            <th style="font-size: 11px; font-weight: normal;">
+                                &nbsp;&nbsp;&nbsp;&nbsp;<?php echo $conta_bancaria->descricao; ?>
+                            </th>
+
+                            <?php $total = 0; ?>
+                            <?php foreach ($this->fluxo_de_caixa as $caixa) : ?>
+                                <?php $total += $caixa['despesas']['contas_bancarias'][$conta_bancaria->id]['conta_valor']; ?>
+                                <td style="font-size: 11px;"><?php echo AppUtil::convertFloatToString($caixa['despesas']['contas_bancarias'][$conta_bancaria->id]['conta_valor'], '.', '-'); ?></td>
+                            <?php endforeach; ?>
+
+                            <td style="font-size: 11px;"><?php echo AppUtil::convertFloatToString($total / $this->params['periodo'], '.', '-'); ?></td>
+                            <td style="font-size: 11px;"><?php echo AppUtil::convertFloatToString($total, '.', '-'); ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+
+                <tfoot>
+                    <tr style="background: #feffde;">
+                        <th>SALDO</th>
+
+                        <?php foreach ($this->fluxo_de_caixa as $caixa) : ?>
+                            <?php $total += $caixa['despesas']['total']; ?>
+                            <td><?php echo AppUtil::convertFloatToStringFluxoDeCaixa($caixa['receitas']['total'] - $caixa['despesas']['total'], '.', '-'); ?></td>
+                        <?php endforeach; ?>
+
+                        <td><?php echo AppUtil::convertFloatToStringFluxoDeCaixa(($total_receita - $total_despesa) / $this->params['periodo'], '.', '-'); ?></td>
+                        <td><?php echo AppUtil::convertFloatToStringFluxoDeCaixa(($total_receita - $total_despesa), '.', '-'); ?></td>
+                    </tr>
+                </tfoot>
+
+            </table>
+        </div>
+        <div style="float: right;display: none" class="cabecalho-impressao"> <p>Emitido dia: <?php echo date('d/m/Y H:i:s') ?></p></div>
+    </div>
+    <div class="cabecalho-impressao" style="display: none;margin: auto;width: 150px;height: 20px;margin-top: 20px">
+        <img  style="height: 30px;width: 100px;opacity: 0.6;" src="<?php echo $this->baseUrl(); ?>/content/img/logo_holy.png">
+    </div>
+</div>

@@ -23,6 +23,9 @@ class Admin_PlanoDeContasController extends Zend_Controller_Action {
         $filter = new RepositoryFilter($params);
         $filter->addFilter('empresa_id = ?', $this->_empresa_id);
         $filter->addNotNullFilter('codigo');
+        $filter->addTextFilter('descricao', $params['descricao']);
+        $filter->addSelectFilter('tipo', $params['tipo']);
+        $filter->addSelectFilter('natureza_operacao', $params['natureza']);
 
         $sortParam = ($params["sort"]) ? $params["sort"] : 'codigo';
         $orderParam = ($params["order"]) ? $params["order"] : 'ASC';
@@ -45,12 +48,11 @@ class Admin_PlanoDeContasController extends Zend_Controller_Action {
 
             $data = $this->getRequest()->getPost();
 
-            $this->_setData($plano_de_contas, $data);
+            $this->_setDataNovo($plano_de_contas, $data);
 
             $validate = $this->_validate($plano_de_contas);
 
             if (!isset($validate) || $validate == "") {
-
                 $plano_de_contas->save();
 
                 $this->_helper->FlashMessenger('Plano de Contas cadastrado com sucesso.');
@@ -77,14 +79,14 @@ class Admin_PlanoDeContasController extends Zend_Controller_Action {
             if ($this->getRequest()->isPost()) {
 
                 $data = $this->getRequest()->getPost();
-                $this->_setData($plano_de_contas, $data);
+                $this->_setDataEdit($plano_de_contas, $data);
 
                 $validate = $this->_validate($plano_de_contas);
                 if (!isset($validate) || $validate == "") {
                     $plano_de_contas->save();
 
                     $this->_helper->FlashMessenger('Plano de contas alterado com sucesso.');
-                    $this->_redirect($this->view->baseUrl() . '/financeiro/plano-de-contas/');
+                    $this->_redirect($this->view->baseUrl() . '/admin/plano-de-contas/');
                 } else {
                     $this->_helper->FlashMessenger(array('warning' => $validate));
                     $this->view->plano_de_contas = $plano_de_contas;
@@ -142,18 +144,43 @@ class Admin_PlanoDeContasController extends Zend_Controller_Action {
         $this->_redirect($this->view->baseUrl() . '/admin/plano-de-contas/?nolayout=' . $this->_layout);
     }
 
-    private function _setData(PlanoDeContas $plano_de_contas, $data) {
+    private function _setDataNovo(PlanoDeContas $plano_de_contas, $data) {
+
         $plano_de_contas->descricao = $data['descricao'];
+
         $plano_de_contas->tipo = $data['tipo'];
-        $plano_de_contas->codigo = $this->_planodecontasRepository->getCodPlanoPai($this->_empresa_id);
         $plano_de_contas->natureza_operacao = $data['natureza'];
+        $plano_de_contas->codigo = $this->_planodecontasRepository->getCodPlanoPai($this->_empresa_id);
+
         $plano_de_contas->plano_de_contas_id = NULL;
         if ($plano_de_contas->tipo == PlanoDeContas::FILHO) {
             $plano_de_contas->plano_de_contas_id = $data['plano_pai'];
             $plano_pai = $this->_planodecontasRepository->getById($plano_de_contas->plano_de_contas_id);
             $plano_de_contas->codigo = $plano_pai->codigo . '.' . $this->_planodecontasRepository->getCodByPlano($this->_empresa_id, $plano_de_contas->plano_de_contas_id);
+            $plano_de_contas->descricao = $data['descricao'];
         }
         $plano_de_contas->empresa_id = $this->_empresa_id;
+
+
+    }
+
+    private function _setDataEdit(PlanoDeContas $plano_de_contas, $data) {
+
+        $plano_de_contas->descricao = $data['descricao'];
+
+        $plano_de_contas->tipo = $data['tipo'];
+        $plano_de_contas->natureza_operacao = $data['natureza'];
+
+        $plano_de_contas->plano_de_contas_id = NULL;
+        if ($plano_de_contas->tipo == PlanoDeContas::FILHO) {
+            $plano_de_contas->plano_de_contas_id = $data['plano_pai'];
+            $plano_pai = $this->_planodecontasRepository->getById($plano_de_contas->plano_de_contas_id);
+            $plano_de_contas->codigo = $plano_pai->codigo . '.' . $this->_planodecontasRepository->getCodByPlano($this->_empresa_id, $plano_de_contas->plano_de_contas_id);
+            $plano_de_contas->descricao = $data['descricao'];
+        }
+        $plano_de_contas->empresa_id = $this->_empresa_id;
+
+
     }
 
     private function _validate(PlanoDeContas $plano_de_contas) {
@@ -172,7 +199,7 @@ class Admin_PlanoDeContasController extends Zend_Controller_Action {
     private function _validatePlanoDeContasExistente(PlanoDeContas $plano_de_contas) {
         $plano_db = $this->_planodecontasRepository->getByDescricao($this->_empresa_id, $plano_de_contas->descricao);
 
-        if ($plano_db->id > 0)
+        if ($plano_db->id > 0 && $plano_de_contas->id != $plano_db->id )
             return $result .= "<li>Já existe um <b>Plano de Contas</b> com este mesma descrição.</li>";
 
         return "";

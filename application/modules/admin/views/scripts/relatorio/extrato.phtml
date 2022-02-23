@@ -1,0 +1,157 @@
+<style>
+    .valores{width: 100px}
+</style>
+<div id="esquerda">
+    <div style="margin: 10px">
+        <div class="cabecalho-impressao" style="display: none">
+            <h5 style="text-align: center"><?php echo $this->escola->nome_fantasia ?></h5>
+            <p style="text-align: center;">CNPJ: <?php echo AppUtil::convertIntToCNPJ($this->escola->cnpj) ?></p>
+
+            <img  style="float: left;height: 50px;margin-top: -45px;width: 50px;border: none;padding: 4px" src="<?php echo AppUtil::getFileView($this->escola, 'e', '50') ?>">
+            <div style="margin: auto;width: 50%;margin-top: -10px">
+                <p style="text-align: center">Rua <?php echo $this->escola->Unidade[0]->Endereco[0]->logradouro ?>, N° <?php echo $this->escola->Unidade[0]->Endereco[0]->numero ?> — Bairro <?php echo $this->escola->Unidade[0]->Endereco[0]->bairro ?>, <?php echo $this->escola->Unidade[0]->Endereco[0]->cidade ?> - <?php echo $this->escola->Unidade[0]->Endereco[0]->estado ?></p>
+            </div>
+
+            <div style="margin: auto;width: 50%;margin-top: -5px">
+                <h5 style="text-align: center;">Extrato Bancário</h5>
+            </div>
+        </div>
+
+
+        <form id="form_extrato" method="POST" action="" enctype="multipart/form-data">
+            <fieldset>
+                <?php echo $this->flashMessenger(); ?>
+                <div class="row well noprint">
+                    <div class="span4">
+                        <div class="control-group">
+                            <label class="control-label" for="banco">Conta</label>
+                            <div class="controls">
+                                <select  class="input-xlarge" name="banco" id="banco">
+                                    <option value="0">[ Selecione a Conta ]</option>
+                                    <?php foreach ($this->contas as $conta_bancaria): ?>
+                                        <option <?php echo ViewUtil::fillFieldSelect($this->repository_filter->getParamByField('banco'), $conta_bancaria->id) ?> value="<?php echo $conta_bancaria->id ?>"><?php echo $conta_bancaria->descricao ?></option>
+                                    <?php endforeach ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="span5">
+                        <div class="control-group">
+                            <label>&nbsp;</label>
+                            <span class="control-label" for="data_inicial">Exibir extrato de</span>
+                            <input class="txData input-small" id="data_inicial" name="data_inicial" type="text" value="<?php echo $this->repository_filter->getParamByField('data_inicial') ?>">
+
+                            <span class="control-label" for="data_final">até</span>
+                            <input class="txData input-small" id="data_final" name="data_final" type="text" value="<?php echo $this->repository_filter->getParamByField('data_final') ?>">
+                        </div>
+                    </div> 
+                    <div class="control-group">
+                        <label class="control-label">&nbsp;</label>
+                        <div class="controls">
+                            <button type="submit" class="btn btn-info"><i class="icon-filter icon-white"></i>Filtrar</button>
+                            <a class=" btn btn-inverse " href="javascript:self.print()"><i class="icon-print icon-white"></i>Imprimir</a>
+                        </div>
+                    </div>
+
+                    <div class="span4">
+                        <div class="control-group">
+                            <label class="control-label" for="plano_de_contas">Plano de Contas</label>
+                            <div class="controls">
+                                <div class="input-append">
+                                    <select data-placeholder="[ Selecione o Plano de Contas ]" class="span11 chzn-select" name="plano_de_contas[]" id="plano_de_contas" multiple="multiple">
+                                        <option value="0"></option>
+                                        <?php foreach ($this->planos_de_contas as $plano_de_contas): ?>
+                                            <option <?php echo ViewUtil::fillFieldSelectMultiple($this->plano_de_contas_list, $plano_de_contas['id']) ?>  value="<?php echo $plano_de_contas['id'] ?>"><?php echo ($plano_de_contas['codigo'] != NULL ? $plano_de_contas['codigo'] . " - " : " ") ?><?php echo $plano_de_contas['descricao'] ?> </option>
+                                        <?php endforeach ?>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                   
+                </div>
+
+            </fieldset>
+
+            <div class="cabecalho-impressao" style="margin: auto;text-align: center;margin-top: -10px;width: 50%;display: none">
+                <p>Período: 
+                    <b style="text-decoration: underline "><?php echo AppUtil::convertDateToString($this->data_inicial) ?></b>
+                    <?php if ($this->data_final != NULL) { ?>
+                        a <b style="text-decoration: underline "><?php echo AppUtil::convertDateToString($this->data_final) ?></b>
+                    <?php } ?></p>
+            </div>
+            <?php if ($this->plano_de_contas_list != NULL) { ?>
+                <div style="display: none" class="cabecalho-impressao">
+                    <p><b>Plano de Contas:</b> 
+                        <?php foreach ($this->plano_de_contas_obj as $plano_de_contas): ?>
+                            <?php echo ($plano_de_contas['codigo'] != NULL ? $plano_de_contas['codigo'] . " - " : " ") ?><?php echo $plano_de_contas['descricao'] ?>,
+                        <?php endforeach; ?>
+                    </p>
+                </div>
+            <?php } ?>
+            <hr/>
+        </form>
+        <table class="table table-bordered">
+            <thead>
+                <?php
+                $saldo = $this->saldo_anterior;
+                $data_saldo = NULL;
+                ?>
+                <tr>
+                    <th>SALDO ANTERIOR</th>
+                    <th style="text-align: right;">R$ <?php echo AppUtil::convertFloatToString($saldo,'.') ?></th>                           
+                </tr>
+            </thead>
+        </table>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Doc</th>
+                    <th>Data</th>
+                    <th>Descrição</th>                    
+                    <th>Entrada</th>                    
+                    <th>Saída</th>                    
+                    <th>Saldo</th>                    
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($this->list as $item): ?>
+                    <tr style="color: <?php echo ($item->tipo == Lancamento::RECEITA) ? "blue" : "red" ?> !important; background-color: <?php echo ($item->getValorDivergente()) ? "#FCF8E2" : "" ?>">
+                        <?php $saldo = $saldo + AppUtil::convertFloatToStringExtrato($item) ?>
+                        <?php $total_entrada += AppUtil::convertLancamentoReceita($item) ?>
+                        <?php $total_saida += AppUtil::convertLancamentoDespesa($item) ?>
+                        <td><b><a href="<?php echo $this->baseUrl()?>/financeiro/lancamento/editar/id/<?php echo $item->id?>"><?php echo str_pad($item->id, 6, "0", STR_PAD_LEFT)?></a>
+                             </b></td>
+                        <td><?php echo AppUtil::convertDateToString($item->pagamento_data) ?></td>
+                        <td style="text-transform: uppercase;"><?php echo AppUtil::resumeTexto($item->descricao,50) ?></td>
+                        <?php if ($item->tipo == Lancamento::RECEITA) { ?>
+                            <td class="valores">R$ <?php echo AppUtil::convertFloatToString($item->pagamento_valor,'.') ?></td>
+                            <td></td>
+                        <?php } else { ?>
+                            <td></td>
+                            <td class="valores">R$ <?php echo AppUtil::convertFloatToString($item->pagamento_valor,'.') ?></td>
+                        <?php } ?>
+                        <td class="valores" style="color: black;text-align: right;font-weight: bold;">R$ <?php echo AppUtil::convertFloatToString($saldo,'.') ?></td>
+                    </tr>
+                <?php endforeach; ?>
+                <tr>
+                    <td colspan="6">&nbsp</td>
+                </tr>
+                <tr style="font-weight:bold">
+                    <td colspan="3">TOTAL</td>
+                    <td  style="color: blue;">( + ) R$ <?php echo AppUtil::convertFloatToString($total_entrada,'.') ?></td>
+                    <td  style="color: red;">( - ) R$ <?php echo AppUtil::convertFloatToString($total_saida,'.') ?></td>
+                    <td  style="color: black;">( = ) R$ <?php echo AppUtil::convertFloatToString($saldo,'.') ?></td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="noprint" style="width: 100%;height: 10px">
+            <blockquote class="pull-right" style="background-color: #FCF8E2">
+                <small>Lançamento com<strong> valor pago </strong>diferente do valor correto.</small>
+            </blockquote>
+        </div>
+        <div style="float: right;display: none" class="cabecalho-impressao"> <p>Emitido dia: <?php echo date('d/m/Y H:i:s') ?></p></div>
+    </div>
+    <div class="cabecalho-impressao" style="display: none;margin: auto;width: 150px;height: 20px;margin-top: 20px">         
+        <img  style="height: 13px;width: 115px;opacity: 0.6;" src="<?php echo $this->baseUrl(); ?>/content/img/sbrasil.png">
+    </div>
+</div>

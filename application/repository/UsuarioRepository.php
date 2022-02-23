@@ -43,18 +43,69 @@ class UsuarioRepository extends RepositoryAbstract {
         $q = Doctrine_Query::create()
                 ->from(get_class($this->obj))
                 ->where("email = ?", array($email))
-                ->addWhere('status = ' . Aluno::ATIVO);
+                ->addWhere('status = ' . Usuario::ATIVO);
         return $q->fetchOne();
     }
 
-    public function getListColaboradoresByEmpresa($empresa_id) {
+    public function getColaboradorByID($usuario_id) {
+        $q = Doctrine_Query::create()
+            ->from(get_class($this->obj))
+            ->where('id = ' . $usuario_id)
+            ->addWhere('status = ' . Usuario::ATIVO);
+        //echo $q->getSqlQuery();
+        //die;
+        return $q->execute();
+
+
+    }
+
+    public function getListColaboradoresByMassagem($empresa_id) {
         $q = Doctrine_Query::create()
             ->from(get_class($this->obj))
             ->where("empresa_id = ?", array($empresa_id))
-            ->addWhere('status = ' . Usuario::ATIVO);
-            //->addWhere("email = !?", array('samuelteclado@hotmail.com'));
+            ->addWhere('tipo = ' . Usuario::MASSAGEM)
+            ->orWhere('tipo = ' . Usuario::CILIOS_MASSAGEM)
+            ->addWhere('status = ' . Usuario::ATIVO)
+            ->addWhere('usuario_grupo_id = ' . UsuarioGrupo::FUNCIONARIO)
+            ->orderBy('nome ASC');
+        //->addWhere('usuario_grupo_id = ' . UsuarioGrupo::FUNCIONARIO);
+
+
+        return $q->execute();
+    }
+
+
+    public function getListColaboradoresByCilios($empresa_id) {
+        $q = Doctrine_Query::create()
+            ->from(get_class($this->obj))
+            ->where("empresa_id = ?", array($empresa_id))
+            ->addWhere('tipo = ' . Usuario::CILIOS)
+            ->orWhere('tipo = ' . Usuario::CILIOS_MASSAGEM)
+            ->addWhere('status = ' . Usuario::ATIVO)
+            ->addWhere('usuario_grupo_id = ' . UsuarioGrupo::FUNCIONARIO)
+            ->orWhere("email = ?",array('lilian.assuncaod@gmail.com'))
+            ->orderBy('nome ASC');
+        //->addWhere('usuario_grupo_id = ' . UsuarioGrupo::FUNCIONARIO);
+
+        //echo $q->getSqlQuery();
+        //die;
+        return $q->execute();
+    }
+
+
+    public function getListColaboradoresByEmpresa($empresa_id, $tipo) {
+        $q = Doctrine_Query::create()
+            ->from(get_class($this->obj))
+            ->where("empresa_id = ?", array($empresa_id))
+            ->addWhere("tipo = ?", array($tipo))
+            ->addWhere('status = ' . Usuario::ATIVO)
+            ->addWhere('usuario_grupo_id = ' . UsuarioGrupo::FUNCIONARIO)
+            ->orWhere("email = ?",array('lilian.assuncaod@gmail.com'))
+            ->orderBy('nome ASC');
             //->addWhere('usuario_grupo_id = ' . UsuarioGrupo::FUNCIONARIO);
 
+        //echo $q->getSqlQuery();
+        //die;
         return $q->execute();
     }
 

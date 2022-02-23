@@ -2,7 +2,7 @@
     <fieldset>
         <?php echo $this->flashMessenger(); ?>
         <div class="row well">
-            <div class="span3">
+            <div class="span4">
                 <div class="control-group">
                     <label class="control-label" for="descricao">Descrição</label>
                     <div class="controls">
@@ -10,30 +10,42 @@
                     </div>
                 </div>
             </div>
-            <div class="span2">
+            <div class="span3">
                 <div class="control-group">
                     <label class="control-label" for="valor">Valor</label>
                     <div class="controls">
-                        <input class="input-small txValor" id="valor"maxlength="8" name="valor" type="text" value="<?php echo AppUtil::convertFloatToString($this->procedimento->valor) ?>">
+                        <input class="input-medium txValor" id="valor"maxlength="8" name="valor" type="text" value="<?php echo AppUtil::convertFloatToString($this->procedimento->valor) ?>">
                     </div>
                 </div>
             </div>
-            <div class="span2">
+            <div class="span3">
                 <div class="control-group">
                     <label class="control-label" for="manutencao">Manutenção Dias</label>
                     <div class="controls">
-                        <input class="input-small" id="manutencao"maxlength="2" name="manutencao" type="text" value="<?php echo $this->procedimento->intervalo_dias ?>">
+                        <input class="input-medium" id="manutencao"maxlength="2" name="manutencao" type="text" value="<?php echo $this->procedimento->intervalo_dias ?>">
                     </div>
                 </div>
             </div>
-            <div class="span2">
+            <div class="span4">
                 <div class="control-group">
                     <label class="control-label" for="status">Tipo</label>
                     <div class="controls">
-                        <select data-placeholder="[  Selecione o Status ]" class="input-small" name="tipo" id="tipo">
+                        <select data-placeholder="[  Selecione o Status ]" class="input-large" name="tipo" id="tipo">
                             <option <?php echo ViewUtil::fillFieldSelect($this->procedimento->tipo, ProcedimentoTipo::APLICACAO) ?> value="<?php echo ProcedimentoTipo::APLICACAO ?>">Aplicação</option>
                             <option <?php echo ViewUtil::fillFieldSelect($this->procedimento->tipo, ProcedimentoTipo::MANUTENCAO) ?> value="<?php echo ProcedimentoTipo::MANUTENCAO ?>">Manutenção</option>
                             <option <?php echo ViewUtil::fillFieldSelect($this->procedimento->tipo, ProcedimentoTipo::REMOCAO) ?> value="<?php echo ProcedimentoTipo::REMOCAO ?>">Remoção</option>
+                            <option <?php echo ViewUtil::fillFieldSelect($this->procedimento->tipo, ProcedimentoTipo::REPARO) ?> value="<?php echo ProcedimentoTipo::REPARO ?>">Reparo</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="span3">
+                <div class="control-group">
+                    <label class="control-label" for="categoria">Categoria</label>
+                    <div class="controls">
+                        <select data-placeholder="[  Selecione a Categoria ]" class="input-medium" name="categoria" id="categoria">
+                            <option <?php echo ViewUtil::fillFieldSelect($this->procedimento->procedimento_categoria, ProcedimentoTipo::CILIOS) ?> value="<?php echo ProcedimentoTipo::CILIOS ?>">Cílios</option>
+                            <option <?php echo ViewUtil::fillFieldSelect($this->procedimento->procedimento_categoria, ProcedimentoTipo::MASSAGEM) ?> value="<?php echo ProcedimentoTipo::MASSAGEM ?>">Massagem</option>
                         </select>
                     </div>
                 </div>
@@ -42,7 +54,7 @@
                 <div class="control-group">
                     <label class="control-label" for="status">Status</label>
                     <div class="controls">
-                        <select data-placeholder="[  Selecione o Status ]" class="input-small" name="status" id="status">
+                        <select data-placeholder="[  Selecione o Status ]" class="input-medium" name="status" id="status">
                             <option <?php echo ViewUtil::fillFieldSelect($this->procedimento->status, ProcedimentoTipo::ATIVO) ?> value="<?php echo ProcedimentoTipo::ATIVO ?>">Ativo</option>
                             <option <?php echo ViewUtil::fillFieldSelect($this->procedimento->status, ProcedimentoTipo::INATIVO) ?> value="<?php echo ProcedimentoTipo::INATIVO ?>">Inativo</option>
                         </select>

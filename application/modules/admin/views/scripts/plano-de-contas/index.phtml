@@ -5,6 +5,7 @@
         <a style="float: right;" class="btn btn-success btn-large" href="<?php echo $this->baseUrl(); ?>/admin/plano-de-contas/novo/?nolayout=<?php echo $this->layout?>">
             <i class="icon-plus icon-white"></i> Novo </a>
 
+        <button style="float: right; margin-right: 5px;"  type="button" id="btn_filtrar" class="btn btn-info btn-large"><i class="icon-filter icon-white"></i>&nbsp;Filtro</button>
 
         <div class="page-header" >
             <h2>Plano de Contas</h2>
@@ -12,22 +13,47 @@
 
         <form method="GET" action="" style="display: none;" id="form_filtrar">
             <div class="row well">
+                <input type="hidden" value="<?php echo $this->layout?>" name="nolayout">
                 <a id="btn_close" class="close" href="#">&times;</a>
 
 
-                <div class="span4">
+                <div class="span2">
                     <div class="control-group">
                         <label class="control-label" for="codigo">Codigo</label>
                         <div class="controls">
-                            <input class="input-xlarge" id="codigo" name="codigo" type="text" value="<?php echo $this->repository_filter->getParamByField('codigo') ?>">
+                            <input class="input-small" id="codigo" name="codigo" type="text" value="<?php echo $this->repository_filter->getParamByField('codigo') ?>">
                         </div>
                     </div>
                 </div>
-                <div class="span4">
+                <div class="span3">
                     <div class="control-group">
                         <label class="control-label" for="descricao">Descrição</label>
                         <div class="controls">
-                            <input class="input-xlarge" id="descricao" name="descricao" type="text" value="<?php echo $this->repository_filter->getParamByField('descricao') ?>">
+                            <input class="input-medium" id="descricaoo" name="descricao" type="text" value="<?php echo $this->repository_filter->getParamByField('descricao') ?>">
+                        </div>
+                    </div>
+                </div>
+                <div class="span2">
+                    <div class="control-group">
+                        <label class="control-label" for="tipo">Tipo</label>
+                        <div class="controls">
+                            <select data-placeholder="[ Todos ]" class="input-small chzn-select-deselect" name="tipo" id="tipo">
+                                <option value="0"></option>
+                                <option <?php echo ViewUtil::fillFieldSelect($this->repository_filter->getParamByField('tipo'), PlanoDeContas::PAI) ?> value="<?php echo PlanoDeContas::PAI ?>">Pai</option>
+                                <option <?php echo ViewUtil::fillFieldSelect($this->repository_filter->getParamByField('tipo'), PlanoDeContas::FILHO) ?> value="<?php echo PlanoDeContas::FILHO ?>">Filho</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="span2">
+                    <div class="control-group">
+                        <label class="control-label" for="natureza">Natureza</label>
+                        <div class="controls">
+                            <select data-placeholder="[ Todos ]" class="input-small chzn-select-deselect" name="natureza" id="natureza">
+                                <option value="0"></option>
+                                <option <?php echo ViewUtil::fillFieldSelect($this->repository_filter->getParamByField('natureza'), PlanoDeContas::CREDITO) ?> value="<?php echo PlanoDeContas::CREDITO ?>">Credito</option>
+                                <option <?php echo ViewUtil::fillFieldSelect($this->repository_filter->getParamByField('natureza'), PlanoDeContas::DEBITO) ?> value="<?php echo PlanoDeContas::DEBITO ?>">Débito</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -41,7 +67,7 @@
 
         <?php echo $this->flashMessenger(); ?>
 
-        <table class="table table-bordered">
+        <table class="table table-bordered table-striped">
             <thead>
                 <tr>
                     <th><?php echo ViewUtil::getOrderBy('Descrição', 'descricao', $this->repository_order) ?></th>
@@ -57,9 +83,11 @@
                         <td><?php echo $item->codigo ?> - <?php echo $item->descricao ?></td>
                         <td><?php echo $item->getTipo() ?></td>
                         <td><?php echo $item->getNatureza() ?></td>
-
                         <td width="20px" style="text-align: center; vertical-align: middle;">
-                            <a href="<?php echo $this->baseUrl(); ?>/admin/plano-de-contas/deletar/id/<?php echo $item->id; ?>?nolayout=<?php echo $this->layout?>"><i title="excluir" class="icon-trash"></i></a>
+                            <a href="<?php echo $this->baseUrl(); ?>/admin/plano-de-contas/editar/id/<?php echo $item->id; ?>?nolayout=<?php echo $this->layout?>"><i  class="icon-pencil"></i></a>
+                        </td>
+                        <td width="20px" style="text-align: center; vertical-align: middle;">
+                            <a onclick="return confirm('Confirma a exclusão deste plano de contas ?')" href="<?php echo $this->baseUrl(); ?>/admin/plano-de-contas/deletar/id/<?php echo $item->id; ?>?nolayout=<?php echo $this->layout?>"><i title="excluir" class="icon-trash"></i></a>
                         </td>
                        
                     </tr>

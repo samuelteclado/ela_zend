@@ -15,6 +15,8 @@ class Admin_IndexController extends Zend_Controller_Action {
                 return $this->_helper->redirector->setGotoSimple('index', 'principal', 'admin');
             case UsuarioGrupo::FUNCIONARIO:
                 return $this->_helper->redirector->goToRoute(array('controller' => 'funcionario'), null, true);
+            case UsuarioGrupo::SECRETARIA:
+                return $this->_helper->redirector->goToRoute(array('controller' => 'secretaria'), null, true);
         }
     }
     public function indexAction() {
@@ -25,6 +27,8 @@ class Admin_IndexController extends Zend_Controller_Action {
                 return $this->_helper->redirector->setGotoSimple('index', 'principal', 'admin');
             case UsuarioGrupo::FUNCIONARIO:
                 return $this->_helper->redirector->goToRoute(array('controller' => 'funcionario'), null, true);
+            case UsuarioGrupo::SECRETARIA:
+                return $this->_helper->redirector->goToRoute(array('controller' => 'secretaria'), null, true);
         }
     }
 

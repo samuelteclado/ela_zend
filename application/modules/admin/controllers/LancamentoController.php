@@ -5,18 +5,23 @@ class Admin_LancamentoController extends Zend_Controller_Action {
     private $_lancamentoRepository;
     private $_lancamentoRecorrenciaTipoRepostirory;
     private $_planodecontasRepository;
+    private $_pagamentoTipoRepository;
     private $_clienteRepository;
     private $_fornecedorRepository;
     private $_empresaRepository;
+    private $_contaBancariaRepository;
+
     private $_empresa_id;
 
     public function init() {
         $this->_empresa_id = SessionUtil::getEmpresaSession();
         $this->_lancamentoRepository = new LancamentoRepository();
         $this->_empresaRepository = new EmpresaRepository();
+        $this->_contaBancariaRepository = new ContaBancariaRepository();
         $this->_lancamentoRecorrenciaTipoRepostirory = new LancamentoRecorrenciaTipoRepository();
         $this->_planodecontasRepository = new PlanodeContasRepository();
         $this->_clienteRepository = new ClienteRepository();
+        $this->_pagamentoTipoRepository = new PagamentoTipoRepository();
         $this->_fornecedorRepository = new FornecedorRepository();
     }
 
@@ -32,19 +37,24 @@ class Admin_LancamentoController extends Zend_Controller_Action {
         $filter = new RepositoryFilter($params);
         $filter->addGenericFilter('(vencimento_data BETWEEN "' . date("$ano-$mes-01") . '" AND "' . date("$ano-$mes-$ultimo_dia") . '" AND vencimento_data_atualizada IS NULL ) OR (vencimento_data_atualizada BETWEEN "' . date("$ano-$mes-01") . '" AND "' . date("$ano-$mes-$ultimo_dia") . '")');
         $filter->addFilter('empresa_id = ?', $this->_empresa_id);
+        $filter->addFilter('status != ?', Lancamento::EXCLUIDO);
         $filter->addSelectFilter('tipo', $params['tipo']);
         $filter->addSelectFilter('cliente_id', $params['cliente']);
         $filter->addSelectFilter('fornecedor_id', $params['fornecedor']);
+        $filter->addSelectFilter('pt.id', $params['pagamento']);
         $filter->addTextFilter('descricao', $params['descricao']);
         $filter->addDateFilter('vencimento_data', $params['vencimento_data']);
+        $filter->addSelectFilter('conta_bancaria_id', $params['conta_bancaria']);
         $filter->addLeftJoinFilter("p.Cliente c");
+        $filter->addLeftJoinFilter("p.Procedimento pr");
+        $filter->addLeftJoinFilter("pr.PagamentoTipo pt");
         $filter->addLeftJoinFilter("p.Fornecedor f");
         if ($params['situacao'] == Lancamento::ABERTO) {
             $filter->addNullFilter('pagamento_data');
         } elseif ($params['situacao'] == Lancamento::LIQUIDADO) {
             $filter->addNotNullFilter('pagamento_data');
         } elseif ($params['situacao'] == Lancamento::VENCIDO) {
-            $filter->addGenericFilter('(vencimento_data < "' . date('Y-m-d'));
+            $filter->addGenericFilter('(vencimento_data < "' . date('Y-m-d').'")');
             $filter->addNullFilter('pagamento_data');
         }
 
@@ -54,8 +64,8 @@ class Admin_LancamentoController extends Zend_Controller_Action {
         $orderParam = ($params["order"]) ? $params["order"] : 'DESC';
         $orderby = new RepositoryOrder($params);
         $orderby->addOrder($sortParam, ($orderParam == 'ASC') ? 'DESC' : 'ASC');
+        $list = new Zend_Paginator(new My_Zend_Paginator_Adapter_Doctrine($this->_lancamentoRepository->getListByFilter($filter, $orderby)));;
 
-        $list = new Zend_Paginator(new My_Zend_Paginator_Adapter_Doctrine($this->_lancamentoRepository->getListByFilter($filter, $orderby)));
         $list->setItemCountPerPage(1000);
         $list->setCurrentPageNumber($params["page"]);
         $this->view->list = $list;
@@ -67,6 +77,9 @@ class Admin_LancamentoController extends Zend_Controller_Action {
         $this->view->repository_order = $orderby;
         $this->view->clientes = $this->_clienteRepository->getListAll($this->_empresa_id);
         $this->view->fornecedores = $this->_fornecedorRepository->getList($this->_empresa_id);
+        $this->view->pagamentos = $this->_pagamentoTipoRepository->getListByEmpresa($this->_empresa_id);
+        $this->view->contas = $this->_contaBancariaRepository->getListActive($this->_empresa_id);
+
 
         $this->view->params = $params;
         $this->view->meses = AppUtil::getMeses();
@@ -93,7 +106,6 @@ class Admin_LancamentoController extends Zend_Controller_Action {
 
                 $plano_de_contas = $this->_planodecontasRepository->getById($data['plano_de_contas_id']);
                 if ($plano_de_contas->descricao == PlanoDeContas::TRANSFERENCIA) {
-
                     $this->_transferencia($data);
                 } else {
                     $lancamento = $this->_setData($data);
@@ -106,13 +118,20 @@ class Admin_LancamentoController extends Zend_Controller_Action {
                 $this->_helper->FlashMessenger(array('warning' => $validate));
                 $this->view->lancamento = $lancamento_temp;
                 $this->view->recorrencia_data = $recorrencia;
+                $this->view->contas = $this->_contaBancariaRepository->getListActive($this->_empresa_id);
                 $this->view->lancamento_para = $lancamento_para;
+                $this->view->forma_pagamento = $this->_pagamentoTipoRepository->getListByEmpresa($this->_empresa_id);
+                $this->view->fornecedores = $this->_fornecedorRepository->getListByEmpresa($this->_empresa_id);
+
             }
         }
-        $this->view->recorrencias = $this->_lancamentoRecorrenciaTipoRepostirory->getListActive();
+        $this->view->recorrencias = $this->_lancamentoRecorrenciaTipoRepostirory->getListActive($this->_empresa_id);
         $this->view->clientes = $this->_clienteRepository->getListByEmpresa($this->_empresa_id);
         $this->view->planos_de_contas = $this->_planodecontasRepository->getPlanoDeContas();
         $this->view->fornecedores = $this->_fornecedorRepository->getListByEmpresa($this->_empresa_id);
+        $this->view->contas = $this->_contaBancariaRepository->getListActive($this->_empresa_id);
+        $this->view->forma_pagamento = $this->_pagamentoTipoRepository->getListByEmpresa($this->_empresa_id);
+
     }
 
     public function editarAction() {
@@ -139,13 +158,23 @@ class Admin_LancamentoController extends Zend_Controller_Action {
                 } else {
                     $this->_helper->FlashMessenger(array('warning' => $validate));
                     $this->view->lancamento = $lancamento;
+                    $this->view->contas = $this->_contaBancariaRepository->getListActive($this->_empresa_id);
+                    $this->view->clientes = $this->_clienteRepository->getListAll($this->_empresa_id);
+                    $this->view->planos_de_contas = $this->_planodecontasRepository->getPlanoDeContas();
+                    $this->view->fornecedores = $this->_fornecedorRepository->getListByEmpresa($this->_empresa_id);
+                    $this->view->lancamento_para = $this->_getLancamentoPara($lancamento->fornecedor_id);
+                    $this->view->forma_pagamento = $this->_pagamentoTipoRepository->getListByEmpresa($this->_empresa_id);
+
                 }
             }
+            $this->view->contas = $this->_contaBancariaRepository->getListActive($this->_empresa_id);
             $this->view->clientes = $this->_clienteRepository->getListAll($this->_empresa_id);
             $this->view->lancamento = $lancamento;
             $this->view->planos_de_contas = $this->_planodecontasRepository->getPlanoDeContas();
-            $this->view->fornecedores = $this->_fornecedorRepository->getList($this->_empresa_id);
+            $this->view->fornecedores = $this->_fornecedorRepository->getListByEmpresa($this->_empresa_id);
             $this->view->lancamento_para = $this->_getLancamentoPara($lancamento->fornecedor_id);
+            $this->view->forma_pagamento = $this->_pagamentoTipoRepository->getListByEmpresa($this->_empresa_id);
+
         } else {
             $this->_helper->FlashMessenger(array('warning' => 'Atenção você está tentando acessar um lançamento que não existe.'));
             $this->_redirect($this->view->baseUrl() . '/admin/lancamento/');
@@ -194,10 +223,18 @@ class Admin_LancamentoController extends Zend_Controller_Action {
                 $lancamento->descricao = $data['lancamento_descricao'];
                 $lancamento->descricao_recorrencia = ' (' . str_pad($i, '2', '0', STR_PAD_LEFT) . '/' . str_pad($quantidade_ocorrencias, '2', '0', STR_PAD_LEFT) . ') ';
                 $lancamento->vencimento_valor = AppUtil::convertStringToFloat($data['vencimento_valor']);
-                $lancamento->tipo = $data['tipo_lancamento'];
-                $lancamento->lancamento_recorrencia_tipo_id = $data['frequencia'];
                 $lancamento->plano_de_contas_id = $data['plano_de_contas_id'];
+                $lancamento->tipo = $data['tipo_lancamento'];
+                $lancamento->conta_bancaria_id =  $data['conta_bancaria'];
+                $lancamento->lancamento_recorrencia_tipo_id = $data['frequencia'];
                 $lancamento->empresa_id = $this->_empresa_id;
+
+                $lancamento->pagamento_tipo_id = $data['forma_pagamento'] != 0 ? $data['forma_pagamento'] : NULL;
+                $forma_pagamento = $this->_pagamentoTipoRepository->getById($data['forma_pagamento']);
+                $lancamento->pagamento_percentual = $forma_pagamento->percentual;
+                $lancamento->pagamento_taxa = AppUtil::convertStringToFloat($data['pagamento_taxa']);
+
+
                 if ($data['lancamento_para'] == Lancamento::CLIENTE) {
                     $lancamento->cliente_id = $data['cliente'] != 0 ? $data['cliente'] : NULL;
                     $lancamento->fornecedor_id = NULL;
@@ -215,7 +252,13 @@ class Admin_LancamentoController extends Zend_Controller_Action {
             $lancamento->pagamento_data = AppUtil::convertStringToDate($data['pagamento_data']);
             $lancamento->pagamento_valor = AppUtil::convertStringToFloat($data['pagamento_valor']);
             $lancamento->pagamento_desconto = AppUtil::convertStringToFloat($data['pagamento_desconto']);
+            $lancamento->conta_bancaria_id =  $data['conta_bancaria'];
             $lancamento->tipo = $data['tipo_lancamento'];
+
+            $lancamento->pagamento_tipo_id = $data['forma_pagamento'] != 0 ? $data['forma_pagamento'] : NULL;
+            $forma_pagamento = $this->_pagamentoTipoRepository->getById($data['forma_pagamento']);
+            $lancamento->pagamento_percentual = $forma_pagamento->percentual;
+            $lancamento->pagamento_taxa = AppUtil::convertStringToFloat($data['pagamento_taxa']);
 
             $lancamento->plano_de_contas_id = $data['plano_de_contas_id'];
             $plano_de_contas = $this->_planodecontasRepository->getById($lancamento->plano_de_contas_id);
@@ -258,9 +301,13 @@ class Admin_LancamentoController extends Zend_Controller_Action {
         $lancamento_origem->vencimento_valor = AppUtil::convertStringToFloat($data['vencimento_valor']);
         $lancamento_origem->pagamento_data = AppUtil::convertStringToDate($data['vencimento_data']);
         $lancamento_origem->pagamento_valor = AppUtil::convertStringToFloat($data['vencimento_valor']);
+        $lancamento_origem->pagamento_desconto = AppUtil::convertStringToFloat($data['pagamento_desconto']);
+        $lancamento_origem->pagamento_taxa = AppUtil::convertStringToFloat($data['pagamento_taxa']);
+        $lancamento_origem->conta_bancaria_id =  $data['conta_bancaria'];
         $lancamento_origem->tipo = Lancamento::DESPESA;
         $lancamento_origem->plano_de_contas_id = $data['plano_de_contas_id'];
         $lancamento_origem->empresa_id = $this->_empresa_id;
+        $lancamento_origem->pagamento_tipo_id = $data['forma_pagamento'] != 0 ? $data['forma_pagamento'] : NULL;
         $lancamento_origem->save();
 
 
@@ -269,9 +316,13 @@ class Admin_LancamentoController extends Zend_Controller_Action {
         $lancamento_destino->vencimento_valor = AppUtil::convertStringToFloat($data['vencimento_valor']);
         $lancamento_destino->pagamento_data = AppUtil::convertStringToDate($data['vencimento_data']);
         $lancamento_destino->pagamento_valor = AppUtil::convertStringToFloat($data['vencimento_valor']);
+        $lancamento_destino->pagamento_desconto = AppUtil::convertStringToFloat($data['pagamento_desconto']);
+        $lancamento_destino->pagamento_taxa = AppUtil::convertStringToFloat($data['pagamento_taxa']);
+        $lancamento_destino->conta_bancaria_id =  $data['conta_bancaria'];
         $lancamento_destino->tipo = Lancamento::RECEITA;
         $lancamento_destino->plano_de_contas_id = $data['plano_de_contas_id'];
         $lancamento_destino->empresa_id = $this->_empresa_id;
+        $lancamento_destino->pagamento_tipo_id = $data['forma_pagamento'] != 0 ? $data['forma_pagamento'] : NULL;
         $lancamento_destino->save();
     }
 
@@ -280,21 +331,25 @@ class Admin_LancamentoController extends Zend_Controller_Action {
          //$conta_bancaria = $this->_contaBancariaRepository->getById($data['conta_bancaria']);
 
         $lancamento->descricao = $data['lancamento_descricao'];
-        $lancamento->vencimento_valor = AppUtil::convertStringToFloat($data['vencimento_valor']);
         $lancamento->vencimento_data = AppUtil::convertStringToDate($data['vencimento_data']);
+        $lancamento->vencimento_valor = AppUtil::convertStringToFloat($data['vencimento_valor']);
         $lancamento->pagamento_data = AppUtil::convertStringToDate($data['pagamento_data']);
         $lancamento->pagamento_valor = AppUtil::convertStringToFloat($data['pagamento_valor']);
         $lancamento->pagamento_desconto = AppUtil::convertStringToFloat($data['pagamento_desconto']);
         $lancamento->pagamento_taxa = AppUtil::convertStringToFloat($data['pagamento_taxa']);
+        $lancamento->conta_bancaria_id =  $data['conta_bancaria'];
         $lancamento->tipo = $data['tipo_lancamento'];
-
         $lancamento->plano_de_contas_id = $data['plano_de_contas_id'];
+        $lancamento->empresa_id = $this->_empresa_id;
+        $lancamento->pagamento_tipo_id = $data['forma_pagamento'] != 0 ? $data['forma_pagamento'] : NULL;
+
+
         $plano_de_contas = $this->_planodecontasRepository->getById($lancamento->plano_de_contas_id);
+
         if ($plano_de_contas->codigo == NULL) {
             $lancamento->pagamento_data = AppUtil::convertStringToDate($data['vencimento_data']);
             $lancamento->pagamento_valor = AppUtil::convertStringToFloat($data['vencimento_valor']);
         }
-
 
         if ($data['lancamento_para'] == Lancamento::CLIENTE) {
             $lancamento->cliente_id = $data['cliente'] != 0 ? $data['cliente'] : NULL;
@@ -303,6 +358,7 @@ class Admin_LancamentoController extends Zend_Controller_Action {
             $lancamento->fornecedor_id = $data['fornecedor'] != 0 ? $data['fornecedor'] : NULL;
             $lancamento->cliente_id = NULL;
         }
+
 
     }
 
@@ -315,24 +371,23 @@ class Admin_LancamentoController extends Zend_Controller_Action {
             $lancamentos_list = $this->_lancamentoRepository->getByRecorrenciaAndEmpresa($lancamento,$this->_empresa_id);
 
         $plano_de_contas = $this->_planodecontasRepository->getById($data['plano_de_contas_id']);
-        //$conta_bancaria = $this->_contaBancariaRepository->getById($data['conta_bancaria']);
-
 
         $lancamento->descricao = $data['lancamento_descricao'];
         $lancamento->vencimento_valor = AppUtil::convertStringToFloat($data['vencimento_valor']);
-        //$lancamento->vencimento_juros = $conta_bancaria->juros;
-        //$lancamento->vencimento_multa = $conta_bancaria->multa;
-        //$lancamento->conta_bancaria_id = $conta_bancaria->id;
         $lancamento->pagamento_data = AppUtil::convertStringToDate($data['pagamento_data']);
         $lancamento->pagamento_valor = AppUtil::convertStringToFloat($data['pagamento_valor']);
         $lancamento->pagamento_desconto = AppUtil::convertStringToFloat($data['pagamento_desconto']);
         $lancamento->pagamento_taxa = AppUtil::convertStringToFloat($data['pagamento_taxa']);
         $lancamento->tipo = $data['tipo_lancamento'];
         $lancamento->plano_de_contas_id = $data['plano_de_contas_id'];
+        $lancamento->conta_bancaria_id =  $data['conta_bancaria'];
+        $lancamento->pagamento_tipo_id = $data['forma_pagamento'] != 0 ? $data['forma_pagamento'] : NULL;
+        $lancamento->empresa_id = $this->_empresa_id;
+
 
         if ($plano_de_contas->codigo == NULL) {
-            $item->pagamento_data = AppUtil::convertStringToDate($data['vencimento_data']);
-            $item->pagamento_valor = AppUtil::convertStringToFloat($data['vencimento_valor']);
+            $lancamento->pagamento_data = AppUtil::convertStringToDate($data['vencimento_data']);
+            $lancamento->pagamento_valor = AppUtil::convertStringToFloat($data['vencimento_valor']);
         }
 
         if ($data['lancamento_para'] == Lancamento::CLIENTE) {
@@ -348,15 +403,15 @@ class Admin_LancamentoController extends Zend_Controller_Action {
         foreach ($lancamentos_list as $item) {
             $item->descricao = $data['lancamento_descricao'];
             $item->vencimento_valor = AppUtil::convertStringToFloat($data['vencimento_valor']);
-            //$item->vencimento_juros = $conta_bancaria->juros;
-           // $item->vencimento_multa = $conta_bancaria->multa;
-            //$item->conta_bancaria_id = $conta_bancaria->id;
-            //$item->pagamento_data = AppUtil::convertStringToDate($data['pagamento_data']);
-            //$item->pagamento_valor = AppUtil::convertStringToFloat($data['pagamento_valor']);
-            //$item->pagamento_desconto = AppUtil::convertStringToFloat($data['pagamento_desconto']);
-            //$item->pagamento_juros = AppUtil::convertStringToFloat($data['pagamento_juros']);
+            $item->pagamento_data = AppUtil::convertStringToDate($data['pagamento_data']);
+            $item->pagamento_valor = AppUtil::convertStringToFloat($data['pagamento_valor']);
+            $item->pagamento_desconto = AppUtil::convertStringToFloat($data['pagamento_desconto']);
             $item->tipo = $data['tipo_lancamento'];
             $item->plano_de_contas_id = $data['plano_de_contas_id'];
+            $item->pagamento_taxa = AppUtil::convertStringToFloat($data['pagamento_taxa']);
+            $item->pagamento_percentual = AppUtil::convertStringToFloat($data['pagamento_percentual']);
+            $item->conta_bancaria_id =  $data['conta_bancaria'];
+            $item->pagamento_tipo_id = $data['forma_pagamento'] != 0 ? $data['forma_pagamento'] : NULL;
 
             if ($plano_de_contas->codigo == NULL) {
                 $item->pagamento_data = AppUtil::convertStringToDate($data['vencimento_data']);
@@ -413,19 +468,22 @@ class Admin_LancamentoController extends Zend_Controller_Action {
     private function _setDataTemp($data) {
 
         $lancamento->descricao = $data['lancamento_descricao'];
-        $lancamento->vencimento_data = $data['vencimento_data'];
+        $lancamento->vencimento_data = AppUtil::convertStringToDate($data['vencimento_data']);
         $lancamento->vencimento_valor = AppUtil::convertStringToFloat($data['vencimento_valor']);
         $lancamento->plano_de_contas_id = $data['plano_de_contas_id'];
+        $lancamento->conta_bancaria_id = $data['conta_bancaria'];
+        $lancamento->tipo = $data['tipo_lancamento'];
         $lancamento->cliente_id = $data['cliente'];
         $lancamento->fornecedor_id = $data['fornecedor'];
-        $lancamento->pagamento_data = $data['pagamento_data'];
+        $lancamento->pagamento_data = AppUtil::convertStringToDate($data['pagamento_data']);
         $lancamento->pagamento_valor = AppUtil::convertStringToFloat($data['pagamento_valor']);
         $lancamento->pagamento_desconto = AppUtil::convertStringToFloat($data['pagamento_desconto']);
-        $lancamento->tipo = $data['tipo'];
-        //$lancamento->pagamento_percentual = AppUtil::convertStringToFloat($data['pagamento_percentual']);
+
+        $lancamento->pagamento_tipo_id = $data['forma_pagamento'] != 0 ? $data['forma_pagamento'] : NULL;
+        $forma_pagamento = $this->_pagamentoTipoRepository->getById($data['forma_pagamento']);
+        $lancamento->pagamento_percentual = $forma_pagamento->percentual;
         $lancamento->pagamento_taxa = AppUtil::convertStringToFloat($data['pagamento_taxa']);
 
-        var_dump(AppUtil::convertStringToFloat($data['pagamento_taxa']));
         return $lancamento;
     }
 
@@ -457,21 +515,31 @@ class Admin_LancamentoController extends Zend_Controller_Action {
         if ($lancamento['lancamento_descricao'] == "")
             $result .= "<li>O campo <b>Descrição</b> deve ser informado.</li>";
 
-        if (AppUtil::convertStringToFloat($lancamento['vencimento_valor']) <= 0)
-            $result .= "<li>O campo <b>Valor</b> deve ser informado.</li>";
-
         if ($lancamento['vencimento_data'] == "")
             $result .= "<li>O campo <b>Vencimento</b> deve ser informado.</li>";
 
+        if ($lancamento['tipo_lancamento'] == Lancamento::DESPESA && $lancamento['fornecedor'] <=0 )
+            $result .= "<li>O campo <b>Fornecedor</b> deve ser informado.</li>";
+/**
+        if ($lancamento['tipo'] == Lancamento::CLIENTE  && $lancamento->cliente_id <=0 )
+            $result .= "<li>O campo <b>Cliente</b> deve ser informado.</li>";
+
+        if ($lancamento['tipo'] == Lancamento::FORNECEDOR && $lancamento->fornecedor_id <=0 )
+            $result .= "<li>O campo <b>Fornecedor</b> deve ser informado.</li>";
+ *
+ *
+ *
+        //Inativado pois tem casos exporadicos onde o valor é R$0,00
+        /*
+        if (AppUtil::convertStringToFloat($lancamento['vencimento_valor']) <= 0)
+            $result .= "<li>O campo <b>Valor</b> deve ser informado.</li>";
+        */
 
         if (AppUtil::convertStringToFloat($lancamento['pagamento_desconto']) > AppUtil::convertStringToFloat($lancamento['vencimento_valor']))
             $result .= "<li>O valor de <b>desconto</b> não pode ser maior que o valor do lançamento.</li>";
 
         if ($lancamento['plano_de_contas_id'] <= 0)
             $result .= "<li>O campo <b>Plano de Contas</b> deve ser informado.</li>";
-
-        if (AppUtil::convertStringToFloat($lancamento['percentual_pagamento']) > 15)
-            $result .= "<li>O valor de <b>Taxa de Pagamento</b> está muito alto.</li>";
 
         return $result;
     }
@@ -483,15 +551,15 @@ class Admin_LancamentoController extends Zend_Controller_Action {
         if ($recorrencia['recorrencia'] == Lancamento::SIM && $recorrencia['qt_ocorrencias'] == "")
             $result .= "<li>O campo <b>Término após</b> deve ser informado.</li>";
 
+
+
         return $result;
     }
 
-    private function _validatePagamento($pagamento) {
-        if ($pagamento['pagamento_data'] != "" && $pagamento['pagamento_valor'] <= 0)
-            $result .= "<li>O campo <b>Valor Pago</b> deve ser informado.</li>";
+    private function _validatePagamento($lancamento) {
 
-        if ($pagamento['pagamento_valor'] > 0 && $pagamento['pagamento_data'] == "")
-            $result .= "<li>O campo <b>Data Pagamento</b> deve ser informado.</li>";
+        if ($lancamento['pagamento_data'] != "" && AppUtil::convertStringToFloat($lancamento['vencimento_valor']) > 0 && AppUtil::convertStringToFloat($lancamento['pagamento_valor']) <= 0)
+            $result .= "<li>O campo <b>Valor a Pagar</b> deve ser informado.</li>";
 
         return $result;
     }

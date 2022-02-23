@@ -25,12 +25,14 @@ class ProcedimentoTipoRepository extends RepositoryAbstract
         return $q->count() > 0;
     }
 
-    public function getListByEmpresa($empresa) {
+    public function getListByEmpresa($empresa, $procedimento_categoria) {
         $q = Doctrine_Query::create()
             ->from(get_class($this->obj))
             ->where("empresa_id = ?", array($empresa))
             ->addWhere("status = ". ProcedimentoTipo::ATIVO)
-            ->orderBy('descricao ASC');
+            ->addWhere("procedimento_categoria = ?", array($procedimento_categoria))
+            ->orderBy('tipo ASC')
+            ->addOrderBy('descricao ASC');
         return $q->execute();
     }
 

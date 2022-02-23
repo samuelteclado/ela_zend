@@ -19,8 +19,7 @@ class Ajax_ClienteController extends Zend_Controller_Action {
         foreach ($clientes as $cliente_obj):
 
             $cliente['id'] = $cliente_obj->id;
-            $cliente['nome'] = $cliente_obj->nome . " ". $cliente_obj->sobrenome;
-
+            $cliente['nome'] = $cliente_obj->nome .' '. $cliente_obj->sobrenome;
 
             $cliente_list[] = $cliente;
 

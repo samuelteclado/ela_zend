@@ -2,13 +2,13 @@
 
 class Ajax_AlunoController extends Zend_Controller_Action {
 
-    private $_alunoRepository;
+    private $_clienteRepository;
     private $_alunoPresencaItemRepository;
     private $_escola;
 
     public function init() {
         $this->_helper->layout->disableLayout();
-        $this->_alunoRepository = new AlunoRepository();
+        $this->_clienteRepository = new ClienteRepository();
         $this->_alunoPresencaItemRepository = new AlunoPresencaItemRepository();
         $this->_escola = SessionUtil::getEscolaSession();
     }
@@ -18,7 +18,7 @@ class Ajax_AlunoController extends Zend_Controller_Action {
         $turma_id = $this->getRequest()->getParam('id');
         $presenca_id = $this->getRequest()->getParam('presenca');
 
-        $alunos = $this->_alunoRepository->getListByTurma($turma_id);
+        $clientes = $this->_clienteRepository->getListByTurma($turma_id);
         $alunos_presenca = $this->_alunoPresencaItemRepository->getAlunosByPresenca($presenca_id);
 
         $aluno = array();
@@ -28,11 +28,11 @@ class Ajax_AlunoController extends Zend_Controller_Action {
             $alunos_array[] = $item->aluno_id;
         }
 
-        foreach ($alunos as $aluno_obj):
+        foreach ($clientes as $cliente_obj):
 
-            $aluno['id'] = $aluno_obj->id;
-            $aluno['nome'] = $aluno_obj->nome;
-            $aluno['checked'] = ViewUtil::fillFieldCheckMultiple($alunos_array, $aluno_obj->id);
+            $aluno['id'] = $cliente_obj->id;
+            $aluno['nome'] = $cliente_obj->nome;
+            $aluno['checked'] = ViewUtil::fillFieldCheckMultiple($alunos_array, $cliente_obj->id);
 
             $aluno_list[] = $aluno;
 

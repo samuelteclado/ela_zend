@@ -10,10 +10,10 @@
  * @property string $objeto_classe
  * @property string $objeto
  * @property string $metodo
- * @property date $date
+ * @property string $date
  * @property string $ip
  * @property string $browser
- * @property string $trasacao
+ * @property string $transacao
  * @property integer $usuario_id
  * @property integer $empresa_id
  * @property Usuario $Usuario
@@ -73,8 +73,9 @@ abstract class DaoAuditoria extends DaoGeneric
              'notnull' => true,
              'autoincrement' => false,
              ));
-        $this->hasColumn('date', 'date', null, array(
-             'type' => 'date',
+        $this->hasColumn('date', 'string', 45, array(
+             'type' => 'string',
+             'length' => 45,
              'fixed' => false,
              'unsigned' => false,
              'primary' => false,
@@ -99,7 +100,7 @@ abstract class DaoAuditoria extends DaoGeneric
              'notnull' => true,
              'autoincrement' => false,
              ));
-        $this->hasColumn('trasacao', 'string', 45, array(
+        $this->hasColumn('transacao', 'string', 45, array(
              'type' => 'string',
              'length' => 45,
              'fixed' => false,

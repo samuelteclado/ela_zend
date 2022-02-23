@@ -29,7 +29,7 @@ class PlanodeContasRepository extends RepositoryAbstract {
                 ->where("empresa_id = ?", array($empresa))
                 ->addWhere("codigo IS NOT NULL")
                 ->addWhere('tipo =' . PlanoDeContas::PAI)
-                ->orderBy('codigo ASC');
+                ->orderBy('descricao ASC');
         return $q->execute();
     }
 
@@ -56,7 +56,7 @@ class PlanodeContasRepository extends RepositoryAbstract {
         $q = Doctrine_Query::create()
                 ->from(get_class($this->obj))
                 ->where("empresa_id = ?", array($empresa))
-                ->addWhere("descricao = ?", array($descricao));
+                ->addWhere("descricao LIKE ?", array($descricao));
         return $q->fetchOne();
     }
     

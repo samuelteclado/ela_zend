@@ -9,7 +9,9 @@ class UploadForm extends Zend_Form {
 
         if ( is_array($options) ) {
             $path = $options['path'];
+            $name = ($options['name'] == "") ? 'file' : $options['name'];
         } else {
+            $name = 'file';
             $files_config = Zend_Registry::getInstance()->get('files');
             $path = APPLICATION_UPLOAD_PATH . $files_config->path->temp;
         }
@@ -17,7 +19,7 @@ class UploadForm extends Zend_Form {
         chdir($path);
         $dir = getcwd();
         
-        $file = new Zend_Form_Element_File('file');
+        $file = new Zend_Form_Element_File($name);
         $file->setDestination($dir)
                 ->addValidator('Count', false, 1)
                 ->addValidator('Extension', false, 'bmp,jpg,jpeg,png,gif,ret')

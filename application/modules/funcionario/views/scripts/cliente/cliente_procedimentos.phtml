@@ -1,12 +1,153 @@
 <div id="data_procedimentos" class="dados">
+    <?php foreach($this->procedimentos as $procedimento):?>
     <div class="row well">
+        <div class="span4" >
+            <div class="control-group">
+                <label class="control-label" for="data">Data</label>
+                <div class="controls">
+                    <div class="input-append">
+                        <input class="input-small" readonly type="text" value="<?php echo AppUtil::convertDateToString($procedimento->data) ?>">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="span3" >
+            <div class="control-group">
+                <label class="control-label" for="horario">Horario</label>
+                <div class="controls">
+                    <div class="input-append">
+                        <input class="input-medium" readonly type="time" value="<?php echo $procedimento->horario ?>">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="span2" >
+            <div class="control-group">
+                <label class="control-label" for="data_confirmacao">Data de Confirmação</label>
+                <div class="controls">
+                    <div class="input-append">
+                        <input class="input-medium" readonly type="text" value="<?php echo AppUtil::convertDateToString($procedimento->data_confirmacao) ?>">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="span11">
+            <hr/>
+        </div>
+        <div class="span4" >
+            <div class="control-group">
+                <label class="control-label" for="procedimento">Procedimento</label>
+                <div class="controls">
+                    <div class="input-append">
+                        <input class="input-large" readonly type="text" value="<?php echo $procedimento->ProcedimentoTipo->descricao ." - ".$procedimento->ProcedimentoTipo->getTipo()?>">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="span3">
+            <div class="control-group">
+                <label class="control-label" for="valor">Valor R$</label>
+                <div class="controls">
+                    <input class="input-medium"readonly value="<?php echo AppUtil::convertFloatToString($procedimento->valor) ?>">
+                </div>
+            </div>
+        </div>
+
+        <div class="span4">
+            <div class="control-group">
+                <label class="control-label" for="valor">Lançamento</label>
+                <div class="controls">
+                    <input class="input-medium"readonly value="<?php echo str_pad($procedimento->Lancamento[0]->id, 7, "0", STR_PAD_LEFT)?>">
+                </div>
+            </div>
+        </div>
+        <div class="span4" >
+            <div class="control-group">
+                <label class="control-label" for="pagamento">Forma de Pagamento</label>
+                <div class="controls">
+                    <div class="input-append">
+                        <input class="input-large" readonly type="text" value="<?php echo $procedimento->PagamentoTipo->descricao?>">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="span3" >
+            <div class="control-group">
+                <label class="control-label" for="status">Status</label>
+                <div class="controls">
+                    <div class="input-append">
+                        <input class="input-medium"  readonly type="text" value="<?php echo $procedimento->getStatus()?>">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="span4" >
+            <div class="control-group">
+                <label class="control-label" for="colaborador">Extensionista</label>
+                <div class="controls">
+                    <div class="input-append">
+                        <input class="input-medium"  readonly type="text" value="<?php echo $procedimento->Usuario->nome?>">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="span3" style="float: right">
+            <div class="control-group">
+                <label class="control-label" for="mapping">Mapping</label>
+                <div class="controls">
+                    <div class="row" >
+                        <div id="result" style="background-color: #fff; margin: 10px 30px 10px 1px; padding: 5px;  float: left;" class="rounded-light shadow">
+                            <img src="<?php echo AppUtil::getFileView($procedimento, 'p', '160') ?>">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="span6">
+            <div class="control-group">
+                <label class="control-label" for="observacao">Observação</label>
+                <div class="controls">
+                    <input class="input-xxlarge" readonly type="text"  value="<?php echo $procedimento->observacao ?>">
+                </div>
+            </div>
+        </div>
+            <div class="span4">
+                <div class="control-group">
+                    <label class="control-label" for="modelo_fios">Modelo dos fios:</label>
+                    <div class="controls">
+                        <input class="input-large" id="modelo_fios"  readonly name="modelo_fios" type="text" value="<?php echo $procedimento->ProcedimentoDetalhe[0]->modelo_fios ?>">
+                    </div>
+                </div>
+            </div>
+            <div class="span3">
+                <div class="control-group">
+                    <label class="control-label" for="espessura">Espessura:</label>
+                    <div class="controls">
+                        <input class="input-large" id="espessura" readonly name="espessura" type="text" value="<?php echo $procedimento->ProcedimentoDetalhe[0]->espessura ?>">
+                    </div>
+                </div>
+            </div>
+
+            <div class="span4">
+                <div class="control-group">
+                    <label class="control-label" for="curvatura">Curvatura:</label>
+                    <div class="controls">
+                        <input class="input-large" id="curvatura" readonly name="curvatura" type="text" value="<?php echo $procedimento->ProcedimentoDetalhe[0]->curvatura ?>">
+                    </div>
+                </div>
+            </div>
+            <div class="span3">
+                <div class="control-group">
+                    <label class="control-label" for="adesivo_cola">Adesivo/cola:</label>
+                    <div class="controls">
+                        <input class="input-large" id="adesivo_cola" readonly name="adesivo_cola" type="text" value="<?php echo $procedimento->ProcedimentoDetalhe[0]->adesivo_cola ?>">
+                    </div>
+                </div>
+            </div>
 
     </div>
-
-
-    <hr>
-    <div class="row well">
-
-    </div>
+    <?php endforeach;?>
 </div>
 

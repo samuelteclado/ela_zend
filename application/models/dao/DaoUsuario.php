@@ -15,7 +15,10 @@
  * @property date $admissao
  * @property date $demissao
  * @property date $data_aniversario
- * @property integer $cor
+ * @property string $cor
+ * @property float $comissao
+ * @property integer $comissao_tipo
+ * @property integer $tipo
  * @property integer $empresa_id
  * @property integer $usuario_grupo_id
  * @property Empresa $Empresa
@@ -23,6 +26,7 @@
  * @property Doctrine_Collection $Auditoria
  * @property Doctrine_Collection $Endereco
  * @property Doctrine_Collection $Procedimento
+ * @property Doctrine_Collection $RegistroPonto
  * @property Doctrine_Collection $UsuarioCalendario
  * 
  * @package    ##PACKAGE##
@@ -121,7 +125,33 @@ abstract class DaoUsuario extends DaoGeneric
              'notnull' => false,
              'autoincrement' => false,
              ));
-        $this->hasColumn('cor', 'integer', 4, array(
+        $this->hasColumn('cor', 'string', 45, array(
+             'type' => 'string',
+             'length' => 45,
+             'fixed' => false,
+             'unsigned' => false,
+             'primary' => false,
+             'notnull' => false,
+             'autoincrement' => false,
+             ));
+        $this->hasColumn('comissao', 'float', null, array(
+             'type' => 'float',
+             'fixed' => false,
+             'unsigned' => false,
+             'primary' => false,
+             'notnull' => false,
+             'autoincrement' => false,
+             ));
+        $this->hasColumn('comissao_tipo', 'integer', 4, array(
+             'type' => 'integer',
+             'length' => 4,
+             'fixed' => false,
+             'unsigned' => false,
+             'primary' => false,
+             'notnull' => false,
+             'autoincrement' => false,
+             ));
+        $this->hasColumn('tipo', 'integer', 4, array(
              'type' => 'integer',
              'length' => 4,
              'fixed' => false,
@@ -170,6 +200,10 @@ abstract class DaoUsuario extends DaoGeneric
              'foreign' => 'usuario_id'));
 
         $this->hasMany('Procedimento', array(
+             'local' => 'id',
+             'foreign' => 'usuario_id'));
+
+        $this->hasMany('RegistroPonto', array(
              'local' => 'id',
              'foreign' => 'usuario_id'));
 

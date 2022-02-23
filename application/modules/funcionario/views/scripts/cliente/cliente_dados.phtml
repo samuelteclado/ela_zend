@@ -4,7 +4,7 @@
         <div class="control-group">
             <label class="control-label" for="nome">Nome</label>
             <div class="controls">
-                <input class="input-medium" id="nome" name="nome" type="text" value="<?php echo $this->cliente->nome ?>">
+                <input class="input-medium" id="nome"  autocomplete="off"name="nome" type="text" value="<?php echo $this->cliente->nome ?>">
             </div>
         </div>
     </div>
@@ -12,7 +12,7 @@
         <div class="control-group">
             <label class="control-label" for="sobrenome">Sobrenome</label>
             <div class="controls">
-                <input class="input-prepend" id="sobrenome" name="sobrenome" type="text" value="<?php echo $this->cliente->sobrenome ?>">
+                <input class="input-prepend" id="sobrenome"  autocomplete="off"name="sobrenome" type="text" value="<?php echo $this->cliente->sobrenome ?>">
             </div>
         </div>
     </div>
@@ -98,7 +98,7 @@
         <div class="control-group">
             <label class="control-label" for="observacao">Observação</label>
             <div class="controls">
-                <input class="input-large" id="observacao" name="observacao" type="text" value="<?php echo $this->cliente->observacao ?>">
+                <textarea style="max-width: 150px; max-height: 105px" id="observacao" name="observacao"><?php echo $this->cliente->observacao ?></textarea>
             </div>
         </div>
     </div>
@@ -111,7 +111,7 @@
         <div class="control-group">
             <label class="control-label" for="cep">CEP</label>
             <div class="controls">
-                <input class="input-small txCep endereco" placeholder="_____-___" id="cep" name="cep" type="text" value="<?php echo $this->cliente->Endereco[0]->cep ?>">
+                <input class="input-small txCep endereco"  id="cep" name="cep" type="text" value="<?php echo $this->cliente->Endereco[0]->cep ?>">
                 <img id="loading_cep" style="display: none;" src="<?php echo $this->baseUrl() ?>/content/img/loading.gif" />
                 <span id="erro_cep" style="display: none">Cep não encontrado</span>
             </div>

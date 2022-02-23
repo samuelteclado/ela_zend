@@ -16,6 +16,13 @@ class Usuario extends DaoUsuario
     const INATIVO = 2;
     const EXCLUIDO = 3;
 
+    const CILIOS = 1 ;
+    const MASSAGEM = 2 ;
+    const ADMINISTRATIVO = 3;
+    const CILIOS_MASSAGEM = 4;
+
+    const PERCENTUAL = 1;
+    const VALOR_FIXO = 2;
 
     public function getStatus() {
         switch ($this->status) {
@@ -31,5 +38,43 @@ class Usuario extends DaoUsuario
         }
     }
 
+    public function getTipo() {
+        switch ($this->tipo) {
+
+            case Usuario::CILIOS:
+                return 'Cilios';
+
+            case Usuario::MASSAGEM:
+                return 'Massagem';
+
+            case Usuario::ADMINISTRATIVO:
+                return 'Administrativo';
+
+            case Usuario::CILIOS_MASSAGEM:
+                return 'Cilios & Massagem';
+
+            default:
+                return 'Indefinido';
+        }
+    }
+
+    public function getComissaoTipo() {
+        switch ($this->comissao_tipo) {
+
+            case Usuario::PERCENTUAL:
+                return 'Percentual';
+
+            case Usuario::VALOR_FIXO:
+                return 'Valor Fixo';
+
+            default:
+                return 'Indefinido';
+        }
+    }
+
+    public function getFullNome(){
+        $nome = $this->nome ." ".$this->sobrenome;
+        return $nome;
+    }
 
 }

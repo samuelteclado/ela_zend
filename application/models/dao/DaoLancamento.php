@@ -9,29 +9,35 @@
  * @property string $descricao
  * @property integer $status
  * @property integer $tipo
- * @property string $descricao_recorrencia
  * @property date $vencimento_data
  * @property float $vencimento_valor
- * @property date $vencimento_data_atualizada
+ * @property string $descricao_recorrencia
  * @property float $vencimento_valor_atualizado
+ * @property date $vencimento_data_atualizada
  * @property date $pagamento_data
  * @property float $pagamento_desconto
  * @property float $pagamento_valor
  * @property float $pagamento_taxa
  * @property float $pagamento_percentual
  * @property string $observacao
- * @property integer $procedimento_id
  * @property integer $cliente_id
  * @property integer $lancamento_recorrencia_id
- * @property integer $plano_de_contas_id
+ * @property integer $procedimento_id
  * @property integer $fornecedor_id
+ * @property integer $plano_de_contas_id
  * @property integer $lancamento_recorrencia_tipo_id
+ * @property integer $pagamento_tipo_id
+ * @property integer $movimento_id
+ * @property integer $conta_bancaria_id
  * @property integer $empresa_id
  * @property Cliente $Cliente
+ * @property ContaBancaria $ContaBancaria
  * @property Empresa $Empresa
  * @property Fornecedor $Fornecedor
  * @property LancamentoRecorrencia $LancamentoRecorrencia
  * @property LancamentoRecorrenciaTipo $LancamentoRecorrenciaTipo
+ * @property Movimento $Movimento
+ * @property PagamentoTipo $PagamentoTipo
  * @property PlanoDeContas $PlanoDeContas
  * @property Procedimento $Procedimento
  * 
@@ -80,15 +86,6 @@ abstract class DaoLancamento extends DaoGeneric
              'notnull' => true,
              'autoincrement' => false,
              ));
-        $this->hasColumn('descricao_recorrencia', 'string', 45, array(
-             'type' => 'string',
-             'length' => 45,
-             'fixed' => false,
-             'unsigned' => false,
-             'primary' => false,
-             'notnull' => false,
-             'autoincrement' => false,
-             ));
         $this->hasColumn('vencimento_data', 'date', null, array(
              'type' => 'date',
              'fixed' => false,
@@ -105,8 +102,9 @@ abstract class DaoLancamento extends DaoGeneric
              'notnull' => true,
              'autoincrement' => false,
              ));
-        $this->hasColumn('vencimento_data_atualizada', 'date', null, array(
-             'type' => 'date',
+        $this->hasColumn('descricao_recorrencia', 'string', 45, array(
+             'type' => 'string',
+             'length' => 45,
              'fixed' => false,
              'unsigned' => false,
              'primary' => false,
@@ -115,6 +113,14 @@ abstract class DaoLancamento extends DaoGeneric
              ));
         $this->hasColumn('vencimento_valor_atualizado', 'float', null, array(
              'type' => 'float',
+             'fixed' => false,
+             'unsigned' => false,
+             'primary' => false,
+             'notnull' => false,
+             'autoincrement' => false,
+             ));
+        $this->hasColumn('vencimento_data_atualizada', 'date', null, array(
+             'type' => 'date',
              'fixed' => false,
              'unsigned' => false,
              'primary' => false,
@@ -170,15 +176,6 @@ abstract class DaoLancamento extends DaoGeneric
              'notnull' => false,
              'autoincrement' => false,
              ));
-        $this->hasColumn('procedimento_id', 'integer', 4, array(
-             'type' => 'integer',
-             'length' => 4,
-             'fixed' => false,
-             'unsigned' => false,
-             'primary' => false,
-             'notnull' => false,
-             'autoincrement' => false,
-             ));
         $this->hasColumn('cliente_id', 'integer', 4, array(
              'type' => 'integer',
              'length' => 4,
@@ -197,7 +194,7 @@ abstract class DaoLancamento extends DaoGeneric
              'notnull' => false,
              'autoincrement' => false,
              ));
-        $this->hasColumn('plano_de_contas_id', 'integer', 4, array(
+        $this->hasColumn('procedimento_id', 'integer', 4, array(
              'type' => 'integer',
              'length' => 4,
              'fixed' => false,
@@ -215,7 +212,43 @@ abstract class DaoLancamento extends DaoGeneric
              'notnull' => false,
              'autoincrement' => false,
              ));
+        $this->hasColumn('plano_de_contas_id', 'integer', 4, array(
+             'type' => 'integer',
+             'length' => 4,
+             'fixed' => false,
+             'unsigned' => false,
+             'primary' => false,
+             'notnull' => false,
+             'autoincrement' => false,
+             ));
         $this->hasColumn('lancamento_recorrencia_tipo_id', 'integer', 4, array(
+             'type' => 'integer',
+             'length' => 4,
+             'fixed' => false,
+             'unsigned' => false,
+             'primary' => false,
+             'notnull' => false,
+             'autoincrement' => false,
+             ));
+        $this->hasColumn('pagamento_tipo_id', 'integer', 4, array(
+             'type' => 'integer',
+             'length' => 4,
+             'fixed' => false,
+             'unsigned' => false,
+             'primary' => false,
+             'notnull' => false,
+             'autoincrement' => false,
+             ));
+        $this->hasColumn('movimento_id', 'integer', 4, array(
+             'type' => 'integer',
+             'length' => 4,
+             'fixed' => false,
+             'unsigned' => false,
+             'primary' => false,
+             'notnull' => false,
+             'autoincrement' => false,
+             ));
+        $this->hasColumn('conta_bancaria_id', 'integer', 4, array(
              'type' => 'integer',
              'length' => 4,
              'fixed' => false,
@@ -242,6 +275,10 @@ abstract class DaoLancamento extends DaoGeneric
              'local' => 'cliente_id',
              'foreign' => 'id'));
 
+        $this->hasOne('ContaBancaria', array(
+             'local' => 'conta_bancaria_id',
+             'foreign' => 'id'));
+
         $this->hasOne('Empresa', array(
              'local' => 'empresa_id',
              'foreign' => 'id'));
@@ -256,6 +293,14 @@ abstract class DaoLancamento extends DaoGeneric
 
         $this->hasOne('LancamentoRecorrenciaTipo', array(
              'local' => 'lancamento_recorrencia_tipo_id',
+             'foreign' => 'id'));
+
+        $this->hasOne('Movimento', array(
+             'local' => 'movimento_id',
+             'foreign' => 'id'));
+
+        $this->hasOne('PagamentoTipo', array(
+             'local' => 'pagamento_tipo_id',
              'foreign' => 'id'));
 
         $this->hasOne('PlanoDeContas', array(

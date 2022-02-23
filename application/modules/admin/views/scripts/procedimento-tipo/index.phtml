@@ -37,6 +37,18 @@
                         </div>
                     </div>
                 </div>
+                <div class="span3">
+                    <div class="control-group">
+                        <label class="control-label" for="categoria">Categoria</label>
+                        <div class="controls">
+                            <select data-placeholder="[ Todos ]" class="input-medium chzn-select-deselect" name="categoria" id="categoria">
+                                <option value="0"></option>
+                                <option <?php echo ViewUtil::fillFieldSelect($this->repository_filter->getParamByField('categoria'), ProcedimentoTipo::CILIOS) ?> value="<?php echo ProcedimentoTipo::CILIOS ?>">Cílios</option>
+                                <option <?php echo ViewUtil::fillFieldSelect($this->repository_filter->getParamByField('categoria'), ProcedimentoTipo::MASSAGEM) ?> value="<?php echo ProcedimentoTipo::MASSAGEM ?>">Massagem</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
                 <div class="span2">
                     <div class="control-group">
                         <label class="control-label" for="status">Status</label>
@@ -60,11 +72,12 @@
 
         <?php echo $this->flashMessenger(); ?>
 
-        <table class="table table-bordered">
+        <table class="table table-bordered table-striped">
             <thead>
                 <tr>
                     <th><?php echo ViewUtil::getOrderBy('Descrição', 'descricao', $this->repository_order) ?></th>
                     <th><?php echo ViewUtil::getOrderBy('Tipo', 'tipo', $this->repository_order) ?></th>
+                    <th><?php echo ViewUtil::getOrderBy('Categoria', 'procedimento_categoria', $this->repository_order) ?></th>
                     <th><?php echo ViewUtil::getOrderBy('Valor', 'valor', $this->repository_order) ?></th>
                     <th><?php echo ViewUtil::getOrderBy('Status', 'status', $this->repository_order) ?></th>
 
@@ -77,6 +90,7 @@
                     <tr>
                         <td><?php echo $item->descricao ?></td>
                         <td><?php echo $item->getTipo() ?></td>
+                        <td><?php echo $item->getCategoria() ?></td>
                         <td><?php echo AppUtil::convertFloatToString($item->valor) ?></td>
                         <td><?php echo $item->getStatus() ?></td>
                         <td width="20px" style="text-align: center; vertical-align: middle;">

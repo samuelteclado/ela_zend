@@ -1,19 +1,19 @@
 <table width="100%" align="center" cellpadding="0" cellspacing="0">
     <tbody>
         <tr>
-            <td height="120" align="center" style="background: url(<?php echo $this->baseUrl(); ?>/content/img/bg-pattern.png); background-color: #0C5AB2;">
+            <td height="120" align="center" style="background: url(<?php echo $this->baseUrl(); ?>/content/img/bg-pattern.png); background-color: #ff5ea5;">
                 <table width="95%">
                     <tbody>
                         <tr>
                             <td align="right">
                                 <a target="_blank" href="<?php echo $this->baseUrl(); ?>/institucional">
-                                    <img style="height: 130px; float: left;"  src="<?php echo AppUtil::getFileView($this->escola, 'e', '100') ?>">
+                                    <img style="height: 130px; float: left;"  src="https://www.espacoela.com/content/img/logo-ela-branco.png">
                                 </a>
                             </td>
                             <td>
                                 <div style=" text-align: right;">
-                                    <a target="_blank" href="http://www.sbrasilsolucoes.com/" style="font-family: Arial; font-size: 52px;color: #fff; text-decoration:none; text-shadow: 0.03em 0.02em #000;"><b>SBrasil</b> Soluções</a>
-                                    <p style="font-family: Arial; font-size: 12px; color: #fff; margin-top: 5px; text-shadow: 0.1em 0.1em #000;">Especializada em desenvolvimento de Sistemas para Web</p>
+                                    <a target="_blank" href="" style="font-family: Arial; font-size: 52px;color: #fff; text-decoration:none; text-shadow: 0.03em 0.02em #000;"><b>Holy</b> Solutions</a>
+                                    <p style="font-family: Arial; font-size: 12px; color: #fff; margin-top: 5px; text-shadow: 0.1em 0.1em #000;">Especializada em desenvolvimento de Sistemas Web</p>
                                 </div>
                             </td>
                         </tr>
@@ -28,25 +28,24 @@
                     <tbody><tr>
                             <td align="left">
                                 <font face="Arial" style="font-size:14px" >
-                                Olá <?php echo $this->aluno->ResponsavelAluno[0]->nome ?>, <?php echo $this->aluno->ResponsavelAluno[1]->nome ?>
+                                Olá <?php echo $this->usuario->nome ." ". $this->usuario->sobrenome?>
                                 <br><br>
-                                Seja Bem-vindo(a) ao <?php echo $this->escola->nome_fantasia?>
+                                Seja Bem-vindo(a) ao <?php echo $this->empresa->nome_fantasia?>
                                 <br><br>
-                                Agradecemos por ter escolhido a nossa instituição! Sabemos o quanto é importante o desenvolvimento do(a) seu(sua) filho(a), e estamos felizes por saber que podemos contribuir para o aprendizado dele(a). 
+                                Que possamos somar conhecimentos, experiencias e talentos. Seja bem vindo(a) à nossa equipe!
                                 <br><br>
-                                O <?php echo $this->escola->nome_fantasia ?>, sente-se honrado de tê-lo(a) conosco. 
+                                O <?php echo $this->empresa->nome_fantasia ?>, sente-se honrado de tê-lo(a) conosco.
                                 <br><br>
-                                A matrícula do(a) aluno(a) <?php echo $this->aluno->nome?> é : <b><?php echo $this->aluno->matricula?></b>
                                 <br><br>
-                                Matrícula: <?php echo $this->aluno->matricula?>
+                                Seu usuario de acesso ao sistema é: <?php echo $this->usuario->email?>
                                 <br>
-                                Senha: <?php echo $this->aluno->matricula?>
+                                Senha: <?php echo $this->usuario->senha?>
                                 <br><br>
                                 Assim que você acessar o sistema poderá efetuar a troca da senha. 
                                 <br><br>
-                                Para acessar o sistema basta ir o link <a target="_blank" href="http://siges.sbrasilsolucoes.com/aluno">siges.sbrasilsolucoes.com/aluno</a>
+                                Para acessar o sistema basta ir o link <a target="_blank" href="https://www.espacoela.com/admin">espacoela.com/admin</a>
                                 <br><br>
-                                <b>Equipe <a target="_blank" href="<?php echo $this->escola->EscolaConfiguracao[0]->site?>"><?php echo $this->escola->nome_fantasia ?></a></b>
+                                <b>Equipe <?php echo $this->empresa->nome_fantasia ?></a></b>
                                 <br>
                                 </font>
                             </td>
@@ -59,8 +58,7 @@
         <tr>
             <td align="center">  
                 <br>
-                <?php $ano = date('Y') ?>
-                <p style="font-family:'Arial';font-size:11px;color:#888">©&nbsp;<?php echo $ano ?>&nbsp;<a style="color:#666666" target="_blank" href="sbrasilsolucoes.com">SBrasilSoluções.com</a></p>
+                <p style="font-family:'Arial';font-size:11px;color:#888">©&nbsp;<?php echo date('Y') ?>&nbsp;<a style="color:#666666" target="_blank" href="#">HolySolutions</a></p>
             </td>
         </tr>
 

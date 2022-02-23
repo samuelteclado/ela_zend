@@ -12,7 +12,7 @@
         <?php echo $this->headLink()->appendStylesheet($this->baseUrl() . '/content/css/layout_novo/site.css') ?>
         <link rel="icon" href="<?php echo $this->baseUrl(); ?>/content/website/images/favicon/favicon.ico" type="image/x-icon" />
         <link rel="shortcut icon" type="image/x-icon" href="<?php echo $this->baseUrl(); ?>/content/website/images/favicon/favicon.png" />
-        <link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl(); ?>/content/css/jquery-ui-1.8.16.custom.css" />
+         <link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl(); ?>/content/css/jquery-ui-1.8.16.custom.css" />
         <link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl(); ?>/content/bootstrap/css/bootstrap.css" />
         <link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl(); ?>/content/css/jquery.multiselect.css" />
         <link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl(); ?>/content/css/jquery.multiselect.filter.css" />
@@ -187,6 +187,9 @@
                                         break;
                                     case UsuarioGrupo::FUNCIONARIO:
                                         include_once APPLICATION_PATH . '/include/menu/funcionario.php';
+                                        break;
+                                    case UsuarioGrupo::SECRETARIA:
+                                        include_once APPLICATION_PATH . '/include/menu/secretaria.php';
                                         break;
                                 endswitch;
                             endif;

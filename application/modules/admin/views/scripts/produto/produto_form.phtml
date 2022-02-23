@@ -1,0 +1,69 @@
+<script type="text/javascript">
+
+    $(document).ready(function() {
+        //Quando carregar a pagina
+        $(".dados").hide(); //esta primeira linha servirá para esconder as divs do conteúdo
+        var activeaba = '#data_produto';
+        $('#data_produto').fadeIn('slow');
+        //On Click Event
+        $("#dados ul li a").click(function() {// quando clicar no link do menu irá executar a seguinte função:
+            $("#dados ul li").removeClass("active"); //remove a class no link clicado para que não fica marcado
+            $(this).parent().addClass("active"); //adiciona a classe no link clicado para que o usuario saiba em qual link ele esta
+            $(".dados").hide(); //esconder as divs do conteúdo
+            activeaba = $(this).attr("href"); //Encontrar o valor do atributo rel para identificar a aba que esta ativa + conteúdo
+            $(activeaba).fadeIn('slow'); //efeito de fade in com o conteúdo ativo
+            return false; // o returno falso evita que ao clicar no link a página role para o topo.
+        });
+
+
+
+
+    });
+</script>
+<?php echo $this->flashMessenger(); ?>
+
+<form id="form_produto" method="POST" action="" enctype="multipart/form-data">
+    <fieldset>
+        <div colspan="2">
+            <div id="dados">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#data_produto">Dados do Produto</a></li>
+                </ul>
+            </div>
+        </div>
+        <?php include 'produto_dados.phtml'; ?>
+    </fieldset>
+
+
+    <hr/>
+    <div style="width: 100%;height: 20px">
+        <div class="btn-concluir">
+            <a class="btn btn-large" href="<?php echo $this->baseUrl(); ?>/admin/produto/">Cancelar</a>
+            <button type="submit" class="btn btn-success btn-large">Salvar</button>
+        </div>
+    </div>
+</form>
+
+<script src="<?php echo $this->baseUrl(); ?>/content/upload/jquery/js/load-image.min.js"></script>
+<script type="text/javascript">
+    var result = $('#result');
+
+    document.getElementById('file').onchange = function(e) {
+        window.loadImage(
+            (e.dataTransfer || e.target).files[0],
+            function(img) {
+                result.children().replaceWith(img);
+            },
+            {
+                maxWidth: 160,
+                maxHeight: 160,
+                canvas: true
+            }
+        );
+    };
+
+
+
+
+
+</script>

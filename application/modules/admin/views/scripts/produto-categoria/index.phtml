@@ -1,0 +1,48 @@
+﻿<div id="esquerda">
+
+    <div style="margin: 10px">
+
+        <a style="float: right;" class="btn btn-success btn-large" href="<?php echo $this->baseUrl(); ?>/admin/produto-categoria/novo/?nolayout=<?php echo $this->layout?>">
+            <i class="icon-plus icon-white"></i> Novo
+        </a>
+
+        <div class="page-header" >
+            <h2>Produto - Categorias</h2>
+
+        </div>
+
+        <?php echo $this->flashMessenger(); ?>
+
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th><?php echo ViewUtil::getOrderBy('Descrição', 'descricao', $this->repository_order) ?></th>
+
+                    <th colspan="2"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                foreach ($this->list as $item):
+                    ?>
+                    <tr>
+                        <td><?php echo $item->descricao ?></td>
+
+                        <td width="20px" style="text-align: center; vertical-align: middle;">
+                            <a href="<?php echo $this->baseUrl() ?>/admin/produto-categoria/editar/id/<?php echo $item->id; ?>?nolayout=<?php echo $this->layout?>"><i title="editar" class="icon-pencil"></i></a>
+                        </td>
+                        <td width="20px" style="text-align: center; vertical-align: middle;">
+                            <a onclick="return confirm('Confirma a exclusão da categoria ?')" href="<?php echo $this->baseUrl() ?>/admin/produto-categoria/deletar/id/<?php echo $item->id; ?>?nolayout=<?php echo $this->layout?>"><i title="excluir" class="icon-trash"></i></a>
+                        </td>
+                    </tr>
+                    <?php
+                endforeach;
+                ?>
+            </tbody>
+        </table>
+
+        <?php if (isset($this->list)) echo $this->paginationControl($this->list, "All", "paginator.phtml", $this->list_params); ?>
+
+    </div>
+</div>
+

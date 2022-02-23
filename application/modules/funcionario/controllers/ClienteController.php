@@ -3,15 +3,18 @@
 class Funcionario_ClienteController extends Zend_Controller_Action {
 
     private $_clienteRepository;
+    private $_procedimentoRepository;
     private $_empresa_id;
 
     public function init() {
         $this->_clienteRepository = new ClienteRepository();
+        $this->_procedimentoRepository = new ProcedimentoRepository();
         $this->_empresa_id = SessionUtil::getEmpresaSession();
         $params = $this->getRequest()->getParams();
         $this->_layout = $params['nolayout'];
         $this->_helper->layout->setLayout(ViewUtil::disableLayout($this->_layout));
         $this->view->layout = $this->_layout;
+
     }
 
     public function indexAction() {
@@ -21,8 +24,6 @@ class Funcionario_ClienteController extends Zend_Controller_Action {
 
         $filter->addFilter('empresa_id = ?', $this->_empresa_id);
         $filter->addFilter('status != ?', Cliente::EXCLUIDO);
-        $filter->addLeftJoinFilter('p.Procedimento pr');
-        $filter->addSelectFilter('pr.data', $params['data']);
         $filter->addFilter('email != ?', 'admin');
         $filter->addTextFilter('nome', $params['nome']);
         $filter->addTextFilter('sobrenome', $params['sobrenome']);
@@ -36,7 +37,7 @@ class Funcionario_ClienteController extends Zend_Controller_Action {
         $orderby->addOrder($sortParam, ($orderParam == 'ASC') ? 'DESC' : 'ASC');
 
         $list = new Zend_Paginator(new My_Zend_Paginator_Adapter_Doctrine($this->_clienteRepository->getListByFilter($filter, $orderby)));
-        $list->setItemCountPerPage(20);
+        $list->setItemCountPerPage(40);
         $list->setCurrentPageNumber($params["page"]);
         $this->view->list = $list;
         $this->view->list_params = array('filter' => $filter);
@@ -56,7 +57,7 @@ class Funcionario_ClienteController extends Zend_Controller_Action {
 
             $this->_setData($cliente, $data);
 
-            $validate = $this->_validate($cliente);
+            $validate = $this->_validate($cliente, $data);
             if (!isset($validate) || $validate == "") {
 
                 $cliente->save();
@@ -91,16 +92,18 @@ class Funcionario_ClienteController extends Zend_Controller_Action {
             $this->_helper->FlashMessenger(array('info' => 'Imagem do perfil removida com sucesso.'));
             $this->view->form = $form;
             $this->view->cliente = $cliente;
+            $this->view->procedimentos = $this->_procedimentoRepository->getProcedimentoByCliente($cliente->id);
         } else {
             $id = $this->getRequest()->getParam('id');
             $cliente = $this->_clienteRepository->getById($id);
+
 
             if ($this->getRequest()->isPost()) {
 
                 $data = $this->getRequest()->getPost();
                 $this->_setData($cliente, $data);
 
-                $validate .= $this->_validate($cliente);
+                $validate .= $this->_validate($cliente, $data);
                 if (!isset($validate) || $validate == "") {
                     $cliente->save();
                     $this->_saveImage($cliente, $form, $data);
@@ -110,11 +113,14 @@ class Funcionario_ClienteController extends Zend_Controller_Action {
                 } else {
                     $this->_helper->FlashMessenger(array('warning' => $validate));
                     $this->view->form = $form;
-                    $this->view->usuario = $cliente;
+                    $this->view->cliente = $cliente;
+                    $this->view->procedimentos = $this->_procedimentoRepository->getProcedimentoByCliente($cliente->id);
                 }
             } else {
                 $this->view->form = $form;
                 $this->view->cliente = $cliente;
+                $this->view->procedimentos = $this->_procedimentoRepository->getProcedimentoByCliente($cliente->id);
+
             }
         }
     }
@@ -123,16 +129,24 @@ class Funcionario_ClienteController extends Zend_Controller_Action {
         $id = $this->getRequest()->getParam('id');
 
         $cliente = $this->_clienteRepository->getById($id, $this->_empresa_id);
-        if ($cliente != FALSE) {
-            $cliente->status = Cliente::EXCLUIDO;
-            $cliente->save();
 
-            $this->_helper->FlashMessenger('Usuário removido com sucesso.');
-        } else {
-            $this->_helper->FlashMessenger(array('warning' => 'Atenção você está tentando excluir um cliente que não existe.'));
+        if(count($cliente->Procedimento) <= 0) {
+            if ($cliente != FALSE) {
+                $cliente->status = Cliente::EXCLUIDO;
+                $cliente->save();
+
+                $this->_helper->FlashMessenger('Cliente removido com sucesso.');
+            } else {
+                $this->_helper->FlashMessenger(array('warning' => 'Atenção você está tentando excluir um cliente que não existe.'));
+            }
+        }else{
+            $this->_helper->FlashMessenger(array('warning' => 'Atenção você está tentando excluir um cliente que possui mais mais registros vinculados a ele.'));
+
         }
         $this->_redirect($this->view->baseUrl() . '/funcionario/cliente/?nolayout=' . $this->_layout);
     }
+
+
 
     private function _setData(Cliente $cliente, $data) {
         $caracter_remove = array("(", ")", "-", "/", " ", ".");
@@ -145,6 +159,7 @@ class Funcionario_ClienteController extends Zend_Controller_Action {
         $cliente->data_aniversario = AppUtil::convertStringToDate($data['data_aniversario']);
         $cliente->observacao = $data['observacao'];
 
+
         if ($cliente->Endereco[0]->id <= 0) {
             $cliente_endereco = new Endereco();
             $this->_setDataEndereco($cliente_endereco, $data);
@@ -153,6 +168,7 @@ class Funcionario_ClienteController extends Zend_Controller_Action {
             $cliente_endereco = $cliente->Endereco[0];
             $this->_setDataEndereco($cliente_endereco, $data);
         }
+
     }
 
     private function _setDataEndereco(Endereco $endereco, $data) {
@@ -171,20 +187,23 @@ class Funcionario_ClienteController extends Zend_Controller_Action {
 
 
 
-    private function _validate(Cliente $cliente) {
+    private function _validate(Cliente $cliente, $data) {
         if ($cliente->nome == "")
             $result .= "<li>O campo <b>Nome </b> deve ser informado.</li>";
 
         if ($cliente->sobrenome == "")
             $result .= "<li>O campo <b>Sobrenome </b> deve ser informado.</li>";
 
-            $result .= $this->_validateEmail($cliente);
+            //$result .= $this->_validateEmail($cliente);
 
         if ($cliente->status <= 0)
             $result .= "<li>O campo <b>Status</b> deve ser informado.</li>";
 
-        if ($cliente->data_aniversario == "")
-            $result .= "<li>O campo <b>Data de Aniversário</b> deve ser informado.</li>";
+        //if ($cliente->data_aniversario == "")
+           // $result .= "<li>O campo <b>Data de Aniversário</b> deve ser informado.</li>";
+
+        if ($data['telefone_1'] == "")
+            $result .= "<li>O campo <b>Celular 1</b> deve ser informado.</li>";
 
         return $result;
     }
@@ -225,6 +244,8 @@ class Funcionario_ClienteController extends Zend_Controller_Action {
         unlink($filename);
     }
 
+
+
     private function _sendMail(Cliente $cliente) {
 
         $app_email = Zend_Registry::getInstance()->get('email');
@@ -241,7 +262,7 @@ class Funcionario_ClienteController extends Zend_Controller_Action {
         $to = $cliente->email;
 
         $subject = "Seja Bem Vinda ao Espaço ELA";
-        $body = $html->render('lembrar_senha.phtml');
+        $body = $html->render('usuario_cadastro.phtml');
 
         EmailUtil::send($from, $to, $subject, $body);
     }

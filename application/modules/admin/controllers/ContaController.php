@@ -27,28 +27,6 @@ class Admin_ContaController extends Zend_Controller_Action {
         }
     }
 
-
-    private function _sendMailUsuario($usuario) {
-
-        $app_email = Zend_Registry::getInstance()->get('email');
-
-        $html = new Zend_View();
-        $html->setScriptPath(APPLICATION_PATH . '/layouts/emails/');
-        $html->assign('usuario', $usuario);
-        $html->assign('empresa', $usuario->Empresa);
-        $html->assign('remetente', $app_email->mail->de);
-
-        $from['name'] = $app_email->mail->from->name;
-        $from['email'] = $app_email->mail->from->email;
-
-        $to[] = $usuario->email;
-
-        $subject = "[Lembrar Senha] Espaço ELA ";
-        $body = $html->render('lembrar_senha.phtml');
-
-        EmailUtil::send($from, $to, $subject, $body);
-    }
-
     private function _sendMail($usuario) {
  
         $app_email = Zend_Registry::getInstance()->get('email');

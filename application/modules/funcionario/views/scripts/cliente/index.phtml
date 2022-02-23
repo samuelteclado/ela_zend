@@ -16,6 +16,7 @@
         </div>
 
         <form method="GET" action="" style="display: none;" id="form_filtrar">
+            <input type="hidden" value="<?php echo $this->layout?>" name="nolayout">
             <div class="row well">
                 <a id="btn_close" class="close" href="#">&times;</a>
 
@@ -71,13 +72,13 @@
 
         <?php echo $this->flashMessenger(); ?>
      
-        <span class="help-block"><i class="icon-info-sign"></i> <i>Clique no email do usuário para reenviar o email de boas vindas com a autenticação do sistema.</i></span>
-        <table class="table table-bordered">
+        <table class="table table-bordered table-striped">
             <thead>
                 <tr>
                     <th><?php echo ViewUtil::getOrderBy('Nome', 'nome', $this->repository_order) ?></th>
                     <th><?php echo ViewUtil::getOrderBy('Sobrenome', 'sobrenome', $this->repository_order) ?></th>
                     <th><?php echo ViewUtil::getOrderBy('Email', 'email', $this->repository_order) ?></th>
+                    <th><?php echo ViewUtil::getOrderBy('Celular', 'e.celular', $this->repository_order) ?></th>
                     <th><?php echo ViewUtil::getOrderBy('Último Atendimento', 'pr.data', $this->repository_order) ?></th>
                     <th><?php echo ViewUtil::getOrderBy('Status', 'status', $this->repository_order) ?></th>                    
                     <th colspan="2"></th>
@@ -88,7 +89,8 @@
                     <tr>
                         <td><?php echo $item->nome ?> </td>
                         <td><?php echo $item->sobrenome ?></td>
-                        <td><a onclick="return confirm('Confirma o reenvio do email de boas vindas para <?php echo $item->nome ?> ?')" title="Reenviar email de boas vindas" href="<?php echo $this->baseUrl()?>/funcionario/cliente/reenviar/id/<?php echo $item->id; ?>"><?php echo $item->email ?></a></td>
+                        <td><?php echo $item->email ?></a></td>
+                        <td><?php echo AppUtil::convertIntToCelular($item->Endereco[0]->telefone_1) ?></td>
                         <td><?php echo AppUtil::convertDateToString($item->getUltimoAtendimento()) ?></td>
                         <td><?php echo $item->getStatus() ?></td>
                         <td width="20px" style="text-align: center; vertical-align: middle;">

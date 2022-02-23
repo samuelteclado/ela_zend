@@ -16,7 +16,7 @@
             display: block;
             float: right;
             margin: 6px 10px 0px 0px;
-            background: url(<?php echo $this->baseUrl(); ?>/content/img/sbrasil.png) no-repeat;
+            background: url(<?php echo $this->baseUrl(); ?>/content/img/logo_holy.png) no-repeat;
             width: 140px;
             height: 18px;
             overflow: hidden;
